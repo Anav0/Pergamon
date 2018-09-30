@@ -1,0 +1,29 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Pergamon"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <!--Default forground and background-->
+    <Color x:Key="DefaultForegroundColor">#1c438e</Color>
+    <SolidColorBrush x:Key="DefaultForegroundColorBrush" Color="{StaticResource DefaultForegroundColor}" />
+
+    <Color x:Key="DefaultBackgroundColor">#FFFF</Color>
+    <SolidColorBrush x:Key="DefaultBackgroundColorBrush" Color="{StaticResource DefaultBackgroundColor}" />
+
+    <!--Default placeholder-->
+    <Color x:Key="DefaultPlaceHolderColor">#8c9292</Color>
+    <SolidColorBrush x:Key="DefaultPlaceHolderColorBrush" Color="{StaticResource DefaultPlaceHolderColor}" />
+
+    <!--Default tabs color-->
+    <Color x:Key="DefaultTabForegroundColor">#878a8c</Color>
+    <SolidColorBrush x:Key="DefaultTabForegroundColorBrush" Color="{StaticResource DefaultTabForegroundColor}" />
+
+    <Color x:Key="DefaultTabBackgroundColor">#f6f7f8</Color>
+    <SolidColorBrush x:Key="DefaultTabBackgroundColorBrush" Color="{StaticResource DefaultTabBackgroundColor}" />
+    
+    <!--Deafault border color-->
+    <Color x:Key="DefaultBorderColor">#878a8c</Color>
+    <SolidColorBrush x:Key="DefaultBorderColorBrush" Color="{StaticResource DefaultBorderColor}" />
+
+    
+</ResourceDictionary>

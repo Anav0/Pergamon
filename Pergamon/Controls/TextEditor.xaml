@@ -1,0 +1,106 @@
+﻿<UserControl x:Class="Pergamon.TextEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Pergamon"
+             mc:Ignorable="d" 
+             d:DesignHeight="250" d:DesignWidth="400">
+
+    <Border
+        BorderThickness="1"
+        BorderBrush="{StaticResource DefaultBorderColorBrush}"
+        >
+
+        <Grid Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+
+            <!--Tabs-->
+
+            <Grid
+               Background="{StaticResource DefaultTabBackgroundColorBrush}"
+               Grid.Row="0" 
+                >
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <!--Text edit-->
+                <StackPanel 
+                    Grid.Column="0"
+                    Orientation="Horizontal">
+                    
+                    <!--Bald-->
+                    <Button Style="{StaticResource IconButton}"
+                    Content="{StaticResource FontAwesomeBald}"
+                    />
+                    <!--Italic-->
+                    <Button Style="{StaticResource IconButton}"
+                    Content="{StaticResource FontAwesomeItalic}"
+                    />
+                    <!--Underline-->
+                    <Button Style="{StaticResource IconButton}"
+                    Content="{StaticResource FontAwesomeUnderLine}"
+                    />
+                    <!--Marker-->
+                    <Button Style="{StaticResource IconButton}"
+                    Content="{StaticResource FontAwesomeMarker}"
+                    />
+                    <!--FontColor-->
+                    <Button Style="{StaticResource IconButton}"
+                    Content="{StaticResource FontAwesomeFont}"
+                    />
+                </StackPanel>
+
+                <!--Separator-->
+                <Border 
+                    Style="{StaticResource Separator}"
+                    Grid.Column="1"
+                    />
+
+                <!--Aligment-->
+                <StackPanel 
+                    Grid.Column="2"
+                    Orientation="Horizontal">
+                    
+                    <!--Align left-->
+                    <Button Style="{StaticResource IconButton}"
+                    Content="{StaticResource FontAwesomeAlignLeft}"
+                    />
+                    <!--Align left-->
+                    <Button Style="{StaticResource IconButton}"
+                    Content="{StaticResource FontAwesomeAlignRight}"
+                    />
+                    <!--Align left-->
+                    <Button Style="{StaticResource IconButton}"
+                    Content="{StaticResource FontAwesomeAlignCenter}"
+                    />
+                    <!--Align left-->
+                    <Button Style="{StaticResource IconButton}"
+                    Content="{StaticResource FontAwesomeAlignJustify}"
+                    />
+                </StackPanel>
+
+                <!--Separator-->
+                <Border 
+                    Style="{StaticResource Separator}"
+                    Grid.Column="3"
+                    />
+            </Grid>
+
+            <!--Editor-->
+            <RichTextBox
+            Grid.Row="1"/>
+
+        </Grid>
+    </Border>
+</UserControl>
