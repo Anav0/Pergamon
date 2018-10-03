@@ -5,102 +5,188 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Pergamon"
              mc:Ignorable="d" 
-             d:DesignHeight="250" d:DesignWidth="400">
+             d:DesignHeight="250" d:DesignWidth="400" Name="control"
+             Style="{DynamicResource controlStyle}"
+             >
 
-    <Border
-        BorderThickness="1"
-        BorderBrush="{StaticResource DefaultBorderColorBrush}"
-        >
+    <UserControl.Resources>
+        <Style x:Key="controlStyle" TargetType="{x:Type UserControl}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type local:TextEditor}">
 
-        <Grid Background="White">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+                        <!--Border for main container-->
+                        <Border
+                            BorderThickness="1"
+                            BorderBrush="{StaticResource DefaultBorderColorBrush}"
+                            Background="{Binding Background, ElementName=control}"
+                            Name="mainContainer"
+                            >
+
+                            <DockPanel 
+                                LastChildFill="True"
+                                Background="White">
+
+                                <!--Tabs-->
+                                <StackPanel
+                                   Name="tabs"
+                                   Orientation="Horizontal"
+                                   Background="{Binding BarBackground, ElementName=control}"
+                                   DockPanel.Dock="{Binding BarPlacement, ElementName=control}"
+                                    >
+
+                                    <!--Text edit options-->
+                                    <StackPanel 
+                                        Name="textEditSection"
+                                        Orientation="Horizontal">
+
+                                        <!--Bold-->
+                                        <Button Style="{StaticResource IconButton}"
+                                                Name="firstIcon"
+                                                Content="{StaticResource FontAwesomeBald}"
+                                                ToolTip="Bold"
+                                                Foreground="{Binding BarForeground, ElementName=control}"
+                                                />
+                                        <!--Italic-->
+                                        <Button Style="{StaticResource IconButton}"
+                                                Content="{StaticResource FontAwesomeItalic}"
+                                                ToolTip="Italic"
+                                                Foreground="{Binding Foreground, ElementName=firstIcon}"
+                                                />
+                                        <!--Underline-->
+                                        <Button Style="{StaticResource IconButton}"
+                                                Content="{StaticResource FontAwesomeUnderLine}"
+                                                ToolTip="Underline"
+                                                Foreground="{Binding Foreground, ElementName=firstIcon}"
+                                                />
+
+                                        <!--Marker-->
+                                        <StackPanel Orientation="Vertical"
+                                                    Margin="8"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    ToolTip="Mark"
+                                                    >
+
+                                            <Button Style="{StaticResource IconButton}"
+                                                    Content="{StaticResource FontAwesomeMarker}"
+                                                    Margin="0"
+                                                    Foreground="{Binding Foreground, ElementName=firstIcon}"
+                                                    Command="{Binding ShowMarkerColorPickerCommand}"
+                                                    />
+
+                                            <Border Height="4"
+                                                    Background="Yellow"
+                                                    />
+                                        </StackPanel>
+
+                                        <!--FontColor-->
+                                        <StackPanel Orientation="Vertical"
+                                                    Margin="8"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    ToolTip="Select font color"
+                                                    >
+
+                                            <Button Style="{StaticResource IconButton}"
+                                                Content="{StaticResource FontAwesomeFont}"
+                                                Margin="0"
+                                                Foreground="{Binding Foreground, ElementName=firstIcon}"
+                                                Command="{Binding ShowFontColorPickerCommand}"
+
+                                                />
+
+                                            <Border Height="4"
+                                                Background="black"
+                                                />
+                                        </StackPanel>
+
+                                    </StackPanel>
+
+                                    <!--Separator-->
+                                    <Border 
+                                        Style="{StaticResource Separator}"
+                                        Grid.Column="1"
+                                        Background="{Binding Foreground, ElementName=firstIcon}"
+                                        />
+
+                                    <!--Aligment-->
+                                    <StackPanel 
+                                        Name="aligmentSection"
+                                        Orientation="Horizontal">
+
+                                        <!--Align left-->
+                                        <Button Style="{StaticResource IconButton}"
+                                            Content="{StaticResource FontAwesomeAlignLeft}"
+                                            Foreground="{Binding Foreground, ElementName=firstIcon}"
+                                            ToolTip="Align to left"
+                                            />
+                                        <!--Align right-->
+                                        <Button Style="{StaticResource IconButton}"
+                                                Content="{StaticResource FontAwesomeAlignRight}"
+                                                Foreground="{Binding Foreground, ElementName=firstIcon}"
+                                                ToolTip="Align to right"
+                                                />
+                                        <!--Align center-->
+                                        <Button Style="{StaticResource IconButton}"
+                                                Content="{StaticResource FontAwesomeAlignCenter}"
+                                                Foreground="{Binding Foreground, ElementName=firstIcon}"
+                                                ToolTip="Align to center"
+                                                />
+                                        <!--Justify-->
+                                        <Button Style="{StaticResource IconButton}"
+                                            Foreground="{Binding Foreground, ElementName=firstIcon}"
+                                            Content="{StaticResource FontAwesomeAlignJustify}"
+                                            ToolTip="Justify"
+                                            />
+                                    </StackPanel>
+
+                                </StackPanel>
+
+                                <!--Editor-->
+                                <RichTextBox
+                                    Background="{Binding Background, ElementName=mainContainer}"
+                                    Foreground="{Binding Foreground, ElementName=control}"
+                                    BorderThickness="0"
+                                    BorderBrush="Transparent"
+                                    AllowDrop="True"
+                                    Padding="8">
+
+                                    <!--Deletes spacing betwwen lines-->
+                                    <RichTextBox.Resources>
+                                        <Style TargetType="{x:Type Paragraph}">
+                                            <Setter Property="Margin" Value="0" />
+
+                                        </Style>
+                                    </RichTextBox.Resources>
+                                    
+                                    <!--Document-->
+                                    <FlowDocument>
+                                    </FlowDocument>
+                                </RichTextBox>
+
+                            </DockPanel>
+                        </Border>
+
+                        <!--Triggers-->
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="BarPlacement" Value="Left">
+                                <Setter Property="Orientation" TargetName="tabs" Value="Vertical"/>
+                                <Setter Property="Orientation" TargetName="aligmentSection" Value="Vertical"/>
+                                <Setter Property="Orientation" TargetName="textEditSection" Value="Vertical"/>
+                            </Trigger>
+                            <Trigger Property="BarPlacement" Value="Right">
+                                <Setter Property="Orientation" TargetName="tabs" Value="Vertical"/>
+                                <Setter Property="Orientation" TargetName="aligmentSection" Value="Vertical"/>
+                                <Setter Property="Orientation" TargetName="textEditSection" Value="Vertical"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
 
 
-            <!--Tabs-->
 
-            <Grid
-               Background="{StaticResource DefaultTabBackgroundColorBrush}"
-               Grid.Row="0" 
-                >
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                
-                <!--Text edit-->
-                <StackPanel 
-                    Grid.Column="0"
-                    Orientation="Horizontal">
-                    
-                    <!--Bald-->
-                    <Button Style="{StaticResource IconButton}"
-                    Content="{StaticResource FontAwesomeBald}"
-                    />
-                    <!--Italic-->
-                    <Button Style="{StaticResource IconButton}"
-                    Content="{StaticResource FontAwesomeItalic}"
-                    />
-                    <!--Underline-->
-                    <Button Style="{StaticResource IconButton}"
-                    Content="{StaticResource FontAwesomeUnderLine}"
-                    />
-                    <!--Marker-->
-                    <Button Style="{StaticResource IconButton}"
-                    Content="{StaticResource FontAwesomeMarker}"
-                    />
-                    <!--FontColor-->
-                    <Button Style="{StaticResource IconButton}"
-                    Content="{StaticResource FontAwesomeFont}"
-                    />
-                </StackPanel>
-
-                <!--Separator-->
-                <Border 
-                    Style="{StaticResource Separator}"
-                    Grid.Column="1"
-                    />
-
-                <!--Aligment-->
-                <StackPanel 
-                    Grid.Column="2"
-                    Orientation="Horizontal">
-                    
-                    <!--Align left-->
-                    <Button Style="{StaticResource IconButton}"
-                    Content="{StaticResource FontAwesomeAlignLeft}"
-                    />
-                    <!--Align left-->
-                    <Button Style="{StaticResource IconButton}"
-                    Content="{StaticResource FontAwesomeAlignRight}"
-                    />
-                    <!--Align left-->
-                    <Button Style="{StaticResource IconButton}"
-                    Content="{StaticResource FontAwesomeAlignCenter}"
-                    />
-                    <!--Align left-->
-                    <Button Style="{StaticResource IconButton}"
-                    Content="{StaticResource FontAwesomeAlignJustify}"
-                    />
-                </StackPanel>
-
-                <!--Separator-->
-                <Border 
-                    Style="{StaticResource Separator}"
-                    Grid.Column="3"
-                    />
-            </Grid>
-
-            <!--Editor-->
-            <RichTextBox
-            Grid.Row="1"/>
-
-        </Grid>
-    </Border>
 </UserControl>
