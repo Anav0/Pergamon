@@ -10,7 +10,10 @@
              >
 
     <UserControl.Resources>
-        <Style x:Key="controlStyle" TargetType="{x:Type UserControl}">
+        <Style x:Key="controlStyle" TargetType="{x:Type local:TextEditor}">
+
+            <Setter Property="SelectedText" Value="{Binding SelectedText, Mode=TwoWay}"/>
+            
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type local:TextEditor}">
@@ -46,18 +49,23 @@
                                                 Content="{StaticResource FontAwesomeBald}"
                                                 ToolTip="Bold"
                                                 Foreground="{Binding BarForeground, ElementName=control}"
+                                                Command="{Binding BoldSelectedTextCommand}"
                                                 />
+                                        
                                         <!--Italic-->
                                         <Button Style="{StaticResource IconButton}"
                                                 Content="{StaticResource FontAwesomeItalic}"
                                                 ToolTip="Italic"
                                                 Foreground="{Binding Foreground, ElementName=firstIcon}"
+                                                Command="{Binding ItalicSelectedTextCommand}"
                                                 />
+                                        
                                         <!--Underline-->
                                         <Button Style="{StaticResource IconButton}"
                                                 Content="{StaticResource FontAwesomeUnderLine}"
                                                 ToolTip="Underline"
                                                 Foreground="{Binding Foreground, ElementName=firstIcon}"
+                                                Command="{Binding UnderlineSelectedTextCommand}"
                                                 />
 
                                         <!--Marker-->
@@ -120,49 +128,57 @@
                                             Content="{StaticResource FontAwesomeAlignLeft}"
                                             Foreground="{Binding Foreground, ElementName=firstIcon}"
                                             ToolTip="Align to left"
+                                            Command="{Binding AlignLeftCommand}"
                                             />
                                         <!--Align right-->
                                         <Button Style="{StaticResource IconButton}"
                                                 Content="{StaticResource FontAwesomeAlignRight}"
                                                 Foreground="{Binding Foreground, ElementName=firstIcon}"
                                                 ToolTip="Align to right"
+                                                Command="{Binding AlignRightCommand}"
                                                 />
                                         <!--Align center-->
                                         <Button Style="{StaticResource IconButton}"
                                                 Content="{StaticResource FontAwesomeAlignCenter}"
                                                 Foreground="{Binding Foreground, ElementName=firstIcon}"
                                                 ToolTip="Align to center"
+                                                Command="{Binding AlignCenterCommand}"
                                                 />
                                         <!--Justify-->
                                         <Button Style="{StaticResource IconButton}"
                                             Foreground="{Binding Foreground, ElementName=firstIcon}"
                                             Content="{StaticResource FontAwesomeAlignJustify}"
                                             ToolTip="Justify"
+                                            Command="{Binding JustifyCommand}"
                                             />
                                     </StackPanel>
 
                                 </StackPanel>
-
+                                
                                 <!--Editor-->
                                 <RichTextBox
+                                    x:Name="editor"
+                                    local:TextEditor.DocumentRTF="{Binding Document, Mode=TwoWay}"
+                                    SelectionChanged="editor_SelectionChanged"
+                                    IsInactiveSelectionHighlightEnabled="True"
+                                    SelectionBrush="Blue"
                                     Background="{Binding Background, ElementName=mainContainer}"
                                     Foreground="{Binding Foreground, ElementName=control}"
                                     BorderThickness="0"
                                     BorderBrush="Transparent"
                                     AllowDrop="True"
+                                    SpellCheck.SpellingReform="Postreform"
+                                    AcceptsTab="True"
+                                    AcceptsReturn="True"
                                     Padding="8">
 
                                     <!--Deletes spacing betwwen lines-->
                                     <RichTextBox.Resources>
                                         <Style TargetType="{x:Type Paragraph}">
                                             <Setter Property="Margin" Value="0" />
-
                                         </Style>
                                     </RichTextBox.Resources>
                                     
-                                    <!--Document-->
-                                    <FlowDocument>
-                                    </FlowDocument>
                                 </RichTextBox>
 
                             </DockPanel>

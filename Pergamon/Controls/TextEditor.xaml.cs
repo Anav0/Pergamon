@@ -1,5 +1,8 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Text;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media;
 
 namespace Pergamon
@@ -46,13 +49,69 @@ namespace Pergamon
         public Dock BarPlacement
         {
             get { return (Dock)GetValue(BarPlacementProperty); }
-            set { SetValue(BarPlacementProperty, value); }
+            set
+            {
+                SetValue(BarPlacementProperty, value);
+            }
         }
-
         public static readonly DependencyProperty BarPlacementProperty =
             DependencyProperty.Register("BarPlacement", typeof(Dock), typeof(TextEditor), new PropertyMetadata(Dock.Top));
 
         #endregion
 
+
+        #region SelectedText
+
+        public TextSelection SelectedText
+        {
+            get { return (TextSelection)GetValue(SelectedTextProperty); }
+            set { SetValue(SelectedTextProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SelectedText.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SelectedTextProperty =
+            DependencyProperty.Register("SelectedText", typeof(TextSelection), typeof(TextEditor), new PropertyMetadata(null));
+
+        #endregion
+
+        #region DocumentRTF attached property
+
+        public static FlowDocument DocumentRTF(DependencyObject obj)
+        {
+            return (FlowDocument)obj.GetValue(DocumentRTFProperty);
+        }
+
+        public static void SetDocumentRTF(DependencyObject obj, FlowDocument value)
+        {
+            obj.SetValue(DocumentRTFProperty, value);
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DocumentRTFProperty =
+            DependencyProperty.RegisterAttached("DocumentRTF", typeof(FlowDocument), typeof(TextEditor), new PropertyMetadata(null, new PropertyChangedCallback((d, e) => {
+                
+                if (!(d is RichTextBox richtextBox))
+                    return;
+
+                SetDocumentRTF(d, richtextBox.Document);
+
+            })));
+
+        #endregion
+
+
+        #region Event handlers
+
+        private void editor_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            if (!(sender is RichTextBox richTextBox))
+                return;
+
+            SelectedText = richTextBox.Selection;
+        }
+
+
+
+        #endregion
     }
 }
