@@ -5,9 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pergamon"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="700">
+        Title="Test" 
+        WindowStartupLocation="CenterScreen" 
+        Height="500" Width="700"
+        Background="Transparent"
+        >
     
     <local:TextEditor
-        BarPlacement="Left"
+        BarPlacement="Top"
         />
 </Window>

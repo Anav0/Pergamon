@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -59,7 +60,6 @@ namespace Pergamon
 
         #endregion
 
-
         #region SelectedText
 
         public TextSelection SelectedText
@@ -68,7 +68,6 @@ namespace Pergamon
             set { SetValue(SelectedTextProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for SelectedText.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SelectedTextProperty =
             DependencyProperty.Register("SelectedText", typeof(TextSelection), typeof(TextEditor), new PropertyMetadata(null));
 
@@ -86,7 +85,6 @@ namespace Pergamon
             obj.SetValue(DocumentRTFProperty, value);
         }
 
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DocumentRTFProperty =
             DependencyProperty.RegisterAttached("DocumentRTF", typeof(FlowDocument), typeof(TextEditor), new PropertyMetadata(null, new PropertyChangedCallback((d, e) => {
                 
@@ -99,7 +97,6 @@ namespace Pergamon
 
         #endregion
 
-
         #region Event handlers
 
         private void editor_SelectionChanged(object sender, RoutedEventArgs e)
@@ -109,8 +106,6 @@ namespace Pergamon
 
             SelectedText = richTextBox.Selection;
         }
-
-
 
         #endregion
     }

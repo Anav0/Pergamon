@@ -31,8 +31,8 @@ namespace Pergamon
 
             AlignLeftCommand = new RelayCommand(AlignLeft);
             AlignRightCommand = new RelayCommand(AlignRight);
-            AlignCenterCommand= new RelayCommand(AlignCenter);
-            JustifyCommand= new RelayCommand(Justify);
+            AlignCenterCommand = new RelayCommand(AlignCenter);
+            JustifyCommand = new RelayCommand(Justify);
 
         }
 
@@ -50,7 +50,6 @@ namespace Pergamon
         public ICommand AlignCenterCommand { get; set; }
         public ICommand JustifyCommand { get; set; }
 
-
         #endregion
 
 
@@ -58,21 +57,32 @@ namespace Pergamon
 
         private void BoldSelectedText()
         {
-            SelectedText.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Bold);
+            var weight = (FontWeight)SelectedText.GetPropertyValue(TextElement.FontWeightProperty);
+
+            if (weight == FontWeights.Bold)
+                SelectedText.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Normal);
+            else
+                SelectedText.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Bold);
         }
 
         private void ItalicSelectedText()
         {
-            SelectedText.ApplyPropertyValue(TextElement.FontStyleProperty, FontStyles.Italic);
+            var style = (FontStyle)SelectedText.GetPropertyValue(TextElement.FontStyleProperty);
+
+            if (style == FontStyles.Italic)
+                SelectedText.ApplyPropertyValue(TextElement.FontStyleProperty, FontStyles.Normal);
+            else
+                SelectedText.ApplyPropertyValue(TextElement.FontStyleProperty, FontStyles.Italic);
         }
 
         private void UnderlineSelectedText()
         {
+            var decoration = (TextDecorationCollection)SelectedText.GetPropertyValue(Inline.TextDecorationsProperty);
 
-            var valter = SelectedText.GetPropertyValue(Inline.TextDecorationsProperty);
-
-
-            SelectedText.ApplyPropertyValue(Inline.TextDecorationsProperty, TextDecorations.Underline);
+            if (decoration == TextDecorations.Underline)
+                SelectedText.ApplyPropertyValue(Inline.TextDecorationsProperty, null);
+            else
+                SelectedText.ApplyPropertyValue(Inline.TextDecorationsProperty, TextDecorations.Underline);
         }
 
         private void ShowMarkerColorPicker()
@@ -82,7 +92,7 @@ namespace Pergamon
 
         private void ShowFontColorPicker()
         {
-           
+
         }
 
         private void SaveToXmlFile()
@@ -120,7 +130,6 @@ namespace Pergamon
         }
 
         #endregion
-
-       
     }
 }
+

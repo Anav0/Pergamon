@@ -23,6 +23,8 @@
                             BorderThickness="1"
                             BorderBrush="{StaticResource DefaultBorderColorBrush}"
                             Background="{Binding Background, ElementName=control}"
+                            Padding="{Binding Padding, ElementName=control}"
+                            Margin="{Binding Margin, ElementName=control}"
                             Name="mainContainer"
                             >
 
@@ -130,6 +132,7 @@
                                             ToolTip="Align to left"
                                             Command="{Binding AlignLeftCommand}"
                                             />
+                                        
                                         <!--Align right-->
                                         <Button Style="{StaticResource IconButton}"
                                                 Content="{StaticResource FontAwesomeAlignRight}"
@@ -137,6 +140,7 @@
                                                 ToolTip="Align to right"
                                                 Command="{Binding AlignRightCommand}"
                                                 />
+                                        
                                         <!--Align center-->
                                         <Button Style="{StaticResource IconButton}"
                                                 Content="{StaticResource FontAwesomeAlignCenter}"
@@ -144,6 +148,7 @@
                                                 ToolTip="Align to center"
                                                 Command="{Binding AlignCenterCommand}"
                                                 />
+                                        
                                         <!--Justify-->
                                         <Button Style="{StaticResource IconButton}"
                                             Foreground="{Binding Foreground, ElementName=firstIcon}"
@@ -151,6 +156,7 @@
                                             ToolTip="Justify"
                                             Command="{Binding JustifyCommand}"
                                             />
+                                    
                                     </StackPanel>
 
                                 </StackPanel>
