@@ -1,8 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Media;
 
@@ -73,27 +71,47 @@ namespace Pergamon
 
         #endregion
 
-        #region DocumentRTF attached property
 
-        public static FlowDocument DocumentRTF(DependencyObject obj)
+        #region DestiledSelectedText
+
+        public string  DestiledSelectedText
         {
-            return (FlowDocument)obj.GetValue(DocumentRTFProperty);
+            get { return (string)GetValue(DestiledSelectedTextproperty); }
+            set { SetValue(DestiledSelectedTextproperty, value); }
         }
 
-        public static void SetDocumentRTF(DependencyObject obj, FlowDocument value)
+        // Using a DependencyProperty as the backing store for SelectedTextOnlyText.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DestiledSelectedTextproperty =
+            DependencyProperty.Register("DestiledSelectedText", typeof(string ), typeof(TextEditor), new PropertyMetadata(""));
+
+        #endregion
+
+
+        #region PlacholderText
+
+        public string PlacholderText
         {
-            obj.SetValue(DocumentRTFProperty, value);
+            get { return (string)GetValue(PlacholderTextProperty); }
+            set { SetValue(PlacholderTextProperty, value); }
         }
 
-        public static readonly DependencyProperty DocumentRTFProperty =
-            DependencyProperty.RegisterAttached("DocumentRTF", typeof(FlowDocument), typeof(TextEditor), new PropertyMetadata(null, new PropertyChangedCallback((d, e) => {
-                
-                if (!(d is RichTextBox richtextBox))
-                    return;
+        public static readonly DependencyProperty PlacholderTextProperty =
+            DependencyProperty.Register("PlacholderText", typeof(string), typeof(TextEditor), new PropertyMetadata("Write your message..."));
 
-                SetDocumentRTF(d, richtextBox.Document);
+        #endregion
 
-            })));
+
+        #region CaretPosition
+
+        public TextPointer CaretPosition
+        {
+            get { return (TextPointer)GetValue(CaretPositionProperty); }
+            set { SetValue(CaretPositionProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CaretPosition.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CaretPositionProperty =
+            DependencyProperty.Register("CaretPosition", typeof(TextPointer), typeof(TextEditor), new PropertyMetadata(null));
 
         #endregion
 
@@ -105,8 +123,11 @@ namespace Pergamon
                 return;
 
             SelectedText = richTextBox.Selection;
+            CaretPosition = richTextBox.CaretPosition;
+            DestiledSelectedText = SelectedText.Text;
         }
 
         #endregion
+
     }
 }

@@ -5,15 +5,19 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Pergamon"
              mc:Ignorable="d" 
-             d:DesignHeight="250" d:DesignWidth="400" Name="control"
+             d:DesignHeight="250" d:DesignWidth="400" 
+             Name="control"
              Style="{DynamicResource controlStyle}"
              >
 
     <UserControl.Resources>
+
         <Style x:Key="controlStyle" TargetType="{x:Type local:TextEditor}">
 
-            <Setter Property="SelectedText" Value="{Binding SelectedText, Mode=TwoWay}"/>
-            
+            <Setter Property="SelectedText" Value="{Binding SelectedText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Setter Property="DestiledSelectedText" Value="{Binding DestiledSelectedText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Setter Property="CaretPosition" Value="{Binding CaretPosition, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type local:TextEditor}">
@@ -39,6 +43,30 @@
                                    Background="{Binding BarBackground, ElementName=control}"
                                    DockPanel.Dock="{Binding BarPlacement, ElementName=control}"
                                     >
+                                    <!--Font options-->
+                                    <StackPanel
+                                        Orientation="Horizontal"
+                                        >
+
+                                        <!--Selected font-->
+                                        <ComboBox/>
+
+                                        <!--Font size-->
+                                        <ComboBox 
+                                            FocusManager.FocusedElement="{x:Reference Name=editor}"
+                                            SelectedItem="{Binding SelectedFontSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            ItemsSource="{Binding FontSizes}">
+
+                                        </ComboBox>
+
+                                    </StackPanel>
+
+                                    <!--Separator-->
+                                    <Border 
+                                        Style="{StaticResource Separator}"
+                                        Grid.Column="1"
+                                        Background="{Binding Foreground, ElementName=firstIcon}"
+                                        />
 
                                     <!--Text edit options-->
                                     <StackPanel 
@@ -53,7 +81,7 @@
                                                 Foreground="{Binding BarForeground, ElementName=control}"
                                                 Command="{Binding BoldSelectedTextCommand}"
                                                 />
-                                        
+
                                         <!--Italic-->
                                         <Button Style="{StaticResource IconButton}"
                                                 Content="{StaticResource FontAwesomeItalic}"
@@ -61,7 +89,7 @@
                                                 Foreground="{Binding Foreground, ElementName=firstIcon}"
                                                 Command="{Binding ItalicSelectedTextCommand}"
                                                 />
-                                        
+
                                         <!--Underline-->
                                         <Button Style="{StaticResource IconButton}"
                                                 Content="{StaticResource FontAwesomeUnderLine}"
@@ -126,13 +154,15 @@
                                         Orientation="Horizontal">
 
                                         <!--Align left-->
-                                        <Button Style="{StaticResource IconButton}"
+                                        <Button 
+                                            x:Name="alignLeftButton"
+                                            Style="{StaticResource IconButton}"
                                             Content="{StaticResource FontAwesomeAlignLeft}"
                                             Foreground="{Binding Foreground, ElementName=firstIcon}"
                                             ToolTip="Align to left"
                                             Command="{Binding AlignLeftCommand}"
                                             />
-                                        
+
                                         <!--Align right-->
                                         <Button Style="{StaticResource IconButton}"
                                                 Content="{StaticResource FontAwesomeAlignRight}"
@@ -140,7 +170,7 @@
                                                 ToolTip="Align to right"
                                                 Command="{Binding AlignRightCommand}"
                                                 />
-                                        
+
                                         <!--Align center-->
                                         <Button Style="{StaticResource IconButton}"
                                                 Content="{StaticResource FontAwesomeAlignCenter}"
@@ -148,7 +178,7 @@
                                                 ToolTip="Align to center"
                                                 Command="{Binding AlignCenterCommand}"
                                                 />
-                                        
+
                                         <!--Justify-->
                                         <Button Style="{StaticResource IconButton}"
                                             Foreground="{Binding Foreground, ElementName=firstIcon}"
@@ -156,36 +186,51 @@
                                             ToolTip="Justify"
                                             Command="{Binding JustifyCommand}"
                                             />
-                                    
+
                                     </StackPanel>
 
                                 </StackPanel>
-                                
-                                <!--Editor-->
-                                <RichTextBox
-                                    x:Name="editor"
-                                    local:TextEditor.DocumentRTF="{Binding Document, Mode=TwoWay}"
-                                    SelectionChanged="editor_SelectionChanged"
-                                    IsInactiveSelectionHighlightEnabled="True"
-                                    SelectionBrush="Blue"
-                                    Background="{Binding Background, ElementName=mainContainer}"
-                                    Foreground="{Binding Foreground, ElementName=control}"
-                                    BorderThickness="0"
-                                    BorderBrush="Transparent"
-                                    AllowDrop="True"
-                                    SpellCheck.SpellingReform="Postreform"
-                                    AcceptsTab="True"
-                                    AcceptsReturn="True"
-                                    Padding="8">
 
-                                    <!--Deletes spacing betwwen lines-->
-                                    <RichTextBox.Resources>
-                                        <Style TargetType="{x:Type Paragraph}">
-                                            <Setter Property="Margin" Value="0" />
-                                        </Style>
-                                    </RichTextBox.Resources>
-                                    
-                                </RichTextBox>
+
+                                <Grid>
+
+                                    <!--Placeholder text-->
+                                    <!--<Label 
+                                       Content="{Binding PlacholderText, ElementName=control}" 
+                                       Foreground="{StaticResource DefaultPlaceHolderColorBrush}"
+                                       Visibility="{Binding Document.Blocks, Converter={local:FlowDocumentContentToVisibilityGoneConverter}}"
+                                       Padding="4 0 0 0"
+                                           />-->
+
+                                    <!--Editor-->
+                                    <local:BindableRichTextBox
+                                        x:Name="editor"
+                                        Focusable="True"
+                                        Document="{Binding Document, Mode=TwoWay}"
+                                        SelectionChanged="editor_SelectionChanged"
+                                        IsInactiveSelectionHighlightEnabled="True"
+                                        SelectionBrush="Blue"
+                                        Background="{Binding Background, ElementName=mainContainer}"
+                                        Foreground="{Binding Foreground, ElementName=control}"
+                                        BorderThickness="0"
+                                        BorderBrush="Transparent"
+                                        AllowDrop="True"
+                                        SpellCheck.SpellingReform="Postreform"
+                                        AcceptsTab="True"
+                                        AcceptsReturn="True"
+                                        Margin="0"
+                                        Padding="0"
+                                        >
+
+                                        <!--Deletes spacing betwwen lines-->
+                                        <RichTextBox.Resources>
+                                            <Style TargetType="{x:Type Paragraph}">
+                                                <Setter Property="Margin" Value="0" />
+                                            </Style>
+                                        </RichTextBox.Resources>
+
+                                    </local:BindableRichTextBox>
+                                </Grid>
 
                             </DockPanel>
                         </Border>

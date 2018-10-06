@@ -14,12 +14,9 @@
     </Style>
 
     <Style 
-        TargetType="{x:Type Control}">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{StaticResource DefaultForegroundColorBrush}"/>
-        <Setter Property="FontSize" Value="{StaticResource FontSizeRegular}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource DefaultBorderColorBrush}"/>
-        <Setter Property="FontFamily" Value="{StaticResource NotoSansRegular}"/>
+        TargetType="{x:Type Control}" BasedOn="{StaticResource BaseStyle}">
     </Style>
+
+
 
 </ResourceDictionary>
