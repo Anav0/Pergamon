@@ -61,7 +61,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Controls\BindableRichTextBox.cs" />
     <Compile Include="ValueConverter\BaseValueConverter.cs" />
     <Compile Include="ValueConverter\BooleanToVisibilityConverter.cs" />
     <Compile Include="ValueConverter\BooleanToVisibilityGoneConverter.cs" />

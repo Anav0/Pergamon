@@ -58,73 +58,17 @@ namespace Pergamon
 
         #endregion
 
-        #region SelectedText
-
-        public TextSelection SelectedText
-        {
-            get { return (TextSelection)GetValue(SelectedTextProperty); }
-            set { SetValue(SelectedTextProperty, value); }
-        }
-
-        public static readonly DependencyProperty SelectedTextProperty =
-            DependencyProperty.Register("SelectedText", typeof(TextSelection), typeof(TextEditor), new PropertyMetadata(null));
-
-        #endregion
-
-        #region DestiledSelectedText
-
-        public string  DestiledSelectedText
-        {
-            get { return (string)GetValue(DestiledSelectedTextproperty); }
-            set { SetValue(DestiledSelectedTextproperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for SelectedTextOnlyText.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty DestiledSelectedTextproperty =
-            DependencyProperty.Register("DestiledSelectedText", typeof(string ), typeof(TextEditor), new PropertyMetadata(""));
-
-        #endregion
-
-        #region PlacholderText
-
-        public string PlacholderText
-        {
-            get { return (string)GetValue(PlacholderTextProperty); }
-            set { SetValue(PlacholderTextProperty, value); }
-        }
-
-        public static readonly DependencyProperty PlacholderTextProperty =
-            DependencyProperty.Register("PlacholderText", typeof(string), typeof(TextEditor), new PropertyMetadata("Write your message..."));
-
-        #endregion
-
-        #region CaretPosition
-
-        public TextPointer CaretPosition
-        {
-            get { return (TextPointer)GetValue(CaretPositionProperty); }
-            set { SetValue(CaretPositionProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for CaretPosition.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty CaretPositionProperty =
-            DependencyProperty.Register("CaretPosition", typeof(TextPointer), typeof(TextEditor), new PropertyMetadata(null));
-
-        #endregion
-
-        #region Event handlers
-
         private void editor_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            if (!(sender is RichTextBox richTextBox))
+            if (!(sender is RichTextBox editor))
                 return;
 
-            SelectedText = richTextBox.Selection;
-            CaretPosition = richTextBox.CaretPosition;
-            DestiledSelectedText = SelectedText.Text;
+            var vm = DataContext as TextEditorViewModel;
+
+            vm.Document = editor.Document;
+            vm.CaretPosition = editor.CaretPosition;
+            vm.SelectedText = editor.Selection;
+
         }
-
-        #endregion
-
     }
 }

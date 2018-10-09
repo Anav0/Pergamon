@@ -15,7 +15,7 @@ namespace Pergamon
 
         #region Public properties
 
-        public FlowDocument Document { get; set; } = new FlowDocument();
+        public FlowDocument Document { get; set; }
 
         public ObservableCollection<double> FontSizes { get; set; }
 
@@ -46,6 +46,7 @@ namespace Pergamon
                 _CaretPosition = value;
 
                 UpdateButtonsState();
+                UpdateSelectionListType();
 
                 if (_CaretPosition.GetTextRunLength(LogicalDirection.Backward) != 0 && !string.IsNullOrWhiteSpace(_CaretPosition.GetTextInRun(LogicalDirection.Backward)))
                 {
@@ -94,6 +95,7 @@ namespace Pergamon
                 SelectedText.Select(SelectedText.Start, SelectedText.End);
             }
         }
+
         #endregion
 
         public TextEditorViewModel()
@@ -105,7 +107,8 @@ namespace Pergamon
            FillFontSizesList();
 
            FontFamilies = new ObservableCollection<FontFamily>(Fonts.SystemFontFamilies.OrderBy(x=>x.ToString()));
-           SelectedFontFamily = FontFamilies.FirstOrDefault(x => x.Source.ToString() == "Noto Sans");
+           SelectedFontFamily = FontFamilies.FirstOrDefault(x => x.Source.ToString() == "Segoe UI");
+
         }
 
         #region Public Commands
@@ -172,7 +175,6 @@ namespace Pergamon
             IsCenterAlignChecked = UpdateState(Paragraph.TextAlignmentProperty, TextAlignment.Center);
             IsJustifyChecked = UpdateState(Paragraph.TextAlignmentProperty, TextAlignment.Justify);
 
-            UpdateSelectionListType();
         }
 
         private bool UpdateState(DependencyProperty formattingProperty, object expectedValue)

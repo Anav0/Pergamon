@@ -14,9 +14,6 @@
 
         <Style x:Key="controlStyle" TargetType="{x:Type local:TextEditor}">
 
-            <Setter Property="SelectedText" Value="{Binding SelectedText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Setter Property="CaretPosition" Value="{Binding CaretPosition, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type local:TextEditor}">
@@ -274,23 +271,12 @@
 
                                 </StackPanel>
 
-                                <!--Editor-->
-                                <Grid>
-
-                                    <!--Placeholder text-->
-                                    <!--<Label 
-                                       Content="{Binding PlacholderText, ElementName=control}" 
-                                       Foreground="{StaticResource DefaultPlaceHolderColorBrush}"
-                                       Visibility="{Binding Document.Blocks, Converter={local:FlowDocumentContentToVisibilityGoneConverter}}"
-                                       Padding="4 0 0 0"
-                                           />-->
 
                                     <!--Editor-->
-                                    <local:BindableRichTextBox
+                                    <RichTextBox
                                         x:Name="editor"
                                         Focusable="True"
                                         FontFamily="{Binding DefaultFontFamily, ElementName=control}"
-                                        Document="{Binding Document, Mode=TwoWay}"
                                         SelectionChanged="editor_SelectionChanged"
                                         IsInactiveSelectionHighlightEnabled="True"
                                         SelectionBrush="Blue"
@@ -313,8 +299,7 @@
                                             </Style>
                                         </RichTextBox.Resources>
 
-                                    </local:BindableRichTextBox>
-                                </Grid>
+                                    </RichTextBox>
 
                             </DockPanel>
                         </Border>
