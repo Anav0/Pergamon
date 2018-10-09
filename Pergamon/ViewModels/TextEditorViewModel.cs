@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Pergamon
 {
@@ -16,6 +18,8 @@ namespace Pergamon
         public FlowDocument Document { get; set; } = new FlowDocument();
 
         public ObservableCollection<double> FontSizes { get; set; }
+
+        public ObservableCollection<FontFamily> FontFamilies { get; set; }
 
         public bool IsBoldChecked { get; set; }
         public bool IsItalicChecked { get; set; }
@@ -43,15 +47,15 @@ namespace Pergamon
 
                 UpdateButtonsState();
 
-                SelectedFontSize = (double)_CaretPosition.Parent.GetValue(TextElement.FontSizeProperty);
+                if (_CaretPosition.GetTextRunLength(LogicalDirection.Backward) != 0 && !string.IsNullOrWhiteSpace(_CaretPosition.GetTextInRun(LogicalDirection.Backward)))
+                {
+                    SelectedFontSize = (double)_CaretPosition.Parent.GetValue(TextElement.FontSizeProperty);
+                    SelectedFontFamily = (FontFamily)_CaretPosition.Parent.GetValue(TextElement.FontFamilyProperty);
+                }
             }
         }
 
-        
-
-        
-
-        private double _SelectedFontSize;
+        private double _SelectedFontSize = 12;
         public double SelectedFontSize
         {
             get => _SelectedFontSize;
@@ -63,25 +67,51 @@ namespace Pergamon
 
                 _SelectedFontSize = value;
 
-                if(SelectedText != null)
-                    SelectedText.Select(SelectedText.Start, SelectedText.End);               }
+                if (SelectedText == null)
+                    return;
+
+                SelectedText.ApplyPropertyValue(TextElement.FontSizeProperty, _SelectedFontSize);
+                SelectedText.Select(SelectedText.Start, SelectedText.End);
+            }
         }
 
+        private FontFamily _SelectedFontFamily;
+        public FontFamily SelectedFontFamily
+        {
+            get => _SelectedFontFamily;
+
+            set
+            {
+                if (_SelectedFontFamily == value)
+                    return;
+
+                _SelectedFontFamily = value;
+
+                if (SelectedText == null)
+                    return;
+
+                SelectedText.ApplyPropertyValue(TextElement.FontFamilyProperty, _SelectedFontFamily);
+                SelectedText.Select(SelectedText.Start, SelectedText.End);
+            }
+        }
         #endregion
 
         public TextEditorViewModel()
         {
-            ShowFontColorPickerCommand = new RelayCommand(ShowFontColorPicker);
-            ShowMarkerColorPickerCommand = new RelayCommand(ShowMarkerColorPicker);
+           ShowFontColorPickerCommand = new RelayCommand(ShowFontColorPicker);
+           ShowMarkerColorPickerCommand = new RelayCommand(ShowMarkerColorPicker);
 
-            FontSizes = new ObservableCollection<double>();
-            FillFontSizesList();
+           FontSizes = new ObservableCollection<double>();
+           FillFontSizesList();
 
+           FontFamilies = new ObservableCollection<FontFamily>(Fonts.SystemFontFamilies.OrderBy(x=>x.ToString()));
+           SelectedFontFamily = FontFamilies.FirstOrDefault(x => x.Source.ToString() == "Noto Sans");
         }
 
         #region Public Commands
 
         public ICommand ShowFontColorPickerCommand { get; set; }
+
         public ICommand ShowMarkerColorPickerCommand { get; set; }
 
         #endregion
@@ -158,6 +188,9 @@ namespace Pergamon
         private void UpdateSelectionListType()
         {
 
+            if (SelectedText == null)
+                return;
+
             var startParagraph = SelectedText.Start.Paragraph;
             var endParagraph = SelectedText.End.Paragraph;
 
@@ -176,7 +209,7 @@ namespace Pergamon
             else
             {
                 IsDottedListChecked = false;
-                IsNumericListChecked= false;
+                IsNumericListChecked = false;
             }
         }
 

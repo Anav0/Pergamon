@@ -71,7 +71,6 @@ namespace Pergamon
 
         #endregion
 
-
         #region DestiledSelectedText
 
         public string  DestiledSelectedText
@@ -86,7 +85,6 @@ namespace Pergamon
 
         #endregion
 
-
         #region PlacholderText
 
         public string PlacholderText
@@ -99,7 +97,6 @@ namespace Pergamon
             DependencyProperty.Register("PlacholderText", typeof(string), typeof(TextEditor), new PropertyMetadata("Write your message..."));
 
         #endregion
-
 
         #region CaretPosition
 
