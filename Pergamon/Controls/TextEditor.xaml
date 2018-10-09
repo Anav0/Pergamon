@@ -15,7 +15,6 @@
         <Style x:Key="controlStyle" TargetType="{x:Type local:TextEditor}">
 
             <Setter Property="SelectedText" Value="{Binding SelectedText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Setter Property="DestiledSelectedText" Value="{Binding DestiledSelectedText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <Setter Property="CaretPosition" Value="{Binding CaretPosition, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
             <Setter Property="Template">
@@ -34,7 +33,8 @@
 
                             <DockPanel 
                                 LastChildFill="True"
-                                Background="White">
+                                Background="White"
+                                >
 
                                 <!--Tabs-->
                                 <StackPanel
@@ -43,6 +43,7 @@
                                    Background="{Binding BarBackground, ElementName=control}"
                                    DockPanel.Dock="{Binding BarPlacement, ElementName=control}"
                                     >
+                                    
                                     <!--Font options-->
                                     <StackPanel
                                         Orientation="Horizontal"
@@ -74,29 +75,38 @@
                                         Orientation="Horizontal">
 
                                         <!--Bold-->
-                                        <Button Style="{StaticResource IconButton}"
+                                        <ToggleButton Style="{StaticResource PressableIconButton}"
                                                 Name="firstIcon"
                                                 Content="{StaticResource FontAwesomeBald}"
                                                 ToolTip="Bold"
                                                 Foreground="{Binding BarForeground, ElementName=control}"
-                                                Command="{Binding BoldSelectedTextCommand}"
+                                                Command="EditingCommands.ToggleBold"
+                                                CommandTarget="{Binding ElementName=editor}"
+                                                IsChecked="{Binding IsBoldChecked}"
+                                                FocusManager.FocusedElement="{x:Reference Name=editor}"
                                                 />
 
                                         <!--Italic-->
-                                        <Button Style="{StaticResource IconButton}"
+                                        <ToggleButton Style="{StaticResource PressableIconButton}"
                                                 Content="{StaticResource FontAwesomeItalic}"
                                                 ToolTip="Italic"
                                                 Foreground="{Binding Foreground, ElementName=firstIcon}"
-                                                Command="{Binding ItalicSelectedTextCommand}"
-                                                />
+                                                Command="EditingCommands.ToggleItalic"
+                                                CommandTarget="{Binding ElementName=editor}"
+                                                IsChecked="{Binding IsItalicChecked}"
+                                                FocusManager.FocusedElement="{x:Reference Name=editor}"
+                                            />
 
                                         <!--Underline-->
-                                        <Button Style="{StaticResource IconButton}"
+                                        <ToggleButton Style="{StaticResource PressableIconButton}"
                                                 Content="{StaticResource FontAwesomeUnderLine}"
                                                 ToolTip="Underline"
                                                 Foreground="{Binding Foreground, ElementName=firstIcon}"
-                                                Command="{Binding UnderlineSelectedTextCommand}"
-                                                />
+                                                Command="EditingCommands.ToggleUnderline"
+                                                CommandTarget="{Binding ElementName=editor}"
+                                                IsChecked="{Binding IsUnderlineChecked}"
+                                                FocusManager.FocusedElement="{x:Reference Name=editor}"                                            
+                                                      />
 
                                         <!--Marker-->
                                         <StackPanel Orientation="Vertical"
@@ -106,11 +116,12 @@
                                                     ToolTip="Mark"
                                                     >
 
-                                            <Button Style="{StaticResource IconButton}"
+                                            <ToggleButton Style="{StaticResource PressableIconButton}"
                                                     Content="{StaticResource FontAwesomeMarker}"
                                                     Margin="0"
                                                     Foreground="{Binding Foreground, ElementName=firstIcon}"
                                                     Command="{Binding ShowMarkerColorPickerCommand}"
+                                                    FocusManager.FocusedElement="{x:Reference Name=editor}"
                                                     />
 
                                             <Border Height="4"
@@ -126,12 +137,12 @@
                                                     ToolTip="Select font color"
                                                     >
 
-                                            <Button Style="{StaticResource IconButton}"
+                                            <ToggleButton Style="{StaticResource PressableIconButton}"
                                                 Content="{StaticResource FontAwesomeFont}"
                                                 Margin="0"
                                                 Foreground="{Binding Foreground, ElementName=firstIcon}"
                                                 Command="{Binding ShowFontColorPickerCommand}"
-
+                                                FocusManager.FocusedElement="{x:Reference Name=editor}"
                                                 />
 
                                             <Border Height="4"
@@ -154,44 +165,95 @@
                                         Orientation="Horizontal">
 
                                         <!--Align left-->
-                                        <Button 
+                                        <ToggleButton 
                                             x:Name="alignLeftButton"
-                                            Style="{StaticResource IconButton}"
+                                            Style="{StaticResource PressableIconButton}"
                                             Content="{StaticResource FontAwesomeAlignLeft}"
                                             Foreground="{Binding Foreground, ElementName=firstIcon}"
                                             ToolTip="Align to left"
-                                            Command="{Binding AlignLeftCommand}"
+                                            Command="EditingCommands.AlignLeft"
+                                            CommandTarget="{Binding ElementName=editor}"
+                                            IsChecked="{Binding IsAlignLeftChecked}"
+                                            FocusManager.FocusedElement="{x:Reference Name=editor}"
                                             />
 
                                         <!--Align right-->
-                                        <Button Style="{StaticResource IconButton}"
+                                        <ToggleButton Style="{StaticResource PressableIconButton}"
                                                 Content="{StaticResource FontAwesomeAlignRight}"
                                                 Foreground="{Binding Foreground, ElementName=firstIcon}"
                                                 ToolTip="Align to right"
-                                                Command="{Binding AlignRightCommand}"
-                                                />
+                                                Command="EditingCommands.AlignRight"
+                                                CommandTarget="{Binding ElementName=editor}"
+                                                IsChecked="{Binding IsAlignRightChecked}"
+                                                FocusManager.FocusedElement="{x:Reference Name=editor}"
+                                                      />
 
                                         <!--Align center-->
-                                        <Button Style="{StaticResource IconButton}"
+                                        <ToggleButton Style="{StaticResource PressableIconButton}"
                                                 Content="{StaticResource FontAwesomeAlignCenter}"
                                                 Foreground="{Binding Foreground, ElementName=firstIcon}"
                                                 ToolTip="Align to center"
-                                                Command="{Binding AlignCenterCommand}"
-                                                />
+                                                Command="EditingCommands.AlignCenter"
+                                                CommandTarget="{Binding ElementName=editor}"
+                                                IsChecked="{Binding IsAlignCenterChecked}"
+                                                FocusManager.FocusedElement="{x:Reference Name=editor}"
+                                            />
 
                                         <!--Justify-->
-                                        <Button Style="{StaticResource IconButton}"
+                                        <ToggleButton Style="{StaticResource PressableIconButton}"
                                             Foreground="{Binding Foreground, ElementName=firstIcon}"
                                             Content="{StaticResource FontAwesomeAlignJustify}"
                                             ToolTip="Justify"
-                                            Command="{Binding JustifyCommand}"
+                                            Command="EditingCommands.AlignJustify"
+                                            CommandTarget="{Binding ElementName=editor}"
+                                            IsChecked="{Binding IsJustifyChecked}"
+                                            FocusManager.FocusedElement="{x:Reference Name=editor}"
                                             />
 
                                     </StackPanel>
 
+                                    <!--Separator-->
+                                    <Border 
+                                        Style="{StaticResource Separator}"
+                                        Grid.Column="1"
+                                        Background="{Binding Foreground, ElementName=firstIcon}"
+                                        />
+
+                                    <!--Lists-->
+                                    <StackPanel 
+                                        Name="listsSection"
+                                        Orientation="Horizontal">
+
+                                        <!--Bullets-->
+                                        <ToggleButton 
+                                            Style="{StaticResource PressableIconButton}"
+                                            Content="{StaticResource FontAwesomeDotedList}"
+                                            Foreground="{Binding Foreground, ElementName=firstIcon}"
+                                            ToolTip="Dotted list"
+                                            Command="EditingCommands.ToggleBullets"
+                                            CommandTarget="{Binding ElementName=editor}"
+                                            IsChecked="{Binding IsDottedListChecked}"
+                                            FocusManager.FocusedElement="{x:Reference Name=editor}"
+                                            />
+
+                                        <!--Numeric list-->
+                                        <ToggleButton 
+                                            Style="{StaticResource PressableIconButton}"
+                                            Content="{StaticResource FontAwesomeNumberList}"
+                                            Foreground="{Binding Foreground, ElementName=firstIcon}"
+                                            ToolTip="Numeric list"
+                                            Command="EditingCommands.ToggleNumbering"
+                                            CommandTarget="{Binding ElementName=editor}"
+                                            IsChecked="{Binding IsNumericListChecked}"
+                                            FocusManager.FocusedElement="{x:Reference Name=editor}"
+                                          />
+                                        
+
+                                    </StackPanel>
+                                    
                                 </StackPanel>
 
-
+                                <!--Editor-->
                                 <Grid>
 
                                     <!--Placeholder text-->
