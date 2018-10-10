@@ -3,12 +3,12 @@
                     xmlns:local="clr-namespace:Pergamon" 
                     xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2">
     
+    
     <SolidColorBrush x:Key="ComboBoxNormalBorderBrush" Color="{StaticResource DefaultBorderColor}" />
     <SolidColorBrush x:Key="ComboBoxNormalBackgroundBrush" Color="{StaticResource DefaultTabBackgroundColor}" />
     <SolidColorBrush x:Key="ComboBoxDisabledForegroundBrush" Color="#888" />
     <SolidColorBrush x:Key="ComboBoxDisabledBackgroundBrush" Color="#eee" />
     <SolidColorBrush x:Key="ComboBoxDisabledBorderBrush" Color="#888" />
-
 
     <ControlTemplate TargetType="ToggleButton" 
                      x:Key="ComboBoxToggleButtonTemplate"
@@ -46,7 +46,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ComboBox" >
                     
-                    <!--Outher border-->
+                    <!--Outer border-->
                     <Border 
                         Name="buttonBorder"
                         BorderBrush="{TemplateBinding BorderBrush}" 
@@ -60,13 +60,14 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
-                            <ToggleButton Name="ToggleButton" 
+                            <ToggleButton 
+                                Name="ToggleButton" 
                                 Grid.Column="1"
                                 Margin="8"
                                 ClickMode="Press" 
                                 Focusable="False"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Center"
+                                VerticalAlignment="Stretch"
+                                HorizontalAlignment="Stretch"
                                 IsChecked="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                                 Template="{StaticResource ComboBoxToggleButtonTemplate}"/>
 
@@ -82,7 +83,8 @@
 
 
                             <TextBox Name="PART_EditableTextBox" 
-                                 Margin="8, 8, 32, 8"                     
+                                 Grid.Column="0"
+                                 Margin="8"                     
                                  IsReadOnly="{TemplateBinding IsReadOnly}"
                                  Visibility="Hidden" 
                                  Background="Transparent"
