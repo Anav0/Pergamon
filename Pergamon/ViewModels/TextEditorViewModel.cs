@@ -15,8 +15,6 @@ namespace Pergamon
 
         #region Public properties
 
-        public FlowDocument Document { get; set; }
-
         public ObservableCollection<double> FontSizes { get; set; }
 
         public ObservableCollection<FontFamily> FontFamilies { get; set; }
@@ -131,16 +129,6 @@ namespace Pergamon
                 return;
 
 
-        }
-
-        private void SaveToXmlFile()
-        {
-            TextRange range;
-            FileStream fStream;
-            range = new TextRange(Document.ContentStart, Document.ContentEnd);
-            fStream = new FileStream("test.xml", FileMode.Create);
-            range.Save(fStream, DataFormats.Xaml);
-            fStream.Close();
         }
 
         #endregion

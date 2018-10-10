@@ -191,7 +191,7 @@
                                             ToolTip="Align to left"
                                             Command="EditingCommands.AlignLeft"
                                             CommandTarget="{Binding ElementName=editor}"
-                                            IsChecked="{Binding IsAlignLeftChecked}"
+                                            IsChecked="{Binding IsLeftAlignChecked}"
                                             FocusManager.FocusedElement="{x:Reference Name=editor}"
                                             />
 
@@ -202,7 +202,7 @@
                                                 ToolTip="Align to right"
                                                 Command="EditingCommands.AlignRight"
                                                 CommandTarget="{Binding ElementName=editor}"
-                                                IsChecked="{Binding IsAlignRightChecked}"
+                                                IsChecked="{Binding IsRightAlignChecked}"
                                                 FocusManager.FocusedElement="{x:Reference Name=editor}"
                                                       />
 
@@ -213,7 +213,7 @@
                                                 ToolTip="Align to center"
                                                 Command="EditingCommands.AlignCenter"
                                                 CommandTarget="{Binding ElementName=editor}"
-                                                IsChecked="{Binding IsAlignCenterChecked}"
+                                                IsChecked="{Binding IsCenterAlignChecked}"
                                                 FocusManager.FocusedElement="{x:Reference Name=editor}"
                                             />
 
@@ -271,8 +271,7 @@
 
                                 </StackPanel>
 
-
-                                    <!--Editor-->
+                                <!--Editor-->
                                     <RichTextBox
                                         x:Name="editor"
                                         Focusable="True"

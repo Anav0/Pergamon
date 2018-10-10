@@ -14,7 +14,8 @@ namespace Pergamon
         public TextEditor()
         {
             InitializeComponent();
-            DataContext = new TextEditorViewModel();
+            var vm = new TextEditorViewModel();
+            DataContext = vm;
         }
 
         #region BarBackground
@@ -65,9 +66,12 @@ namespace Pergamon
 
             var vm = DataContext as TextEditorViewModel;
 
-            vm.Document = editor.Document;
+            if (vm == null)
+                return;
+
             vm.CaretPosition = editor.CaretPosition;
             vm.SelectedText = editor.Selection;
+
 
         }
     }
