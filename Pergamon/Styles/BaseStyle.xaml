@@ -13,10 +13,12 @@
         <Setter Property="FontFamily" Value="{StaticResource NotoSansRegular}"/>
     </Style>
 
-    <Style 
-        TargetType="{x:Type Control}" BasedOn="{StaticResource BaseStyle}">
-    </Style>
+    <Style TargetType="{x:Type Control}" BasedOn="{StaticResource BaseStyle}"/>
 
+
+    <Style TargetType="{x:Type Label}" BasedOn="{StaticResource BaseStyle}"/>
+    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource BaseStyle}"/>
+    <Style TargetType="{x:Type RichTextBox}" BasedOn="{StaticResource BaseStyle}"/>
 
 
 </ResourceDictionary>

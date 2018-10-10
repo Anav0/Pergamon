@@ -32,7 +32,6 @@
     <system:String x:Key="FontAwesomeLowerIndex">&#xf12c;</system:String>
     <system:String x:Key="FontAwesomeStrikeThrough">&#xf0cc;</system:String>
 
-
     <system:String x:Key="FontAwesomeNumberList">&#xf0cb;</system:String>
     <system:String x:Key="FontAwesomeDotedList">&#xf0ca;</system:String>
 

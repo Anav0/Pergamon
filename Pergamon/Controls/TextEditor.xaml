@@ -18,6 +18,8 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type local:TextEditor}">
 
+
+
                         <!--Border for main container-->
                         <Border
                             BorderThickness="1"
@@ -27,6 +29,9 @@
                             Margin="{Binding Margin, ElementName=control}"
                             Name="mainContainer"
                             >
+                            <Border.InputBindings>
+                                <MouseBinding MouseAction="LeftClick" Command="{Binding HideOptionsCommand}"/>
+                            </Border.InputBindings>
 
                             <DockPanel 
                                 LastChildFill="True"
@@ -166,6 +171,56 @@
                                                 />
                                         </StackPanel>
 
+                                        <!--Additional options dorpdown-->
+                                        <Button 
+                                            Name="additionalOptionsButton"
+                                            Style="{StaticResource IconButton}"
+                                                Command="{Binding ShowAdditionalOptionsCommand}"
+                                                >
+                                            <Button.Content>
+                                                <Path 
+                                                    Data="M0,0 L0,2 L4,6 L8,2 L8,0 L4,4 z"
+                                                    HorizontalAlignment="Center" Fill="{StaticResource DefaultTabForegroundColorBrush}">
+
+                                                    <Path.RenderTransform>
+                                                        <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                                                    </Path.RenderTransform>
+                                                </Path>
+                                            </Button.Content>
+                                        </Button>
+                                        <Popup IsOpen="{Binding IsAdditionalOptionVisible}"
+                                               PlacementTarget="{x:Reference Name=additionalOptionsButton}"
+                                               Placement="Bottom"
+                                               PopupAnimation="Slide"
+                                               AllowsTransparency="True"
+                                               VerticalOffset="10"
+                                               >
+
+                                            <StackPanel Orientation="Vertical"
+                                                    Background="{StaticResource DefaultTabBackgroundColorBrush}">
+
+                                                <!--Lower index-->
+                                                <ToggleButton 
+                                                    Style="{StaticResource PressableIconButton}"
+                                                    Padding="8"
+                                                    IsChecked="{Binding IsSubscriptChecked}"
+                                                    Command="EditingCommands.ToggleSubscript"
+                                                    CommandTarget="{Binding ElementName=editor}"
+                                                    Content="{StaticResource FontAwesomeLowerIndex}"/>
+
+                                                <!--Upper index-->
+                                                <ToggleButton
+                                                    Style="{StaticResource PressableIconButton}"
+                                                    Padding="8"
+                                                    IsChecked="{Binding IsSuperscriptChecked}"
+                                                    Command="EditingCommands.ToggleSuperscript"
+                                                    CommandTarget="{Binding ElementName=editor}"
+                                                    Content="{StaticResource FontAwesomeUpperIndex}"/>
+
+
+                                            </StackPanel>
+                                        </Popup>
+
                                     </StackPanel>
 
                                     <!--Separator-->
@@ -226,6 +281,85 @@
                                             FocusManager.FocusedElement="{x:Reference Name=editor}"
                                             />
 
+
+                                        <!--Additional aligment options-->
+                                        <Button 
+                                            Name="additionalAlignOptionsButton"
+                                            Style="{StaticResource IconButton}"
+                                                Command="{Binding ShowAdditionalAlignOptionsCommand}"
+                                                >
+                                            <Button.Content>
+                                                <Path 
+                                                    Data="M0,0 L0,2 L4,6 L8,2 L8,0 L4,4 z"
+                                                    HorizontalAlignment="Center" Fill="{StaticResource DefaultTabForegroundColorBrush}">
+
+                                                    <Path.RenderTransform>
+                                                        <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                                                    </Path.RenderTransform>
+                                                </Path>
+                                            </Button.Content>
+                                        </Button>
+
+                                        <Popup IsOpen="{Binding IsAdditionalAlignOptionVisible}"
+                                               PlacementTarget="{x:Reference Name=additionalAlignOptionsButton}"
+                                               Placement="Bottom"
+                                               PopupAnimation="Slide"
+                                               AllowsTransparency="True"
+                                               VerticalOffset="10"
+                                               >
+
+                                            <Grid
+                                                Background="{StaticResource DefaultTabBackgroundColorBrush}"
+                                                >
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="*"/>
+                                                </Grid.RowDefinitions>
+
+                                                <!--Indent/Outdent buttons-->
+                                                <StackPanel 
+                                                    Orientation="Horizontal" 
+                                                    Grid.Row="0"
+                                                        >
+
+                                                    <!--Indent-->
+                                                    <Button
+                                                        Style="{StaticResource IconButton}"
+                                                        Padding="8"
+                                                        Command="EditingCommands.IncreaseIndentation"
+                                                        CommandTarget="{Binding ElementName=editor}"
+                                                        Content="{StaticResource FontAwesomeIndent}"/>
+
+                                                    <!--Outdent-->
+                                                    <Button
+                                                        Style="{StaticResource IconButton}"
+                                                        Padding="8"
+                                                        Command="EditingCommands.DecreaseIndentation"
+                                                        CommandTarget="{Binding ElementName=editor}"
+                                                        Content="{StaticResource FontAwesomeOutdent}"/>
+
+                                                </StackPanel>
+
+                                                <StackPanel Orientation="Vertical"
+                                                            Grid.Row="1">
+
+                                                    <!--Spacing label-->
+                                                    <Label Content="Line spacing"
+                                                           HorizontalAlignment="Center"/>
+
+                                                    <!--Spacing-->
+                                                    <ComboBox
+                                                    IsEditable="True"
+                                                    SelectedIndex="0"
+                                                    SelectedItem="{Binding SelectedSpacing}"
+                                                    ItemsSource="{Binding SpacingOptions}"
+                                                    >
+                                                    </ComboBox>
+
+                                                </StackPanel>
+
+                                            </Grid>
+                                        </Popup>
                                     </StackPanel>
 
                                     <!--Separator-->
@@ -264,13 +398,12 @@
                                             FocusManager.FocusedElement="{x:Reference Name=editor}"
                                           />
 
-
                                     </StackPanel>
 
                                 </StackPanel>
 
                                 <!--Editor-->
-                                    <RichTextBox
+                                <RichTextBox
                                         x:Name="editor"
                                         Focusable="True"
                                         FontFamily="{Binding DefaultFontFamily, ElementName=control}"
@@ -287,16 +420,19 @@
                                         AcceptsReturn="True"
                                         Margin="0"
                                         Padding="0"
+                                    
                                         >
+                                    <RichTextBox.InputBindings>
+                                        <MouseBinding MouseAction="LeftClick" Command="{Binding HideOptionsCommand}"/>
+                                    </RichTextBox.InputBindings>
+                                    <!--Deletes spacing between lines-->
+                                    <RichTextBox.Resources>
+                                        <Style TargetType="{x:Type Paragraph}">
+                                            <Setter Property="LineHeight" Value="{Binding LineSpacing}" />
+                                        </Style>
+                                    </RichTextBox.Resources>
 
-                                        <!--Deletes spacing betwwen lines-->
-                                        <RichTextBox.Resources>
-                                            <Style TargetType="{x:Type Paragraph}">
-                                                <Setter Property="Margin" Value="0" />
-                                            </Style>
-                                        </RichTextBox.Resources>
-
-                                    </RichTextBox>
+                                </RichTextBox>
 
                             </DockPanel>
                         </Border>

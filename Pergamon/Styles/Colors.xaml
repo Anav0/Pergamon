@@ -4,7 +4,7 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <!--Default forground and background-->
-    <Color x:Key="DefaultForegroundColor">#1c438e</Color>
+    <Color x:Key="DefaultForegroundColor">#1c1c1c</Color>
     <SolidColorBrush x:Key="DefaultForegroundColorBrush" Color="{StaticResource DefaultForegroundColor}" />
 
     <Color x:Key="DefaultBackgroundColor">#FFFF</Color>

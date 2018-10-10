@@ -19,6 +19,8 @@ namespace Pergamon
 
         public ObservableCollection<FontFamily> FontFamilies { get; set; }
 
+        public ObservableCollection<double> SpacingOptions { get; set; }
+
         public bool IsBoldChecked { get; set; }
         public bool IsItalicChecked { get; set; }
         public bool IsUnderlineChecked { get; set; }
@@ -28,6 +30,12 @@ namespace Pergamon
         public bool IsJustifyChecked { get; set; }
         public bool IsDottedListChecked { get; set; }
         public bool IsNumericListChecked { get; set; }
+
+        public bool IsAdditionalOptionVisible { get; set; }
+        public bool IsAdditionalAlignOptionVisible { get; set; }
+
+        public bool IsSuperscriptChecked { get; set; }
+        public bool IsSubscriptChecked { get; set; }
 
         public TextSelection SelectedText { get; set; }
 
@@ -81,12 +89,13 @@ namespace Pergamon
 
             set
             {
+
                 if (_SelectedFontFamily == value)
                     return;
 
                 _SelectedFontFamily = value;
 
-                if (SelectedText == null)
+                if (SelectedText == null || _SelectedFontFamily == null)
                     return;
 
                 SelectedText.ApplyPropertyValue(TextElement.FontFamilyProperty, _SelectedFontFamily);
@@ -94,12 +103,38 @@ namespace Pergamon
             }
         }
 
-        #endregion
+        public double LineSpacing { get; set; }
+
+        private double _SelectedSpacing;
+        public double SelectedSpacing {
+            get => _SelectedSpacing;
+            set
+            {
+                if (_SelectedSpacing == value)
+                    return;
+
+                if (!(SpacingOptions.Contains(value)))
+                    SpacingOptions.Add(value);
+
+                _SelectedSpacing = value;
+
+                LineSpacing = _SelectedSpacing * SelectedFontSize;
+
+                if(SelectedText != null)
+                    SelectedText.Select(SelectedText.Start, SelectedText.End);
+            }
+        }
+
+      #endregion
 
         public TextEditorViewModel()
         {
            ShowFontColorPickerCommand = new RelayCommand(ShowFontColorPicker);
            ShowMarkerColorPickerCommand = new RelayCommand(ShowMarkerColorPicker);
+           ShowAdditionalOptionsCommand = new RelayCommand(ShowAdditionalOptions);
+           ShowAdditionalAlignOptionsCommand = new RelayCommand(ShowAdditionalAlignOptions);
+
+           HideOptionsCommand = new RelayCommand(HideOptions);
 
            FontSizes = new ObservableCollection<double>();
            FillFontSizesList();
@@ -107,13 +142,31 @@ namespace Pergamon
            FontFamilies = new ObservableCollection<FontFamily>(Fonts.SystemFontFamilies.OrderBy(x=>x.ToString()));
            SelectedFontFamily = FontFamilies.FirstOrDefault(x => x.Source.ToString() == "Segoe UI");
 
+           SpacingOptions = new ObservableCollection<double>();
+           SpacingOptions.Add(0.5d);
+           SpacingOptions.Add(1.0d);
+           SpacingOptions.Add(1.15d);
+           SpacingOptions.Add(1.50d);
+           SpacingOptions.Add(2.0d);
+           SpacingOptions.Add(2.5d);
+           SpacingOptions.Add(3.0d);
         }
+
+        
+
+
 
         #region Public Commands
 
         public ICommand ShowFontColorPickerCommand { get; set; }
 
         public ICommand ShowMarkerColorPickerCommand { get; set; }
+
+        public ICommand ShowAdditionalOptionsCommand { get; set; }
+
+        public ICommand ShowAdditionalAlignOptionsCommand { get; set; }
+
+        public ICommand HideOptionsCommand { get; set; }
 
         #endregion
 
@@ -127,8 +180,16 @@ namespace Pergamon
         {
             if (SelectedText == null)
                 return;
+        }
 
+        private void ShowAdditionalOptions() => IsAdditionalOptionVisible ^= true;
 
+        private void ShowAdditionalAlignOptions() => IsAdditionalAlignOptionVisible ^= true;
+
+        private void HideOptions()
+        {
+            IsAdditionalAlignOptionVisible = false;
+            IsAdditionalOptionVisible = false;
         }
 
         #endregion
@@ -162,6 +223,9 @@ namespace Pergamon
             IsRightAlignChecked = UpdateState(Paragraph.TextAlignmentProperty, TextAlignment.Right);
             IsCenterAlignChecked = UpdateState(Paragraph.TextAlignmentProperty, TextAlignment.Center);
             IsJustifyChecked = UpdateState(Paragraph.TextAlignmentProperty, TextAlignment.Justify);
+
+            IsSubscriptChecked = UpdateState(Typography.VariantsProperty, FontVariants.Subscript);
+            IsSuperscriptChecked = UpdateState(Typography.VariantsProperty, FontVariants.Superscript);
 
         }
 

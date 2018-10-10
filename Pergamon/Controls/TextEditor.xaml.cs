@@ -59,6 +59,7 @@ namespace Pergamon
 
         #endregion
 
+
         private void editor_SelectionChanged(object sender, RoutedEventArgs e)
         {
             if (!(sender is RichTextBox editor))
@@ -71,7 +72,6 @@ namespace Pergamon
 
             vm.CaretPosition = editor.CaretPosition;
             vm.SelectedText = editor.Selection;
-
 
         }
     }

@@ -39,7 +39,7 @@
         <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
         <Setter Property="FrameworkElement.FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Foreground" Value="{StaticResource DefaultTabForegroundColorBrush}"/>
-        <Setter Property="FontWeight" Value="DemiBold"/>
+        <Setter Property="FontWeight" Value="Medium"/>
 
         <Setter Property="Control.Template">
             
