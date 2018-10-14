@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Pergamon
@@ -14,29 +9,7 @@ namespace Pergamon
     {
 
         #region Public properties
-
-        public ObservableCollection<double> FontSizes { get; set; }
-
-        public ObservableCollection<FontFamily> FontFamilies { get; set; }
-
-        public ObservableCollection<double> SpacingOptions { get; set; }
-
-        public bool IsBoldChecked { get; set; }
-        public bool IsItalicChecked { get; set; }
-        public bool IsUnderlineChecked { get; set; }
-        public bool IsLeftAlignChecked { get; set; }
-        public bool IsRightAlignChecked { get; set; }
-        public bool IsCenterAlignChecked { get; set; }
-        public bool IsJustifyChecked { get; set; }
-        public bool IsDottedListChecked { get; set; }
-        public bool IsNumericListChecked { get; set; }
-
-        public bool IsAdditionalOptionVisible { get; set; }
-        public bool IsAdditionalAlignOptionVisible { get; set; }
-
-        public bool IsSuperscriptChecked { get; set; }
-        public bool IsSubscriptChecked { get; set; }
-
+        
         public TextSelection SelectedText { get; set; }
 
         private TextPointer _CaretPosition;
@@ -46,228 +19,70 @@ namespace Pergamon
 
             set
             {
+                //TODO: fix line spacing
                 if (_CaretPosition == value)
                     return;
 
                 _CaretPosition = value;
 
-                UpdateButtonsState();
-                UpdateSelectionListType();
+
+                StaticViewModels.FormattingSubMenuVMInstance.UpdateButtonsState(CaretPosition, SelectedText);
 
                 if (_CaretPosition.GetTextRunLength(LogicalDirection.Backward) != 0 && !string.IsNullOrWhiteSpace(_CaretPosition.GetTextInRun(LogicalDirection.Backward)))
                 {
-                    SelectedFontSize = (double)_CaretPosition.Parent.GetValue(TextElement.FontSizeProperty);
-                    SelectedFontFamily = (FontFamily)_CaretPosition.Parent.GetValue(TextElement.FontFamilyProperty);
+                    StaticViewModels.FormattingSubMenuVMInstance.SelectedFontSize = (double)_CaretPosition.Parent.GetValue(TextElement.FontSizeProperty);
+                    StaticViewModels.FormattingSubMenuVMInstance.SelectedFontFamily = (FontFamily)_CaretPosition.Parent.GetValue(TextElement.FontFamilyProperty);
                 }
             }
         }
 
-        private double _SelectedFontSize = 12;
-        public double SelectedFontSize
-        {
-            get => _SelectedFontSize;
-
-            set
-            {
-                if (_SelectedFontSize == value)
-                    return;
-
-                _SelectedFontSize = value;
-
-                if (SelectedText == null)
-                    return;
-
-                SelectedText.ApplyPropertyValue(TextElement.FontSizeProperty, _SelectedFontSize);
-                SelectedText.Select(SelectedText.Start, SelectedText.End);
-            }
-        }
-
-        private FontFamily _SelectedFontFamily;
-        public FontFamily SelectedFontFamily
-        {
-            get => _SelectedFontFamily;
-
-            set
-            {
-
-                if (_SelectedFontFamily == value)
-                    return;
-
-                _SelectedFontFamily = value;
-
-                if (SelectedText == null || _SelectedFontFamily == null)
-                    return;
-
-                SelectedText.ApplyPropertyValue(TextElement.FontFamilyProperty, _SelectedFontFamily);
-                SelectedText.Select(SelectedText.Start, SelectedText.End);
-            }
-        }
+        public MenuCategories SelectedMenu { get; set; }
 
         public double LineSpacing { get; set; }
 
-        private double _SelectedSpacing;
-        public double SelectedSpacing {
-            get => _SelectedSpacing;
-            set
-            {
-                if (_SelectedSpacing == value)
-                    return;
-
-                if (!(SpacingOptions.Contains(value)))
-                    SpacingOptions.Add(value);
-
-                _SelectedSpacing = value;
-
-                LineSpacing = _SelectedSpacing * SelectedFontSize;
-
-                if(SelectedText != null)
-                    SelectedText.Select(SelectedText.Start, SelectedText.End);
-            }
-        }
-
-      #endregion
+        #endregion
 
         public TextEditorViewModel()
         {
-           ShowFontColorPickerCommand = new RelayCommand(ShowFontColorPicker);
-           ShowMarkerColorPickerCommand = new RelayCommand(ShowMarkerColorPicker);
-           ShowAdditionalOptionsCommand = new RelayCommand(ShowAdditionalOptions);
-           ShowAdditionalAlignOptionsCommand = new RelayCommand(ShowAdditionalAlignOptions);
+            StaticViewModels.FormattingSubMenuVMInstance.OnApplyMarkerColorActionCalled += OnApplyMarkerAction;
 
-           HideOptionsCommand = new RelayCommand(HideOptions);
-
-           FontSizes = new ObservableCollection<double>();
-           FillFontSizesList();
-
-           FontFamilies = new ObservableCollection<FontFamily>(Fonts.SystemFontFamilies.OrderBy(x=>x.ToString()));
-           SelectedFontFamily = FontFamilies.FirstOrDefault(x => x.Source.ToString() == "Segoe UI");
-
-           SpacingOptions = new ObservableCollection<double>();
-           SpacingOptions.Add(0.5d);
-           SpacingOptions.Add(1.0d);
-           SpacingOptions.Add(1.15d);
-           SpacingOptions.Add(1.50d);
-           SpacingOptions.Add(2.0d);
-           SpacingOptions.Add(2.5d);
-           SpacingOptions.Add(3.0d);
+            StaticViewModels.FormattingSubMenuVMInstance.OnLineSpacingChanged += OnLineSpacingChanged;
         }
 
-        
+        #region Event handlers
 
-
-
-        #region Public Commands
-
-        public ICommand ShowFontColorPickerCommand { get; set; }
-
-        public ICommand ShowMarkerColorPickerCommand { get; set; }
-
-        public ICommand ShowAdditionalOptionsCommand { get; set; }
-
-        public ICommand ShowAdditionalAlignOptionsCommand { get; set; }
-
-        public ICommand HideOptionsCommand { get; set; }
-
-        #endregion
-
-        #region Command Methods
-
-        private void ShowMarkerColorPicker()
+        private void OnLineSpacingChanged(object sender, EventArgs e)
         {
-        }
-
-        private void ShowFontColorPicker()
-        {
-            if (SelectedText == null)
-                return;
-        }
-
-        private void ShowAdditionalOptions() => IsAdditionalOptionVisible ^= true;
-
-        private void ShowAdditionalAlignOptions() => IsAdditionalAlignOptionVisible ^= true;
-
-        private void HideOptions()
-        {
-            IsAdditionalAlignOptionVisible = false;
-            IsAdditionalOptionVisible = false;
-        }
-
-        #endregion
-
-        #region Private methods
-
-        private void FillFontSizesList()
-        {
-
-            FontSizes.Add(8);
-            FontSizes.Add(9);
-            FontSizes.Add(10);
-            FontSizes.Add(11);
-
-            for (int i = 12; i < 28; i += 2)
-            {
-                FontSizes.Add(i);
-            }
-            FontSizes.Add(36);
-            FontSizes.Add(48);
-            FontSizes.Add(72);
-        }
-
-        private void UpdateButtonsState()
-        {
-            IsBoldChecked = UpdateState(TextElement.FontWeightProperty, FontWeights.Bold);
-            IsItalicChecked = UpdateState(TextElement.FontStyleProperty, FontStyles.Italic);
-            IsUnderlineChecked = UpdateState(TextBlock.TextDecorationsProperty, TextDecorations.Underline);
-
-            IsLeftAlignChecked = UpdateState(Paragraph.TextAlignmentProperty, TextAlignment.Left);
-            IsRightAlignChecked = UpdateState(Paragraph.TextAlignmentProperty, TextAlignment.Right);
-            IsCenterAlignChecked = UpdateState(Paragraph.TextAlignmentProperty, TextAlignment.Center);
-            IsJustifyChecked = UpdateState(Paragraph.TextAlignmentProperty, TextAlignment.Justify);
-
-            IsSubscriptChecked = UpdateState(Typography.VariantsProperty, FontVariants.Subscript);
-            IsSuperscriptChecked = UpdateState(Typography.VariantsProperty, FontVariants.Superscript);
-
-        }
-
-        private bool UpdateState(DependencyProperty formattingProperty, object expectedValue)
-        {
-            object currentValue = CaretPosition.Parent.GetValue(formattingProperty);
-
-            if (currentValue == null || currentValue == DependencyProperty.UnsetValue)
-                return false;
-
-            return currentValue.Equals(expectedValue);
-        }
-
-        private void UpdateSelectionListType()
-        {
-
-            if (SelectedText == null)
+            if (!(sender is FormattingSubmenuViewModel formattingVM))
                 return;
 
-            var startParagraph = SelectedText.Start.Paragraph;
-            var endParagraph = SelectedText.End.Paragraph;
+            this.LineSpacing = formattingVM.LineSpacing;
+        }
 
-            if (startParagraph != null && endParagraph != null && (startParagraph.Parent is ListItem) && (endParagraph.Parent is ListItem) && object.ReferenceEquals(((ListItem)startParagraph.Parent).List, ((ListItem)endParagraph.Parent).List))
+        private void OnApplyMarkerAction(object sender, System.EventArgs e)
+        {
+            if (!(sender is FormattingSubmenuViewModel formattingVM))
+                return;
+
+            try
             {
-                TextMarkerStyle markerStyle = ((ListItem)startParagraph.Parent).List.MarkerStyle;
-                if (markerStyle == TextMarkerStyle.Disc) //bullets
-                {
-                    IsDottedListChecked = true;
-                }
-                else if (markerStyle == TextMarkerStyle.Decimal) //numbers
-                {
-                    IsNumericListChecked = true;
-                }
+                var element = (TextElement)CaretPosition.Parent;
+
+                if (element.Background == formattingVM.SelectedMarkerColor)
+                    element.Background = new SolidColorBrush(Colors.Transparent);
+                else
+                    element.Background = formattingVM.SelectedMarkerColor;
             }
-            else
+            catch(Exception ex)
             {
-                IsDottedListChecked = false;
-                IsNumericListChecked = false;
+                //TODO: log this exception
             }
+
+            
         }
 
         #endregion
+
     }
 }
 

@@ -28,5 +28,10 @@
     <Color x:Key="DefaultBorderColor">#878a8c</Color>
     <SolidColorBrush x:Key="DefaultBorderColorBrush" Color="{StaticResource DefaultBorderColor}" />
 
+    <!--Accent color-->
+    <Color x:Key="AccentColor">#3C598E</Color>
+    <SolidColorBrush x:Key="AccentColorBrush" Color="{StaticResource AccentColor}" />
+
     
+
 </ResourceDictionary>

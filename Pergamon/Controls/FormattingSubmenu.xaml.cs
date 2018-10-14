@@ -1,0 +1,30 @@
+﻿using System.Windows;
+using System.Windows.Controls;
+
+namespace Pergamon
+{
+    /// <summary>
+    /// Interaction logic for FormattingSubmenu.xaml
+    /// </summary>
+    public partial class FormattingSubmenu : UserControl
+    {
+        public FormattingSubmenu()
+        {
+            DataContext = StaticViewModels.FormattingSubMenuVMInstance;
+            InitializeComponent();
+        }
+
+        public Control ActionTarget
+        {
+            get { return (Control)GetValue(ActionTargetProperty); }
+            set { SetValue(ActionTargetProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ActionTarget.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ActionTargetProperty =
+            DependencyProperty.Register("ActionTarget", typeof(Control), typeof(FormattingSubmenu), new PropertyMetadata(null));
+
+
+
+    }
+}

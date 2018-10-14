@@ -1,0 +1,135 @@
+﻿<UserControl x:Class="Pergamon.ColorPicker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Pergamon"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="350" 
+             Background="{StaticResource DefaultTabBackgroundColorBrush}"
+             d:DataContext="{x:Static local:ColorPickerDesign.Instance}">
+
+    <UserControl.Resources>
+        <ObjectDataProvider 
+            ObjectInstance="{x:Type Colors}" 
+            MethodName="GetProperties" 
+            x:Key="colors"/>
+
+        <SolidColorBrush x:Key="ForegroundColor" Color="{StaticResource DefaultForegroundColor}"/>
+        <SolidColorBrush x:Key="LabelBackground" Color="{StaticResource DefaultDarkerTabBackgroundColor}"/>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!--Theme colors-->
+        <StackPanel Orientation="Vertical"
+                    Grid.Row="0">
+            <Label 
+            Content="Theme colors"
+            Padding="6"
+            Foreground="{StaticResource ForegroundColor}"
+            Background="{DynamicResource LabelBackground}"
+            />
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+            </Grid>
+
+
+
+        </StackPanel>
+
+        <!--Standard color palette-->
+        <StackPanel Grid.Row="1">
+
+            <Label 
+            Content="Standard color palette"
+            Padding="6"
+            Foreground="{StaticResource ForegroundColor}"
+            Background="{DynamicResource LabelBackground}"
+            />
+
+            <ItemsControl ItemsSource="{Binding StandardColors}" 
+                          HorizontalAlignment="Left"
+                          Margin="8"
+                          Name="list"
+                          AlternationCount="100"
+                          >
+
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border 
+                        Name="item"
+                        Background="{Binding}" 
+                        BorderThickness="1"
+                        BorderBrush="{StaticResource DefaultBorderColorBrush}"
+                        Margin="2"
+                        Width="32" 
+                        Height="32"
+                               >
+                            <Border.InputBindings>
+                                <MouseBinding MouseAction="LeftClick" 
+                                              Command="{Binding ElementName=list, Path=DataContext.StandardColorClickedCommand}"
+                                              CommandParameter="{Binding ElementName=item, Path=Background}"/>
+                            </Border.InputBindings>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+
+            </ItemsControl>
+
+        </StackPanel>
+
+        <!--Automatic color-->
+        <StackPanel Orientation="Horizontal" 
+                    Grid.Row="2"
+                    Background="{DynamicResource LabelBackground}">
+
+            <Border 
+                Background="{StaticResource DefaultForegroundColorBrush}" 
+                BorderThickness="1"
+                BorderBrush="{StaticResource DefaultBorderColorBrush}"
+                Margin="8"
+                Width="20" 
+                Height="20"/>
+
+            <Label 
+            Content="Automatic"
+            Padding="6"
+            VerticalContentAlignment="Center"
+            HorizontalContentAlignment="Left"
+            Foreground="{StaticResource ForegroundColor}"
+            
+            />
+
+        </StackPanel>
+
+
+    </Grid>
+
+
+
+</UserControl>
