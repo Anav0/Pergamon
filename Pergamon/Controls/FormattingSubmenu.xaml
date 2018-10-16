@@ -14,10 +14,6 @@
             Grid.Row="0"
             >
 
-        <StackPanel.InputBindings>
-            <MouseBinding MouseAction="LeftClick" Command="{Binding HideOptionsCommand}"/>
-        </StackPanel.InputBindings>
-
         <!--Font options-->
         <StackPanel
                 Orientation="Horizontal"

@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="Pergamon.FileRep"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Pergamon"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" 
+             d:DesignWidth="200"
+             Background="White"
+             d:DataContext="{x:Static local:FileRepDesign.Instance}"
+             >
+    
+    <!--Main container-->
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+
+        </Grid.ColumnDefinitions>
+        
+        
+        <!--File icon-->
+        <Image
+            Source="{Binding FileIcon}"
+            Grid.Column="0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="6"
+            />
+
+
+        <!--File informations-->
+        <StackPanel Orientation="Vertical"
+                    Grid.Column="1">
+            
+            <!--File name-->
+            <Label
+                Foreground="{StaticResource DefaultBorderColorBrush}"
+                Content="{Binding FileName}"
+                Margin="0" 
+                Padding="6"
+                />
+            
+            <!--File size-->
+            <Label 
+                Foreground="{StaticResource DefaultBorderColorBrush}"
+                Content="{Binding FileSize, 
+                Converter={local:ByteSquasherConverter}}" 
+                Margin="0" 
+                Padding="6 0 0 0"
+                FontSize="{StaticResource FontSizeSmall}"
+                   />
+
+        </StackPanel>
+
+        <Button Style="{StaticResource IconButton}"
+                Grid.Column="2"
+                Padding="6"
+                Margin="0"
+                Command="{Binding DeleteFileCommand}"
+                Content="{StaticResource FontAwesomeClose}"
+                />
+
+    </Grid>
+</UserControl>

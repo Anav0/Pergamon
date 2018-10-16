@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.Drawing;
+using System.IO;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
@@ -26,11 +29,11 @@ namespace Pergamon
 
                 if (_CaretPosition.GetTextRunLength(LogicalDirection.Backward) != 0 && !string.IsNullOrWhiteSpace(_CaretPosition.GetTextInRun(LogicalDirection.Backward)))
                 {
-                    StaticViewModels.FormattingSubMenuVMInstance.SelectedFontSize = (double)_CaretPosition.Parent.GetValue(TextElement.FontSizeProperty);
-                    StaticViewModels.FormattingSubMenuVMInstance.SelectedFontFamily = (FontFamily)_CaretPosition.Parent.GetValue(TextElement.FontFamilyProperty);
+                    StaticViewModels.FormattingSubmenuVMInstance.SelectedFontSize = (double)_CaretPosition.Parent.GetValue(TextElement.FontSizeProperty);
+                    StaticViewModels.FormattingSubmenuVMInstance.SelectedFontFamily = (System.Windows.Media.FontFamily)_CaretPosition.Parent.GetValue(TextElement.FontFamilyProperty);
                 }
 
-                StaticViewModels.FormattingSubMenuVMInstance.UpdateButtonsState(CaretPosition, SelectedText);
+                StaticViewModels.FormattingSubmenuVMInstance.UpdateButtonsState(CaretPosition, SelectedText);
             }
         }
 
@@ -38,16 +41,19 @@ namespace Pergamon
 
         public double LineSpacing { get; set; }
 
+        public ObservableCollection<FileRepViewModel> AttachedFiles { get; set; } = new ObservableCollection<FileRepViewModel>();
+
         #endregion
 
         public TextEditorViewModel()
         {
 
-            StaticViewModels.FormattingSubMenuVMInstance.OnLineSpacingChanged += OnLineSpacingChanged;
-            StaticViewModels.FormattingSubMenuVMInstance.OnApplyMarkerColorActionCalled += OnApplyMarkerAction;
-            StaticViewModels.FormattingSubMenuVMInstance.OnApplyFontColorActionCalled += OnApplyFontColorAction;
-            StaticViewModels.FormattingSubMenuVMInstance.OnFontFamilyChanged += OnFontFamilyChanged;
-            StaticViewModels.FormattingSubMenuVMInstance.OnFontSizeChanged += OnFontSizeChanged;
+            StaticViewModels.FormattingSubmenuVMInstance.OnLineSpacingChanged += OnLineSpacingChanged;
+            StaticViewModels.FormattingSubmenuVMInstance.OnApplyMarkerColorActionCalled += OnApplyMarkerAction;
+            StaticViewModels.FormattingSubmenuVMInstance.OnApplyFontColorActionCalled += OnApplyFontColorAction;
+            StaticViewModels.FormattingSubmenuVMInstance.OnFontFamilyChanged += OnFontFamilyChanged;
+            StaticViewModels.FormattingSubmenuVMInstance.OnFontSizeChanged += OnFontSizeChanged;
+            StaticViewModels.InsertSubmenuVMInstance.OnAttachFileAction += OnAttachedFilePathsChanged;
         }
 
         #region Event handlers
@@ -116,6 +122,21 @@ namespace Pergamon
 
             SelectedText.ApplyPropertyValue(TextElement.FontFamilyProperty, formattingVM.SelectedFontFamily);
             AdjustTextSelection();
+        }
+
+
+        private void OnAttachedFilePathsChanged(object sender, EventArgs e)
+        {
+            var args = (FilePathEventArgs) e;
+
+            var fileVM = new FileRepViewModel
+            {
+                FileName = Path.GetFileName(args.FilePath),
+                FileSize = new FileInfo(args.FilePath).Length,
+                FileIcon = Icon.ExtractAssociatedIcon(args.FilePath).ToImageSource(),
+            };
+
+            AttachedFiles.Add(fileVM);
         }
 
         private void AdjustTextSelection()

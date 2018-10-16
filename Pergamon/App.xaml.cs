@@ -20,7 +20,9 @@ namespace Pergamon
 
         private void SetupStaticVM()
         {
-            StaticViewModels.FormattingSubMenuVMInstance = new FormattingSubmenuViewModel();
+            StaticViewModels.FormattingSubmenuVMInstance = new FormattingSubmenuViewModel();
+
+            StaticViewModels.InsertSubmenuVMInstance = new InsertSubmenuViewModel();
         }
     }
 }

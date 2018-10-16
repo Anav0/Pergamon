@@ -4,11 +4,11 @@ using System.Windows.Controls;
 namespace Pergamon
 {
     /// <summary>
-    /// Interaction logic for FormattingSubmenu.xaml
+    /// Interaction logic for InsertSubmenu.xaml
     /// </summary>
-    public partial class FormattingSubmenu : UserControl
+    public partial class InsertSubmenu : UserControl
     {
-        public FormattingSubmenu()
+        public InsertSubmenu()
         {
             InitializeComponent();
         }
@@ -21,9 +21,6 @@ namespace Pergamon
 
         // Using a DependencyProperty as the backing store for ActionTarget.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ActionTargetProperty =
-            DependencyProperty.Register("ActionTarget", typeof(Control), typeof(FormattingSubmenu), new PropertyMetadata(null));
-
-
-
+            DependencyProperty.Register("ActionTarget", typeof(Control), typeof(InsertSubmenu), new PropertyMetadata(null));
     }
 }

@@ -1,0 +1,91 @@
+﻿<UserControl x:Class="Pergamon.IconButonWidthText"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:local="clr-namespace:Pergamon"
+        mc:Ignorable="d" 
+        d:DesignHeight="60" 
+        d:DesignWidth="150"
+        Name="control" 
+        Background="{StaticResource DefaultTabBackgroundColorBrush}"
+        Foreground="{StaticResource DefaultForegroundColorBrush}"
+             >
+
+    <Button Style="{DynamicResource style}" 
+            Command="{Binding Command, ElementName=control}"
+            Foreground="{Binding Foreground, ElementName=control}"
+            Background="{Binding Background, ElementName=control}"
+            >
+        
+        
+    </Button>
+
+    <UserControl.Resources>
+        
+        <Style x:Key="style" 
+               TargetType="{x:Type Button}" 
+               BasedOn="{StaticResource ButtonBaseStyle}">
+
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Background" Value="Transparent"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock 
+                                Foreground="{Binding Foreground, ElementName=control}"
+                                FontFamily="{StaticResource FontAwesomeSolid}"
+                                Grid.Column="0"
+                                FontSize="{StaticResource FontSizeBig}"
+                                Text="{Binding Path=Icon, ElementName=control, FallbackValue={StaticResource FontAwesomePaperclip}}"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Padding="8"
+                                />
+
+                            <TextBlock 
+                                Foreground="{Binding Foreground, ElementName=control}"
+                                Grid.Column="1"
+                                Text="{Binding Path=Text, ElementName=control, FallbackValue=Paperclip}"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Padding="8"
+                                />  
+
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            
+            
+            <!--Triggers-->
+            <Style.Triggers>
+                    <EventTrigger RoutedEvent="MouseEnter">
+                        <BeginStoryboard >
+                            <Storyboard >
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0.75" Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="MouseLeave">
+                        <BeginStoryboard >
+                            <Storyboard >
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+            </Style.Triggers>
+
+        </Style>
+    </UserControl.Resources>
+
+
+</UserControl>

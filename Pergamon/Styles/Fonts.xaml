@@ -47,8 +47,9 @@
 
     <system:String x:Key="FontAwesomeMarker">&#xf591;</system:String>
 
-
-
+    <system:String x:Key="FontAwesomePaperclip">&#xf0c6;</system:String>
+    <system:String x:Key="FontAwesomeImage">&#xf03e;</system:String>
+    <system:String x:Key="FontAwesomeClose">&#xf00d;</system:String>
 
     <!--Font sizes-->
     <system:Double x:Key="FontSizeSmallest">4</system:Double>

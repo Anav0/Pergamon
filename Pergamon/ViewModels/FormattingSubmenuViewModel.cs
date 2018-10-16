@@ -178,8 +178,6 @@ namespace Pergamon
 
         public ICommand ShowAdditionalAlignOptionsCommand { get; set; }
 
-        public ICommand HideOptionsCommand { get; set; }
-
         public ICommand ApplyMarkerColorCommand { get; set; }
 
         public ICommand ApplyFontColorCommand { get; set; }

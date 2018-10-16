@@ -18,7 +18,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type local:TextEditor}">
 
-                        <!--Border for main container-->
+                        <!--Border of main container-->
                         <Border
                             BorderThickness="1"
                             BorderBrush="{StaticResource DefaultBorderColorBrush}"
@@ -35,7 +35,11 @@
                                 >
 
                                 <!--Menu and submenu container-->
-                                <Grid 
+                                <StackPanel Orientation="Vertical">
+
+
+                                    <!--Menus/submenus-->
+                                    <Grid 
                                     DockPanel.Dock="{Binding BarPlacement, ElementName=control}"
                                     >
 
@@ -90,19 +94,48 @@
 
                                         <!--Formatting submenu-->
                                         <local:FormattingSubmenu 
-                                        DataContext="{Binding Source={x:Static local:StaticViewModels.FormattingSubMenuVMInstance}}"
+                                            DataContext="{Binding Source={x:Static local:StaticViewModels.FormattingSubmenuVMInstance}}"
+                                            ActionTarget="{Binding ElementName=editor}"
+                                            />
+
+                                    </Border>
+
+                                    <!--Insert submenu container-->
+                                    <Border
+                                        Grid.Row="1"
+                                        Background="{Binding BarBackground, ElementName=control}"
+                                        Visibility="{Binding SelectedMenu, 
+                                        Converter={local:EnumToVisibilityGoneConverter},
+                                        ConverterParameter={x:Static local:MenuCategories.Insert}}"
+                                        >
+
+                                        <!--Formatting submenu-->
+                                        <local:InsertSubmenu 
+                                        DataContext="{Binding Source={x:Static local:StaticViewModels.InsertSubmenuVMInstance}}"
                                         ActionTarget="{Binding ElementName=editor}"
                                         />
 
                                     </Border>
-
 
                                     <!--Selected submenu-->
                                     <!--<ContentPresenter 
                                         Content="{Binding SelectedMenu, Converter={local:MenuCategoriesToControlConverter}}"/>-->
 
                                 </Grid>
+                                
+                                    <!--Attached files list-->
+                                    <ListView ItemsSource="{Binding AttachedFiles}">
 
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <local:FileRep DataContext="{Binding}"/>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+
+                                </StackPanel>
+                                
+                                
                                 <!--Editor-->
                                 <RichTextBox
                                         x:Name="editor"
@@ -134,6 +167,7 @@
                                 </RichTextBox>
 
                             </DockPanel>
+                        
                         </Border>
 
                         <!--Triggers-->
