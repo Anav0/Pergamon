@@ -19,20 +19,18 @@ namespace Pergamon
 
             set
             {
-                //TODO: fix line spacing
                 if (_CaretPosition == value)
                     return;
 
                 _CaretPosition = value;
-
-
-                StaticViewModels.FormattingSubMenuVMInstance.UpdateButtonsState(CaretPosition, SelectedText);
 
                 if (_CaretPosition.GetTextRunLength(LogicalDirection.Backward) != 0 && !string.IsNullOrWhiteSpace(_CaretPosition.GetTextInRun(LogicalDirection.Backward)))
                 {
                     StaticViewModels.FormattingSubMenuVMInstance.SelectedFontSize = (double)_CaretPosition.Parent.GetValue(TextElement.FontSizeProperty);
                     StaticViewModels.FormattingSubMenuVMInstance.SelectedFontFamily = (FontFamily)_CaretPosition.Parent.GetValue(TextElement.FontFamilyProperty);
                 }
+
+                StaticViewModels.FormattingSubMenuVMInstance.UpdateButtonsState(CaretPosition, SelectedText);
             }
         }
 
@@ -44,9 +42,12 @@ namespace Pergamon
 
         public TextEditorViewModel()
         {
-            StaticViewModels.FormattingSubMenuVMInstance.OnApplyMarkerColorActionCalled += OnApplyMarkerAction;
 
             StaticViewModels.FormattingSubMenuVMInstance.OnLineSpacingChanged += OnLineSpacingChanged;
+            StaticViewModels.FormattingSubMenuVMInstance.OnApplyMarkerColorActionCalled += OnApplyMarkerAction;
+            StaticViewModels.FormattingSubMenuVMInstance.OnApplyFontColorActionCalled += OnApplyFontColorAction;
+            StaticViewModels.FormattingSubMenuVMInstance.OnFontFamilyChanged += OnFontFamilyChanged;
+            StaticViewModels.FormattingSubMenuVMInstance.OnFontSizeChanged += OnFontSizeChanged;
         }
 
         #region Event handlers
@@ -57,6 +58,25 @@ namespace Pergamon
                 return;
 
             this.LineSpacing = formattingVM.LineSpacing;
+            AdjustTextSelection();
+        }
+
+        private void OnApplyFontColorAction(object sender, EventArgs e)
+        {
+            if (!(sender is FormattingSubmenuViewModel formattingVM))
+                return;
+
+            try
+            {
+                if (SelectedText.GetPropertyValue(TextElement.ForegroundProperty) == formattingVM.SelectedFontColor)
+                    SelectedText.ApplyPropertyValue(TextElement.ForegroundProperty, new SolidColorBrush(Colors.Transparent));
+                else
+                    SelectedText.ApplyPropertyValue(TextElement.ForegroundProperty, formattingVM.SelectedFontColor);
+            }
+            catch (Exception ex)
+            {
+                //TODO: log this exception
+            }
         }
 
         private void OnApplyMarkerAction(object sender, System.EventArgs e)
@@ -66,12 +86,10 @@ namespace Pergamon
 
             try
             {
-                var element = (TextElement)CaretPosition.Parent;
-
-                if (element.Background == formattingVM.SelectedMarkerColor)
-                    element.Background = new SolidColorBrush(Colors.Transparent);
+                if (SelectedText.GetPropertyValue(TextElement.BackgroundProperty) == formattingVM.SelectedMarkerColor)
+                    SelectedText.ApplyPropertyValue(TextElement.BackgroundProperty, new SolidColorBrush(Colors.Transparent));
                 else
-                    element.Background = formattingVM.SelectedMarkerColor;
+                    SelectedText.ApplyPropertyValue(TextElement.BackgroundProperty, formattingVM.SelectedMarkerColor);
             }
             catch(Exception ex)
             {
@@ -79,6 +97,30 @@ namespace Pergamon
             }
 
             
+        }
+
+        private void OnFontSizeChanged(object sender, EventArgs e)
+        {
+            if (!(sender is FormattingSubmenuViewModel formattingVM))
+                return;
+
+            SelectedText.ApplyPropertyValue(TextElement.FontSizeProperty, formattingVM.SelectedFontSize);
+            AdjustTextSelection();
+           
+        }
+
+        private void OnFontFamilyChanged(object sender, EventArgs e)
+        {
+            if (!(sender is FormattingSubmenuViewModel formattingVM) || formattingVM.SelectedFontFamily==null)
+                return;
+
+            SelectedText.ApplyPropertyValue(TextElement.FontFamilyProperty, formattingVM.SelectedFontFamily);
+            AdjustTextSelection();
+        }
+
+        private void AdjustTextSelection()
+        {
+            SelectedText?.Select(SelectedText.Start, SelectedText.End);
         }
 
         #endregion

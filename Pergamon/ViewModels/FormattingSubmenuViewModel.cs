@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using static Pergamon.ButtonStateHelper;
 
 namespace Pergamon
 {
@@ -32,7 +33,9 @@ namespace Pergamon
         public bool IsSuperscriptChecked { get; set; }
         public bool IsSubscriptChecked { get; set; }
 
-        public bool IsMarkersColorPickerVisible { get; set; }
+        public bool IsMarkerColorPickerVisible { get; set; }
+        public bool IsFontColorPickerVisible { get; set; }
+        public bool IsFontColorPickerChecked { get; set; }
 
         public bool IsMarkersColorPickerChecked { get; set; }
 
@@ -44,9 +47,31 @@ namespace Pergamon
 
         public ObservableCollection<double> SpacingOptions { get; set; }
 
-        public double SelectedFontSize { get; set; } = 12;
+        private double _SelectedFontSize = 12;
+        public double SelectedFontSize { get => _SelectedFontSize;
+            set
+            {
+                if (_SelectedFontSize == value)
+                    return;
 
-        public FontFamily SelectedFontFamily { get; set; }
+                _SelectedFontSize = value;
+
+                RaiseOnFontSizeChanged();
+            }
+        }
+
+        private FontFamily _SelectedFontFamily;
+        public FontFamily SelectedFontFamily { get => _SelectedFontFamily;
+            set
+            {
+                if (_SelectedFontFamily == value)
+                    return;
+
+                _SelectedFontFamily = value;
+
+                RaiseOnFontFamilyChanged();
+            }
+        }
 
         public double LineSpacing { get; set; } = 0.5d;
 
@@ -81,7 +106,13 @@ namespace Pergamon
 
         public event EventHandler OnApplyMarkerColorActionCalled;
 
+        public event EventHandler OnApplyFontColorActionCalled;
+
         public event EventHandler OnLineSpacingChanged;
+
+        public event EventHandler OnFontSizeChanged;
+
+        public event EventHandler OnFontFamilyChanged;
 
         #endregion
 
@@ -89,17 +120,25 @@ namespace Pergamon
 
         private void RaiseOnLineSpacingChanged() => OnLineSpacingChanged?.Invoke(this, new EventArgs());
 
-        private void RaiseOnApplyMarkerColor()   => OnApplyMarkerColorActionCalled?.Invoke(this, new EventArgs());
+        private void RaiseOnApplyMarkerColor() => OnApplyMarkerColorActionCalled?.Invoke(this, new EventArgs());
+
+        private void RaiseOnApplyFontColor() => OnApplyFontColorActionCalled?.Invoke(this, new EventArgs());
+
+        private void RaiseOnFontSizeChanged() => OnFontSizeChanged?.Invoke(this, new EventArgs());
+
+        private void RaiseOnFontFamilyChanged() => OnFontFamilyChanged?.Invoke(this, new EventArgs());
 
         #endregion
 
         public FormattingSubmenuViewModel()
         {
-            ShowFontColorPickerCommand = new RelayCommand(ShowFontColorPicker);
             ShowMarkerColorPickerCommand = new RelayCommand(ShowMarkerColorPicker);
+            ShowFontColorPickerCommand = new RelayCommand(ShowFontColorPicker);
+
             ShowAdditionalOptionsCommand = new RelayCommand(ShowAdditionalOptions);
             ShowAdditionalAlignOptionsCommand = new RelayCommand(ShowAdditionalAlignOptions);
             ApplyMarkerColorCommand = new RelayCommand(RaiseOnApplyMarkerColor);
+            ApplyFontColorCommand = new RelayCommand(RaiseOnApplyFontColor);
 
             FontSizes = new ObservableCollection<double>();
             FillFontSizesList();
@@ -112,18 +151,28 @@ namespace Pergamon
 
             ColorPickerVM = new ColorPickerViewModel();
 
-            ColorPickerVM.OnSelectedStandardColorChanged += ((s, e) =>
+
+            ColorPickerVM.OnColorSelectionChanged += ((s, e) =>
             {
-                SelectedMarkerColor = ColorPickerVM.SelectedStandardBrush;
-                RaiseOnApplyMarkerColor();
+                if(IsFontColorPickerVisible)
+                {
+                    SelectedFontColor = ColorPickerVM.SelectedStandardBrush;
+                    RaiseOnApplyFontColor();
+                }
+                else
+                {
+                    SelectedMarkerColor = ColorPickerVM.SelectedStandardBrush;
+                    RaiseOnApplyMarkerColor();
+                }
+
             });
         }
 
         #region Public Command
 
-        public ICommand ShowFontColorPickerCommand { get; set; }
-
         public ICommand ShowMarkerColorPickerCommand { get; set; }
+
+        public ICommand ShowFontColorPickerCommand { get; set; }
 
         public ICommand ShowAdditionalOptionsCommand { get; set; }
 
@@ -133,15 +182,15 @@ namespace Pergamon
 
         public ICommand ApplyMarkerColorCommand { get; set; }
 
+        public ICommand ApplyFontColorCommand { get; set; }
+
         #endregion
 
         #region Command methods
 
-        private void ShowMarkerColorPicker() => IsMarkersColorPickerVisible ^= true;
+        private void ShowMarkerColorPicker() => IsMarkerColorPickerVisible ^= true;
 
-        private void ShowFontColorPicker()
-        {
-        }
+        private void ShowFontColorPicker() => IsFontColorPickerVisible ^= true;
 
         private void ShowAdditionalOptions() => IsAdditionalOptionVisible ^= true;
 
@@ -154,22 +203,23 @@ namespace Pergamon
         public void UpdateButtonsState(TextPointer currentCaretPositon, TextSelection currentSelectedText)
         {
 
-            IsBoldChecked = ButtonStateHelper.CheckDependencyPropertyState(currentCaretPositon, TextElement.FontWeightProperty, FontWeights.Bold);
-            IsItalicChecked = ButtonStateHelper.CheckDependencyPropertyState(currentCaretPositon, TextElement.FontStyleProperty, FontStyles.Italic);
-            IsUnderlineChecked = ButtonStateHelper.CheckDependencyPropertyState(currentCaretPositon, TextBlock.TextDecorationsProperty, TextDecorations.Underline);
+            IsBoldChecked = CheckDependencyPropertyState(currentCaretPositon, TextElement.FontWeightProperty, FontWeights.Bold);
+            IsItalicChecked = CheckDependencyPropertyState(currentCaretPositon, TextElement.FontStyleProperty, FontStyles.Italic);
+            IsUnderlineChecked = CheckDependencyPropertyState(currentCaretPositon, TextBlock.TextDecorationsProperty, TextDecorations.Underline);
 
-            IsLeftAlignChecked = ButtonStateHelper.CheckDependencyPropertyState(currentCaretPositon, Paragraph.TextAlignmentProperty, TextAlignment.Left);
-            IsRightAlignChecked = ButtonStateHelper.CheckDependencyPropertyState(currentCaretPositon, Paragraph.TextAlignmentProperty, TextAlignment.Right);
-            IsCenterAlignChecked = ButtonStateHelper.CheckDependencyPropertyState(currentCaretPositon, Paragraph.TextAlignmentProperty, TextAlignment.Center);
-            IsJustifyChecked = ButtonStateHelper.CheckDependencyPropertyState(currentCaretPositon, Paragraph.TextAlignmentProperty, TextAlignment.Justify);
+            IsLeftAlignChecked = CheckDependencyPropertyState(currentCaretPositon, Paragraph.TextAlignmentProperty, TextAlignment.Left);
+            IsRightAlignChecked = CheckDependencyPropertyState(currentCaretPositon, Paragraph.TextAlignmentProperty, TextAlignment.Right);
+            IsCenterAlignChecked = CheckDependencyPropertyState(currentCaretPositon, Paragraph.TextAlignmentProperty, TextAlignment.Center);
+            IsJustifyChecked = CheckDependencyPropertyState(currentCaretPositon, Paragraph.TextAlignmentProperty, TextAlignment.Justify);
 
-            IsSubscriptChecked = ButtonStateHelper.CheckDependencyPropertyState(currentCaretPositon, Typography.VariantsProperty, FontVariants.Subscript);
-            IsSuperscriptChecked = ButtonStateHelper.CheckDependencyPropertyState(currentCaretPositon, Typography.VariantsProperty, FontVariants.Superscript);
+            IsSubscriptChecked = CheckDependencyPropertyState(currentCaretPositon, Typography.VariantsProperty, FontVariants.Subscript);
+            IsSuperscriptChecked = CheckDependencyPropertyState(currentCaretPositon, Typography.VariantsProperty, FontVariants.Superscript);
 
-            IsDottedListChecked = ButtonStateHelper.CheckTextMarkerPropertyState(currentSelectedText, TextMarkerStyle.Disc);
-            IsNumericListChecked = ButtonStateHelper.CheckTextMarkerPropertyState(currentSelectedText, TextMarkerStyle.Decimal);
+            IsDottedListChecked = CheckTextMarkerPropertyState(currentSelectedText, TextMarkerStyle.Disc);
+            IsNumericListChecked = CheckTextMarkerPropertyState(currentSelectedText, TextMarkerStyle.Decimal);
 
-            IsMarkersColorPickerChecked = ButtonStateHelper.CheckDependencyPropertyState(currentCaretPositon, TextElement.BackgroundProperty, SelectedMarkerColor);
+            IsMarkersColorPickerChecked = CheckDependencyPropertyState(currentCaretPositon, TextElement.BackgroundProperty, SelectedMarkerColor);
+            IsFontColorPickerChecked = CheckDependencyPropertyState(currentCaretPositon, TextElement.ForegroundProperty, SelectedFontColor);
         }
 
         private void FillFontSizesList()

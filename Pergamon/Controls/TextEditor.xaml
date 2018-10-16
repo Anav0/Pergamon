@@ -28,30 +28,38 @@
                             Name="mainContainer"
                             >
 
+                            <!--Main container-->
                             <DockPanel 
                                 LastChildFill="True"
                                 Background="White"
                                 >
 
                                 <!--Menu and submenu container-->
-                                <StackPanel 
-                                    Orientation="Vertical"
+                                <Grid 
                                     DockPanel.Dock="{Binding BarPlacement, ElementName=control}"
                                     >
 
-
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    
                                     <!--TODO: check if keeping all different menus is better in terms of performance than using ContentPresenter-->
                                     <!--Menu-->
                                     <StackPanel
+                                        Grid.Row="0"
                                         Margin="4"
                                         Orientation="Horizontal">
 
+                                        <!--Formatting menu-->
                                         <RadioButton Style="{StaticResource UnderscoreRadioButton}" 
                                                      IsChecked="{Binding SelectedMenu, 
                                                      Converter={local:EnumToBooleanConverter},
                                                      ConverterParameter={x:Static local:MenuCategories.Format}}"
                                                      GroupName="menuCategories" 
                                                      Content="Formatting"/>
+
+                                        <!--Insert menu-->
                                         <RadioButton Style="{StaticResource UnderscoreRadioButton}" 
                                                      GroupName="menuCategories" 
                                                      Content="Insert"
@@ -59,6 +67,8 @@
                                                      Converter={local:EnumToBooleanConverter},
                                                      ConverterParameter={x:Static local:MenuCategories.Insert}}"
                                                      />
+
+                                        <!--Options menu-->
                                         <RadioButton Style="{StaticResource UnderscoreRadioButton}" 
                                                      GroupName="menuCategories" 
                                                      Content="Options"
@@ -71,6 +81,7 @@
 
                                     <!--Formatting submenu container-->
                                     <Border
+                                        Grid.Row="1"
                                         Background="{Binding BarBackground, ElementName=control}"
                                         Visibility="{Binding SelectedMenu, 
                                         Converter={local:EnumToVisibilityGoneConverter},
@@ -90,7 +101,7 @@
                                     <!--<ContentPresenter 
                                         Content="{Binding SelectedMenu, Converter={local:MenuCategoriesToControlConverter}}"/>-->
 
-                                </StackPanel>
+                                </Grid>
 
                                 <!--Editor-->
                                 <RichTextBox

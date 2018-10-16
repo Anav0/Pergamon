@@ -59,7 +59,6 @@ namespace Pergamon
 
         #endregion
 
-
         private void editor_SelectionChanged(object sender, RoutedEventArgs e)
         {
             if (!(sender is RichTextBox editor))

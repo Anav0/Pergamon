@@ -20,7 +20,7 @@ namespace Pergamon
 
         public ColorPickerViewModel()
         {
-            StandardColorClickedCommand = new RelayCommandWithParameter((param) => StandardColorClicked(param));
+            StandardColorClickedCommand = new RelayCommandWithParameter((param) => ChangeSelectedColor(param));
 
             StandardColors = new ObservableCollection<SolidColorBrush>();
 
@@ -33,21 +33,21 @@ namespace Pergamon
 
         #endregion
 
-        #region Event handlers
+        #region Events
 
-        public event EventHandler OnSelectedStandardColorChanged;
+        public event EventHandler OnColorSelectionChanged;
 
         #endregion
 
         #region Event raisers
 
-        private void RaiseOnSelectedStandardColorChanged() => OnSelectedStandardColorChanged?.Invoke(this, new EventArgs());
+        private void RaiseOnColorSelectionChanged() => OnColorSelectionChanged?.Invoke(this, new EventArgs());
 
         #endregion
 
         #region Command methods
 
-        private void StandardColorClicked(object param)
+        private void ChangeSelectedColor(object param)
         {
 
             if (!(param is SolidColorBrush selectedBursh))
@@ -59,7 +59,7 @@ namespace Pergamon
                     return;
 
                 SelectedStandardBrush = selectedBursh;
-                RaiseOnSelectedStandardColorChanged();
+                RaiseOnColorSelectionChanged();
             }
             catch(IndexOutOfRangeException exp)
             {
