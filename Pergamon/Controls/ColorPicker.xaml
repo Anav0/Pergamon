@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="350" 
              Background="{StaticResource DefaultTabBackgroundColorBrush}"
-             d:DataContext="{x:Static local:ColorPickerDesign.Instance}">
+             >
 
     <UserControl.Resources>
         <ObjectDataProvider 

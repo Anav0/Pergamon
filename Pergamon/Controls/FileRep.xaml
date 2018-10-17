@@ -7,8 +7,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="50" 
              d:DesignWidth="200"
-             Background="White"
              d:DataContext="{x:Static local:FileRepDesign.Instance}"
+             Cursor="Hand"
+             Background="{StaticResource DefaultTabBackgroundColorBrush}"
+             MaxWidth="250"
              >
     
     <!--Main container-->
@@ -17,7 +19,6 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
-
         </Grid.ColumnDefinitions>
         
         
@@ -28,17 +29,26 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Margin="6"
-            />
+            ToolTip="Open file"
+            >
 
+            <Image.InputBindings>
+                <MouseBinding Command="{Binding FileClickCommand}" MouseAction="LeftClick"/>
+            </Image.InputBindings>
+        </Image>
 
         <!--File informations-->
         <StackPanel Orientation="Vertical"
-                    Grid.Column="1">
+                    Grid.Column="1"
+                    ToolTip="Open file"
+                    >
             
             <!--File name-->
-            <Label
+            <TextBlock
+                TextTrimming="CharacterEllipsis"
+                FontFamily="{StaticResource NotoSansRegular}"
                 Foreground="{StaticResource DefaultBorderColorBrush}"
-                Content="{Binding FileName}"
+                Text="{Binding FileName}"
                 Margin="0" 
                 Padding="6"
                 />
@@ -53,15 +63,77 @@
                 FontSize="{StaticResource FontSizeSmall}"
                    />
 
+
+            <StackPanel.InputBindings>
+                <MouseBinding Command="{Binding FileClickCommand}" MouseAction="LeftClick"/>
+            </StackPanel.InputBindings>
         </StackPanel>
 
-        <Button Style="{StaticResource IconButton}"
-                Grid.Column="2"
-                Padding="6"
-                Margin="0"
-                Command="{Binding DeleteFileCommand}"
-                Content="{StaticResource FontAwesomeClose}"
-                />
+        <!--Remove button-->
+        <Button 
+            Style="{StaticResource IconButton}"
+            Grid.Column="2"
+            Padding="6"
+            Margin="0"
+            Command="{Binding DeleteFileCommand}"
+            Content="{StaticResource FontAwesomeClose}"
+            ToolTip="Remove file"
+            >
+            <Button.Triggers>
+                <EventTrigger RoutedEvent="MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)"
+                                            To="Red"
+                                            Duration="0:0:0.1"/>
+                            
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Foreground).(SolidColorBrush.Color)"
+                                            To="white"
+                                            Duration="0:0:0.1"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+
+                <EventTrigger RoutedEvent="MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)"
+                                            To="Transparent"
+                                            Duration="0:0:0.2"/>
+                            
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Foreground).(SolidColorBrush.Color)"
+                                            To="{StaticResource DefaultTabForegroundColor}"
+                                            Duration="0:0:0.2"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Button.Triggers>
+        </Button>
 
     </Grid>
+    
+    <UserControl.Triggers>
+        <EventTrigger RoutedEvent="MouseEnter">
+            <BeginStoryboard>
+                <Storyboard>
+                    <ColorAnimation Storyboard.TargetProperty="(UserControl.Background).(SolidColorBrush.Color)"
+                                            To="{StaticResource DefaultDarkerTabBackgroundColor}"
+                                            Duration="0:0:0.1"/>
+
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+
+        <EventTrigger RoutedEvent="MouseLeave">
+            <BeginStoryboard>
+                <Storyboard>
+                    <ColorAnimation Storyboard.TargetProperty="(UserControl.Background).(SolidColorBrush.Color)"
+                                            To="{StaticResource DefaultTabBackgroundColor}"
+                                            Duration="0:0:0.1"/>
+
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </UserControl.Triggers>
+
 </UserControl>

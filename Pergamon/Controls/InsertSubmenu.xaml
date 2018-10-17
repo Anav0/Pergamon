@@ -8,14 +8,14 @@
              d:DesignHeight="60" d:DesignWidth="800">
     
     <StackPanel Orientation="Horizontal" 
-                Background="{StaticResource DefaultTabBackgroundColorBrush}">
+                Background="Transparent"
+                >
 
         <!--Attach file button-->
         <local:IconButonWidthText 
             Foreground="{StaticResource DefaultTabForegroundColorBrush}"
             Text="File"
             Icon="{StaticResource FontAwesomePaperclip}" 
-            VerticalAlignment="Center"
             Command="{Binding AttachFileCommand}"
             />
 
@@ -24,7 +24,6 @@
             Foreground="{StaticResource DefaultTabForegroundColorBrush}"
             Text="Tabel"
             Icon="{StaticResource FontAwesomeTable}" 
-            VerticalAlignment="Center"
             Command="{Binding InsertTableCommand}"
             />
 
@@ -33,7 +32,6 @@
             Foreground="{StaticResource DefaultTabForegroundColorBrush}"
             Text="Image"
             Icon="{StaticResource FontAwesomeImage}" 
-            VerticalAlignment="Center"
             Command="{Binding InsertImageCommand}"
             />
 
@@ -42,7 +40,6 @@
             Foreground="{StaticResource DefaultTabForegroundColorBrush}"
             Text="Link"
             Icon="{StaticResource FontAwesomeLink}" 
-            VerticalAlignment="Center"
             Command="{Binding InsertLinkCommand}"
             />
 

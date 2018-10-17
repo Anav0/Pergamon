@@ -29,8 +29,8 @@
                             >
 
                             <!--Main container-->
-                            <DockPanel 
-                                LastChildFill="True"
+                            <StackPanel 
+                                Orientation="Vertical"
                                 Background="White"
                                 >
 
@@ -39,32 +39,30 @@
 
 
                                     <!--Menus/submenus-->
-                                    <Grid 
-                                    DockPanel.Dock="{Binding BarPlacement, ElementName=control}"
-                                    >
+                                    <Grid>
 
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-                                    
-                                    <!--TODO: check if keeping all different menus is better in terms of performance than using ContentPresenter-->
-                                    <!--Menu-->
-                                    <StackPanel
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="54"/>
+                                        </Grid.RowDefinitions>
+
+                                        <!--TODO: check if keeping all different menus is better in terms of performance than using ContentPresenter-->
+                                        <!--Menu-->
+                                        <StackPanel
                                         Grid.Row="0"
                                         Margin="4"
                                         Orientation="Horizontal">
 
-                                        <!--Formatting menu-->
-                                        <RadioButton Style="{StaticResource UnderscoreRadioButton}" 
+                                            <!--Formatting menu-->
+                                            <RadioButton Style="{StaticResource UnderscoreRadioButton}" 
                                                      IsChecked="{Binding SelectedMenu, 
                                                      Converter={local:EnumToBooleanConverter},
                                                      ConverterParameter={x:Static local:MenuCategories.Format}}"
                                                      GroupName="menuCategories" 
                                                      Content="Formatting"/>
 
-                                        <!--Insert menu-->
-                                        <RadioButton Style="{StaticResource UnderscoreRadioButton}" 
+                                            <!--Insert menu-->
+                                            <RadioButton Style="{StaticResource UnderscoreRadioButton}" 
                                                      GroupName="menuCategories" 
                                                      Content="Insert"
                                                      IsChecked="{Binding SelectedMenu, 
@@ -72,8 +70,8 @@
                                                      ConverterParameter={x:Static local:MenuCategories.Insert}}"
                                                      />
 
-                                        <!--Options menu-->
-                                        <RadioButton Style="{StaticResource UnderscoreRadioButton}" 
+                                            <!--Options menu-->
+                                            <RadioButton Style="{StaticResource UnderscoreRadioButton}" 
                                                      GroupName="menuCategories" 
                                                      Content="Options"
                                                      IsChecked="{Binding SelectedMenu, 
@@ -81,10 +79,10 @@
                                                      ConverterParameter={x:Static local:MenuCategories.Options}}"
                                                      />
 
-                                    </StackPanel>
+                                        </StackPanel>
 
-                                    <!--Formatting submenu container-->
-                                    <Border
+                                        <!--Formatting submenu container-->
+                                        <Border
                                         Grid.Row="1"
                                         Background="{Binding BarBackground, ElementName=control}"
                                         Visibility="{Binding SelectedMenu, 
@@ -92,16 +90,16 @@
                                         ConverterParameter={x:Static local:MenuCategories.Format}}"
                                         >
 
-                                        <!--Formatting submenu-->
-                                        <local:FormattingSubmenu 
+                                            <!--Formatting submenu-->
+                                            <local:FormattingSubmenu 
                                             DataContext="{Binding Source={x:Static local:StaticViewModels.FormattingSubmenuVMInstance}}"
                                             ActionTarget="{Binding ElementName=editor}"
                                             />
 
-                                    </Border>
+                                        </Border>
 
-                                    <!--Insert submenu container-->
-                                    <Border
+                                        <!--Insert submenu container-->
+                                        <Border
                                         Grid.Row="1"
                                         Background="{Binding BarBackground, ElementName=control}"
                                         Visibility="{Binding SelectedMenu, 
@@ -109,33 +107,35 @@
                                         ConverterParameter={x:Static local:MenuCategories.Insert}}"
                                         >
 
-                                        <!--Formatting submenu-->
-                                        <local:InsertSubmenu 
+                                            <!--Formatting submenu-->
+                                            <local:InsertSubmenu 
                                         DataContext="{Binding Source={x:Static local:StaticViewModels.InsertSubmenuVMInstance}}"
                                         ActionTarget="{Binding ElementName=editor}"
                                         />
+                                        </Border>
 
-                                    </Border>
-
-                                    <!--Selected submenu-->
-                                    <!--<ContentPresenter 
+                                        <!--Selected submenu-->
+                                        <!--<ContentPresenter 
                                         Content="{Binding SelectedMenu, Converter={local:MenuCategoriesToControlConverter}}"/>-->
 
-                                </Grid>
-                                
-                                    <!--Attached files list-->
-                                    <ListView ItemsSource="{Binding AttachedFiles}">
+                                    </Grid>
 
-                                        <ListView.ItemTemplate>
-                                            <DataTemplate>
-                                                <local:FileRep DataContext="{Binding}"/>
-                                            </DataTemplate>
-                                        </ListView.ItemTemplate>
-                                    </ListView>
+                                    <!--Attachments-->
+                                    <StackPanel Orientation="Vertical">
+
+                                        <Label 
+                                            Content="Attachments"
+                                            FontSize="{StaticResource FontSizeRegularExtra}"
+                                            />
+
+                                        <!--Attached files list-->
+                                        <local:FileRepList 
+                                            DataContext="{Binding AttachedFilesListVM}"/>
+
+                                    </StackPanel>
 
                                 </StackPanel>
-                                
-                                
+
                                 <!--Editor-->
                                 <RichTextBox
                                         x:Name="editor"
@@ -166,8 +166,8 @@
 
                                 </RichTextBox>
 
-                            </DockPanel>
-                        
+                            </StackPanel>
+
                         </Border>
 
                         <!--Triggers-->
@@ -183,6 +183,7 @@
                                 <Setter Property="Orientation" TargetName="textEditSection" Value="Vertical"/>
                             </Trigger>-->
                         </ControlTemplate.Triggers>
+
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>

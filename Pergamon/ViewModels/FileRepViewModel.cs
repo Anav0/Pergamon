@@ -8,24 +8,54 @@ namespace Pergamon
 {
     public class FileRepViewModel : BaseViewModel
     {
+        #region Public properties
 
         public string FileName { get; set; }
+
+        public string FilePath { get; set; }
 
         public long FileSize { get; set; }
 
         public ImageSource FileIcon { get; set; }
 
+        #endregion
 
         public FileRepViewModel()
         {
             DeleteFileCommand = new RelayCommand(DeleteFile);
+            FileClickCommand = new RelayCommand(FileClick);
         }
 
+        #region Public commands
 
         public ICommand DeleteFileCommand { get; set; }
 
-        private void DeleteFile()
-        {
-        }
+        public ICommand FileClickCommand { get; set; }
+
+        #endregion
+
+        #region Events
+
+        public event EventHandler OnDeleteAction;
+
+        public event EventHandler OnFileClick;
+
+        #endregion
+
+        #region Event raisers
+
+        public void RaiseOnDeleteAction() => OnDeleteAction?.Invoke(this, new EventArgs());
+
+        public void RaiseOnFileClick() => OnFileClick?.Invoke(this, new EventArgs());
+
+        #endregion
+
+        #region Command methods
+
+        private void DeleteFile() => RaiseOnDeleteAction();
+
+        private void FileClick() => RaiseOnFileClick();
+
+        #endregion
     }
 }

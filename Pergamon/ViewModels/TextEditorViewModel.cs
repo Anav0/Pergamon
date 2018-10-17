@@ -41,7 +41,7 @@ namespace Pergamon
 
         public double LineSpacing { get; set; }
 
-        public ObservableCollection<FileRepViewModel> AttachedFiles { get; set; } = new ObservableCollection<FileRepViewModel>();
+        public FileRepListViewModel AttachedFilesListVM { get; set; } = new FileRepListViewModel();
 
         #endregion
 
@@ -124,19 +124,44 @@ namespace Pergamon
             AdjustTextSelection();
         }
 
-
         private void OnAttachedFilePathsChanged(object sender, EventArgs e)
         {
             var args = (FilePathEventArgs) e;
 
+            foreach(var file in AttachedFilesListVM.Items)
+            {
+                if (file.FilePath == args.FilePath)
+                {
+                    MessageBox.Show("File was already added","Error",MessageBoxButton.OK,MessageBoxImage.Exclamation);
+                    return;
+                }
+            }
+
             var fileVM = new FileRepViewModel
             {
+                FilePath = args.FilePath,
                 FileName = Path.GetFileName(args.FilePath),
                 FileSize = new FileInfo(args.FilePath).Length,
                 FileIcon = Icon.ExtractAssociatedIcon(args.FilePath).ToImageSource(),
             };
 
-            AttachedFiles.Add(fileVM);
+            fileVM.OnDeleteAction += ((s, arg) =>
+            {
+                if (!(s is FileRepViewModel sdr))
+                    return;
+
+                AttachedFilesListVM.Items.Remove(sdr);
+            });
+
+            fileVM.OnFileClick += ((s, arg) =>
+            {
+                if (!(s is FileRepViewModel sdr))
+                    return;
+
+                System.Diagnostics.Process.Start(sdr.FilePath);
+            });
+
+            AttachedFilesListVM.Items.Add(fileVM);
         }
 
         private void AdjustTextSelection()

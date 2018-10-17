@@ -8,7 +8,7 @@
         d:DesignHeight="60" 
         d:DesignWidth="150"
         Name="control" 
-        Background="{StaticResource DefaultTabBackgroundColorBrush}"
+        Background="Transparent"
         Foreground="{StaticResource DefaultForegroundColorBrush}"
              >
 

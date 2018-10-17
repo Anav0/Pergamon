@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Pergamon"
              mc:Ignorable="d" 
-             d:DesignHeight="60" 
+             d:DesignHeight="48" 
              d:DesignWidth="650" Name="control">
 
     <!--Formatting submenu-->
