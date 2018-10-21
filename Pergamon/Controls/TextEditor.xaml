@@ -124,6 +124,7 @@
                                     <StackPanel Orientation="Vertical">
 
                                         <Label 
+                                            Visibility="{Binding AttachedFilesListVM.Items.Count, Converter={local:NumberToVisibilityGoneConverter}}"
                                             Content="Attachments"
                                             FontSize="{StaticResource FontSizeRegularExtra}"
                                             />

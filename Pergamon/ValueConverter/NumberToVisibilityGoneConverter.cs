@@ -4,17 +4,17 @@ using System.Windows;
 
 namespace Pergamon
 {
-    public class BooleanToVisibilityConverter : BaseValueConverter<BooleanToVisibilityConverter>
+    public class NumberToVisibilityGoneConverter : BaseValueConverter<NumberToVisibilityGoneConverter>
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if ((bool)value)
+            if ((int)value >= 1)
             {
                 return Visibility.Visible;
             }
             else
             {
-                return Visibility.Hidden;
+                return Visibility.Collapsed;
             }
         }
 

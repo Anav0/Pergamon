@@ -65,7 +65,6 @@
     <Compile Include="Controls\ColorPicker.xaml.cs">
       <DependentUpon>ColorPicker.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Design\FileRepDesign.cs" />
     <Compile Include="Controls\FileRep.xaml.cs">
       <DependentUpon>FileRep.xaml</DependentUpon>
     </Compile>
@@ -85,25 +84,23 @@
     <Compile Include="Helpers\FilePathEventArgs.cs" />
     <Compile Include="Helpers\IconExtentions.cs" />
     <Compile Include="Helpers\Int32Extentions.cs" />
-    <Compile Include="MenuCategories.cs" />
+    <Compile Include="Enums\MenuCategories.cs" />
     <Compile Include="StaticReferences\StaticViewModels.cs" />
     <Compile Include="ValueConverter\BaseValueConverter.cs" />
+    <Compile Include="ValueConverter\NumberToVisibilityGoneConverter.cs" />
     <Compile Include="ValueConverter\ByteSquasherConverter.cs" />
-    <Compile Include="ValueConverter\BooleanToVisibilityConverter.cs" />
     <Compile Include="ValueConverter\BooleanToVisibilityGoneConverter.cs" />
     <Compile Include="ValueConverter\EnumToVisibilityConverter.cs" />
     <Compile Include="ValueConverter\EnumToBooleanConverter.cs" />
-    <Compile Include="ValueConverter\InverseBooleanToVisibilityGoneConverter.cs" />
     <Compile Include="ValueConverter\MenuCategoriesToControlConverter.cs" />
-    <Compile Include="ValueConverter\StringToBrushConverter.cs" />
-    <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\Base\BaseViewModel.cs" />
     <Compile Include="ViewModels\ColorPickerViewModel.cs" />
     <Compile Include="ViewModels\FileRepListViewModel.cs" />
     <Compile Include="ViewModels\FileRepViewModel.cs" />
     <Compile Include="ViewModels\FormattingSubmenuViewModel.cs" />
     <Compile Include="ViewModels\InsertSubmenuViewModel.cs" />
-    <Compile Include="ViewModels\RelayCommand.cs" />
-    <Compile Include="ViewModels\RelayCommandWithParameter.cs" />
+    <Compile Include="ViewModels\Base\RelayCommand.cs" />
+    <Compile Include="ViewModels\Base\RelayCommandWithParameter.cs" />
     <Compile Include="ViewModels\TextEditorViewModel.cs" />
     <Page Include="Controls\ColorPicker.xaml">
       <SubType>Designer</SubType>
@@ -195,7 +192,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Resource Include="Assets\fileIcon.png" />
     <Resource Include="Fonts\Font Awesome 5 Free-Regular-400.otf" />
     <Resource Include="Fonts\Font Awesome 5 Free-Solid-900.otf" />
     <Resource Include="Fonts\NotoSans-Bold.ttf" />
