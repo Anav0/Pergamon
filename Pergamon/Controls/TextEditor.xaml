@@ -101,8 +101,9 @@
                                                 FontSize="{StaticResource FontSizeRegularExtra}"
                                                 Icon="{StaticResource FontAwesomePaperplane}" 
                                                 Command="{Binding SendEmailCommand}"
-                                                Text="Send"/>
-
+                                                Text="Send"
+                                                Margin="8"            
+                                        />
 
                                     <!--Formatting submenu container-->
                                     <Border
@@ -152,15 +153,20 @@
                                     <StackPanel Orientation="Vertical" >
 
                                         <!--Address section-->
-                                        <local:AddressSection Grid.Row="0" 
+                                        <local:AddressSection  
                                                               DataContext="{x:Static local:StaticViewModels.AddressSectionVMInstance}" 
                                                               Margin="0 8 0 0"/>
 
+
+                                        <Border Style="{StaticResource HorizontalSeparator}"/>
+
                                         <!--Attachments-->
-                                        <StackPanel Grid.Row="1" Orientation="Vertical" Margin="8 0 0 0">
+                                        <StackPanel 
+                                            Visibility="{Binding AttachedFilesListVM.Items.Count, Converter={local:NumberToVisibilityGoneConverter}}"
+                                            Orientation="Vertical" 
+                                            Margin="8 0 0 0">
 
                                             <Label 
-                                            Visibility="{Binding AttachedFilesListVM.Items.Count, Converter={local:NumberToVisibilityGoneConverter}}"
                                             Content="Attachments"
                                             FontSize="{StaticResource FontSizeRegularExtra}"
                                             />
@@ -168,11 +174,12 @@
                                             <!--Attached files list-->
                                             <local:FileRepList 
                                             DataContext="{Binding AttachedFilesListVM}"/>
+                                            
+                                            <Border Style="{StaticResource HorizontalSeparator}"/>
 
                                         </StackPanel>
 
-                                        <Border Grid.Row="2" Style="{StaticResource HorizontalSeparator}"/>
-
+                                        
                                         <!--Editor-->
                                         <RichTextBox
                                         Grid.Row="3"
