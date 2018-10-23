@@ -3,17 +3,21 @@ using System.Collections.ObjectModel;
 using System.Drawing;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Pergamon
 {
     public class TextEditorViewModel : BaseViewModel
     {
-
         #region Public properties
-        
+
+        public FlowDocument Document { get; set; } = new FlowDocument();
+
         public TextSelection SelectedText { get; set; }
 
         private TextPointer _CaretPosition;
@@ -27,6 +31,7 @@ namespace Pergamon
                     return;
 
                 _CaretPosition = value;
+            
 
                 if (_CaretPosition.GetTextRunLength(LogicalDirection.Backward) != 0 && !string.IsNullOrWhiteSpace(_CaretPosition.GetTextInRun(LogicalDirection.Backward)))
                 {
@@ -62,6 +67,7 @@ namespace Pergamon
             StaticViewModels.FormattingSubmenuVMInstance.OnFontFamilyChanged += OnFontFamilyChanged;
             StaticViewModels.FormattingSubmenuVMInstance.OnFontSizeChanged += OnFontSizeChanged;
             StaticViewModels.InsertSubmenuVMInstance.OnAttachFileAction += OnAttachedFilePathsChanged;
+            StaticViewModels.InsertSubmenuVMInstance.OnInsertImage += OnInsertImageAction;
 
             SendEmailCommand = new RelayCommand(SendEmail);
             DisplayDiscardEmailModalBoxCommand = new RelayCommand(DisplayDiscardEmailModalBox);
@@ -74,6 +80,12 @@ namespace Pergamon
         private void SendEmail()
         {
         }
+
+        private void AdjustTextSelection()
+        {
+            SelectedText?.Select(SelectedText.Start, SelectedText.End);
+        }
+
 
         #region Event handlers
 
@@ -183,9 +195,22 @@ namespace Pergamon
             AttachedFilesListVM.Items.Add(fileVM);
         }
 
-        private void AdjustTextSelection()
+
+        private void OnInsertImageAction(object sender, EventArgs e)
         {
-            SelectedText?.Select(SelectedText.Start, SelectedText.End);
+            var args = (FilePathArgs)e;
+
+            if (args == null || Document == null)
+                return;
+
+            BitmapImage bimage = new BitmapImage();
+            bimage.BeginInit();
+            bimage.UriSource = new Uri(args.FilePath, UriKind.Absolute);
+            bimage.EndInit();
+
+            var image = new System.Windows.Controls.Image { Source = bimage };
+            ImageHelpers.InsertImageWithHookedEvents(image, Document);
+
         }
 
         #endregion

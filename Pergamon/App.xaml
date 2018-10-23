@@ -11,6 +11,7 @@
                 <ResourceDictionary Source="Styles/Fonts.xaml"/>
                 <ResourceDictionary Source="Styles/BaseStyle.xaml"/>
                 <ResourceDictionary Source="Styles/ToolTip.xaml"/>
+                <ResourceDictionary Source="Styles/Thumb.xaml"/>
                 <ResourceDictionary Source="Styles/TextBoxs.xaml"/>
                 <ResourceDictionary Source="Styles/RadioButtons.xaml"/>
                 <ResourceDictionary Source="Styles/Buttons.xaml"/>

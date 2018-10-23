@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Pergamon
@@ -13,9 +14,11 @@ namespace Pergamon
     {
         public TextEditor()
         {
-            InitializeComponent();
             var vm = new TextEditorViewModel();
             DataContext = vm;
+
+            InitializeComponent();
+
         }
 
         #region BarBackground
@@ -70,8 +73,10 @@ namespace Pergamon
                 return;
 
             vm.CaretPosition = editor.CaretPosition;
+            vm.Document = editor.Document;
             vm.SelectedText = editor.Selection;
 
         }
+
     }
 }

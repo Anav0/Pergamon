@@ -20,12 +20,12 @@
             />
 
         <!--Insert table button-->
-        <local:IconButtonWithText 
+        <!--<local:IconButtonWithText 
             Foreground="{StaticResource DefaultTabForegroundColorBrush}"
             Text="Tabel"
             Icon="{StaticResource FontAwesomeTable}" 
             Command="{Binding InsertTableCommand}"
-            />
+            />-->
 
         <!--Insert image button-->
         <local:IconButtonWithText 

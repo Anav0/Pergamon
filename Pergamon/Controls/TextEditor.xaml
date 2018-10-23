@@ -20,6 +20,7 @@
 
                         <!--Border of main container-->
                         <Border
+                            FocusManager.FocusedElement="{Binding ElementName=editor}"
                             BorderThickness="1"
                             BorderBrush="{StaticResource DefaultBorderColorBrush}"
                             Background="{Binding Background, ElementName=control}"
@@ -174,17 +175,18 @@
                                             <!--Attached files list-->
                                             <local:FileRepList 
                                             DataContext="{Binding AttachedFilesListVM}"/>
-                                            
+
                                             <Border Style="{StaticResource HorizontalSeparator}"/>
 
                                         </StackPanel>
 
-                                        
+
                                         <!--Editor-->
-                                        <RichTextBox
+                                        <local:CustomRichTextBox
                                         Grid.Row="3"
                                         MinHeight="100"
                                         x:Name="editor"
+                                        IsDocumentEnabled = "true"
                                         Focusable="True"
                                         FontFamily="{Binding DefaultFontFamily, ElementName=control}"
                                         SelectionChanged="editor_SelectionChanged"
@@ -204,13 +206,13 @@
 
 
                                             <!--Deletes spacing between lines-->
-                                            <RichTextBox.Resources>
+                                            <local:CustomRichTextBox.Resources>
                                                 <Style TargetType="{x:Type Paragraph}">
                                                     <Setter Property="LineHeight" Value="{Binding LineSpacing}" />
                                                 </Style>
-                                            </RichTextBox.Resources>
+                                            </local:CustomRichTextBox.Resources>
 
-                                        </RichTextBox>
+                                        </local:CustomRichTextBox>
 
                                     </StackPanel>
                                 </ScrollViewer>
