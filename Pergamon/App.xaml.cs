@@ -23,6 +23,8 @@ namespace Pergamon
             StaticViewModels.FormattingSubmenuVMInstance = new FormattingSubmenuViewModel();
 
             StaticViewModels.InsertSubmenuVMInstance = new InsertSubmenuViewModel();
+
+            StaticViewModels.AddressSectionVMInstance = new AddressSectionViewModel();
         }
     }
 }

@@ -12,7 +12,7 @@
                 >
 
         <!--Attach file button-->
-        <local:IconButonWidthText 
+        <local:IconButtonWithText 
             Foreground="{StaticResource DefaultTabForegroundColorBrush}"
             Text="File"
             Icon="{StaticResource FontAwesomePaperclip}" 
@@ -20,7 +20,7 @@
             />
 
         <!--Insert table button-->
-        <local:IconButonWidthText 
+        <local:IconButtonWithText 
             Foreground="{StaticResource DefaultTabForegroundColorBrush}"
             Text="Tabel"
             Icon="{StaticResource FontAwesomeTable}" 
@@ -28,7 +28,7 @@
             />
 
         <!--Insert image button-->
-        <local:IconButonWidthText 
+        <local:IconButtonWithText 
             Foreground="{StaticResource DefaultTabForegroundColorBrush}"
             Text="Image"
             Icon="{StaticResource FontAwesomeImage}" 
@@ -36,7 +36,7 @@
             />
 
         <!--Insert link button-->
-        <local:IconButonWidthText 
+        <local:IconButtonWithText 
             Foreground="{StaticResource DefaultTabForegroundColorBrush}"
             Text="Link"
             Icon="{StaticResource FontAwesomeLink}" 

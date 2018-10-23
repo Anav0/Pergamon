@@ -12,7 +12,21 @@
         <Setter Property="Foreground" Value="{StaticResource DefaultForegroundColorBrush}"/>
         <Setter Property="BorderBrush" Value="{StaticResource DefaultBorderColorBrush}"/>
     </Style>
+
+    <!--Button base style-->
+    <Style x:Key="ToggleButtonBaseStyle" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource BaseStyle}">
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Foreground" Value="red"/>
+
+    </Style>
     
+    <!--Button base style-->
+    <Style x:Key="ButtonBaseStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseStyle}">
+        <Setter Property="Cursor" Value="Hand"/>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonBaseStyle}"/>
+    <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource ToggleButtonBaseStyle}"/>
     <Style TargetType="{x:Type Control}" BasedOn="{StaticResource BaseStyle}"/>
     <Style TargetType="{x:Type Label}" BasedOn="{StaticResource BaseStyle}"/>
     <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource BaseStyle}"/>

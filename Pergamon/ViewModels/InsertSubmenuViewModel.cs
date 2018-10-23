@@ -18,7 +18,7 @@ namespace Pergamon
             AttachFileCommand = new RelayCommand(AttachFile);
         }
 
-        private void RaiseAttacheFilePathsChanged(string path) => OnAttachFileAction?.Invoke(this, new FilePathEventArgs(path));
+        private void RaiseAttacheFilePathsChanged(string path) => OnAttachFileAction?.Invoke(this, new FilePathArgs(path));
 
         #region Public commands
 

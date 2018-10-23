@@ -51,6 +51,9 @@
     <system:String x:Key="FontAwesomeImage">&#xf03e;</system:String>
     <system:String x:Key="FontAwesomeClose">&#xf00d;</system:String>
 
+    <system:String x:Key="FontAwesomeBin">&#xf1f8;</system:String>
+    <system:String x:Key="FontAwesomePaperplane">&#xf1d8;</system:String>
+
     <!--Font sizes-->
     <system:Double x:Key="FontSizeSmallest">4</system:Double>
     <system:Double x:Key="FontSizeSmaller">6</system:Double>

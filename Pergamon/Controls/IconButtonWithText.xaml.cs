@@ -4,12 +4,10 @@ using System.Windows.Input;
 
 namespace Pergamon
 {
-    /// <summary>
-    /// Interaction logic for IconButonWidthText.xaml
-    /// </summary>
-    public partial class IconButonWidthText : UserControl
+   
+    public partial class IconButtonWithText : UserControl
     {
-        public IconButonWidthText()
+        public IconButtonWithText()
         {
             InitializeComponent();
         }
@@ -22,7 +20,7 @@ namespace Pergamon
 
         // Using a DependencyProperty as the backing store for Icon.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IconProperty =
-            DependencyProperty.Register("Icon", typeof(string), typeof(IconButonWidthText), new PropertyMetadata(null));
+            DependencyProperty.Register("Icon", typeof(string), typeof(IconButtonWithText), new PropertyMetadata(null));
 
         public string Text
         {
@@ -32,7 +30,7 @@ namespace Pergamon
 
         // Using a DependencyProperty as the backing store for Text.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register("Text", typeof(string), typeof(IconButonWidthText), new PropertyMetadata(null));
+            DependencyProperty.Register("Text", typeof(string), typeof(IconButtonWithText), new PropertyMetadata(null));
 
 
         public ICommand Command
@@ -43,7 +41,7 @@ namespace Pergamon
 
         // Using a DependencyProperty as the backing store for Command.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CommandProperty =
-            DependencyProperty.Register("Command", typeof(ICommand), typeof(IconButonWidthText), new PropertyMetadata(null));
+            DependencyProperty.Register("Command", typeof(ICommand), typeof(IconButtonWithText), new PropertyMetadata(null));
 
 
 

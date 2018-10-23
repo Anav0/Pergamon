@@ -42,6 +42,7 @@
       <HintPath>..\packages\PropertyChanged.Fody.2.5.12\lib\net452\PropertyChanged.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
@@ -62,6 +63,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\AddressInputBox.xaml.cs">
+      <DependentUpon>AddressInputBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\AddressSection.xaml.cs">
+      <DependentUpon>AddressSection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Design\MailWrapperDesign.cs" />
+    <Compile Include="Controls\MailWrapper.xaml.cs">
+      <DependentUpon>MailWrapper.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ColorPicker.xaml.cs">
       <DependentUpon>ColorPicker.xaml</DependentUpon>
     </Compile>
@@ -74,17 +85,19 @@
     <Compile Include="Controls\FormattingSubmenu.xaml.cs">
       <DependentUpon>FormattingSubmenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\IconButonWidthText.xaml.cs">
-      <DependentUpon>IconButonWidthText.xaml</DependentUpon>
+    <Compile Include="Controls\IconButtonWithText.xaml.cs">
+      <DependentUpon>IconButtonWithText.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\InsertSubmenu.xaml.cs">
       <DependentUpon>InsertSubmenu.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Enums\AddressCategory.cs" />
     <Compile Include="Helpers\ButtonStateHelper.cs" />
     <Compile Include="Helpers\FilePathEventArgs.cs" />
-    <Compile Include="Helpers\IconExtentions.cs" />
-    <Compile Include="Helpers\Int32Extentions.cs" />
+    <Compile Include="Extentions\IconExtentions.cs" />
+    <Compile Include="Extentions\Int64Extentions.cs" />
     <Compile Include="Enums\MenuCategories.cs" />
+    <Compile Include="Models\Address.cs" />
     <Compile Include="StaticReferences\StaticViewModels.cs" />
     <Compile Include="ValueConverter\BaseValueConverter.cs" />
     <Compile Include="ValueConverter\NumberToVisibilityGoneConverter.cs" />
@@ -93,6 +106,9 @@
     <Compile Include="ValueConverter\EnumToVisibilityConverter.cs" />
     <Compile Include="ValueConverter\EnumToBooleanConverter.cs" />
     <Compile Include="ValueConverter\MenuCategoriesToControlConverter.cs" />
+    <Compile Include="ValueConverter\StringToBrushConverter.cs" />
+    <Compile Include="ViewModels\AddressSectionViewModel.cs" />
+    <Compile Include="ViewModels\MailWrapperViewModel.cs" />
     <Compile Include="ViewModels\Base\BaseViewModel.cs" />
     <Compile Include="ViewModels\ColorPickerViewModel.cs" />
     <Compile Include="ViewModels\FileRepListViewModel.cs" />
@@ -102,6 +118,18 @@
     <Compile Include="ViewModels\Base\RelayCommand.cs" />
     <Compile Include="ViewModels\Base\RelayCommandWithParameter.cs" />
     <Compile Include="ViewModels\TextEditorViewModel.cs" />
+    <Page Include="Controls\AddressInputBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\AddressSection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\MailWrapper.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\ColorPicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -118,7 +146,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\IconButonWidthText.xaml">
+    <Page Include="Controls\IconButtonWithText.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -169,9 +197,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Styles\TextBoxs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\ToolTip.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Values.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

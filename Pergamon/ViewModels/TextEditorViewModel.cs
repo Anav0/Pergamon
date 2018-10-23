@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows;
 using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Pergamon
@@ -45,6 +46,13 @@ namespace Pergamon
 
         #endregion
 
+        #region Public Commands
+
+        public ICommand DisplayDiscardEmailModalBoxCommand { get;  set; }
+
+        public ICommand SendEmailCommand { get; set; }
+        #endregion
+
         public TextEditorViewModel()
         {
 
@@ -54,6 +62,17 @@ namespace Pergamon
             StaticViewModels.FormattingSubmenuVMInstance.OnFontFamilyChanged += OnFontFamilyChanged;
             StaticViewModels.FormattingSubmenuVMInstance.OnFontSizeChanged += OnFontSizeChanged;
             StaticViewModels.InsertSubmenuVMInstance.OnAttachFileAction += OnAttachedFilePathsChanged;
+
+            SendEmailCommand = new RelayCommand(SendEmail);
+            DisplayDiscardEmailModalBoxCommand = new RelayCommand(DisplayDiscardEmailModalBox);
+        }
+
+        private void DisplayDiscardEmailModalBox()
+        {
+        }
+
+        private void SendEmail()
+        {
         }
 
         #region Event handlers
@@ -126,7 +145,7 @@ namespace Pergamon
 
         private void OnAttachedFilePathsChanged(object sender, EventArgs e)
         {
-            var args = (FilePathEventArgs) e;
+            var args = (FilePathArgs) e;
 
             foreach(var file in AttachedFilesListVM.Items)
             {

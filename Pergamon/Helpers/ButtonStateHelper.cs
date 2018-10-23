@@ -1,5 +1,4 @@
-﻿
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Documents;
 
 namespace Pergamon
@@ -7,13 +6,6 @@ namespace Pergamon
     public static class ButtonStateHelper
     {
 
-        /// <summary>
-        /// Checkes if text at given <paramref name="position"/> has <paramref name="testedProperty"/> of a <paramref name="expectedValue"/>
-        /// </summary>
-        /// <param name="position">Position of tested text</param>
-        /// <param name="testedProperty">Tested property</param>
-        /// <param name="expectedValue">expected value of tested tested property/></param>
-        /// <returns></returns>
         public static bool CheckDependencyPropertyState(TextPointer position, DependencyProperty testedProperty, object expectedValue)
         {
             object currentValue = position.Parent.GetValue(testedProperty);

@@ -3,12 +3,12 @@ using System;
 
 namespace Pergamon
 {
-    public class FilePathEventArgs : EventArgs
+    public class FilePathArgs : EventArgs
     {
 
         public string FilePath { get; set; }
 
-        public FilePathEventArgs(string FilePath) => this.FilePath = FilePath;
+        public FilePathArgs(string FilePath) => this.FilePath = FilePath;
 
     }
 }

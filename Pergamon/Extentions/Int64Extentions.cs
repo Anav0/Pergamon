@@ -1,13 +1,11 @@
-﻿
-using System;
+﻿using System;
 
 namespace Pergamon
 {
-    public static class Int32Extentions
+    public static class Int64Extentions
     {
 
-        static readonly string[] SizeSuffixes =
-                    { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
+        static readonly string[] SizeSuffixes = { "bytes", "Kb", "Mb", "Gb", "Tb", "Pb", "Eb", "Zb", "Yb" };
 
         public static string ToReadableFormat(this long value, int decimalPlaces = 1)
         {

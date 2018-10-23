@@ -52,15 +52,15 @@
         <Style.Triggers>
             <Trigger Property="IsChecked" Value="True">
                 <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="BorderBrush" Value="{StaticResource AccentColorBrush}"/>
-                <Setter Property="Foreground" Value="{StaticResource AccentColorBrush}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource AccentForegroundColorBrush}"/>
+                <Setter Property="Foreground" Value="{StaticResource AccentForegroundColorBrush}"/>
                 <Setter Property="FontWeight" Value="Medium"/>
             </Trigger>
 
             <EventTrigger RoutedEvent="MouseEnter">
                 <BeginStoryboard >
                     <Storyboard >
-                        <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0.75" Duration="0:0:0.2"/>
+                        <DoubleAnimation Storyboard.TargetProperty="Opacity" To="{StaticResource OpacityAnimationToValue}" Duration="0:0:0.2"/>
                     </Storyboard>
                 </BeginStoryboard>
             </EventTrigger>
