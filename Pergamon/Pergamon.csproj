@@ -101,7 +101,6 @@
     <Compile Include="Enums\MenuCategories.cs" />
     <Compile Include="Helpers\ImageHelpers.cs" />
     <Compile Include="Models\Address.cs" />
-    <Compile Include="StaticReferences\StaticViewModels.cs" />
     <Compile Include="ValueConverter\BaseValueConverter.cs" />
     <Compile Include="ValueConverter\NumberToVisibilityGoneConverter.cs" />
     <Compile Include="ValueConverter\ByteSquasherConverter.cs" />

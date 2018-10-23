@@ -82,7 +82,7 @@ namespace Pergamon
                     EmailCategory = Purpose,
                 };
 
-                StaticViewModels.AddressSectionVMInstance.Addresses.Add(adr);
+                AddressSectionViewModel.Instance.Addresses.Add(adr);
 
                 var wrapper = new MailWrapperViewModel
                 {
@@ -94,7 +94,7 @@ namespace Pergamon
                 wrapper.OnDeleteButtonClick += ((s, args) =>
                 {
                     Addresses.Remove(wrapper);
-                    StaticViewModels.AddressSectionVMInstance.Addresses.Remove(adr);
+                    AddressSectionViewModel.Instance.Addresses.Remove(adr);
                 });
 
                 Addresses.Add(wrapper);

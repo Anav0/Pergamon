@@ -118,7 +118,7 @@
 
                                         <!--Formatting submenu-->
                                         <local:FormattingSubmenu 
-                                            DataContext="{Binding Source={x:Static local:StaticViewModels.FormattingSubmenuVMInstance}}"
+                                            DataContext="{Binding Source={x:Static local:FormattingSubmenuViewModel.Instance}}"
                                             ActionTarget="{Binding ElementName=editor}"
                                             />
 
@@ -136,7 +136,7 @@
 
                                         <!--Formatting submenu-->
                                         <local:InsertSubmenu 
-                                        DataContext="{Binding Source={x:Static local:StaticViewModels.InsertSubmenuVMInstance}}"
+                                        DataContext="{Binding Source={x:Static local:InsertSubmenuViewModel.Instance}}"
                                         ActionTarget="{Binding ElementName=editor}"
                                         />
                                     </Border>
@@ -155,7 +155,7 @@
 
                                         <!--Address section-->
                                         <local:AddressSection  
-                                                              DataContext="{x:Static local:StaticViewModels.AddressSectionVMInstance}" 
+                                                              DataContext="{x:Static local:AddressSectionViewModel.Instance}" 
                                                               Margin="0 8 0 0"/>
 
 

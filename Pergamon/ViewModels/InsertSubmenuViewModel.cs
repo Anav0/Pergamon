@@ -11,10 +11,16 @@ namespace Pergamon
     public class InsertSubmenuViewModel : BaseViewModel
     {
 
+        #region Singleton
+
+        public static InsertSubmenuViewModel Instance { get; set; } = new InsertSubmenuViewModel();
+
+        #endregion
+
         public event EventHandler OnAttachFileAction;
         public event EventHandler OnInsertImage;
 
-        public InsertSubmenuViewModel()
+        private InsertSubmenuViewModel()
         {
             AttachFileCommand = new RelayCommand(AttachFile);
             InsertImageCommand = new RelayCommand(InsertImage);

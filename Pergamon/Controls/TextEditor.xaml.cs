@@ -18,7 +18,6 @@ namespace Pergamon
             DataContext = vm;
 
             InitializeComponent();
-
         }
 
         #region BarBackground

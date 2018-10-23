@@ -7,6 +7,12 @@ namespace Pergamon
 {
     public class AddressSectionViewModel : BaseViewModel
     {
+        #region Singleton
+
+        public static AddressSectionViewModel Instance { get; set; } = new AddressSectionViewModel();
+
+        #endregion
+
         public ObservableCollection<Address> Addresses { get; set; } = new ObservableCollection<Address>();
 
         public bool IsCCandBCCVisible { get; set; }
@@ -15,7 +21,7 @@ namespace Pergamon
 
         public ICommand ShowCCandBCCFieldsCommand { get; set; }
 
-        public AddressSectionViewModel()
+        private AddressSectionViewModel()
         {
             ShowCCandBCCFieldsCommand = new RelayCommand(ShowCCandBCCFields);
         }

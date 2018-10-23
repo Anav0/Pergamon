@@ -12,6 +12,12 @@ namespace Pergamon
 {
     public class FormattingSubmenuViewModel : BaseViewModel
     {
+        #region Singleton
+
+        public static FormattingSubmenuViewModel Instance { get; set; } = new FormattingSubmenuViewModel();
+
+        #endregion
+
 
         #region Public properties
 
@@ -130,7 +136,7 @@ namespace Pergamon
 
         #endregion
 
-        public FormattingSubmenuViewModel()
+        private FormattingSubmenuViewModel()
         {
             ShowMarkerColorPickerCommand = new RelayCommand(ShowMarkerColorPicker);
             ShowFontColorPickerCommand = new RelayCommand(ShowFontColorPicker);

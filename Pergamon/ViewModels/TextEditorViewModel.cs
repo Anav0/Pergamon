@@ -35,11 +35,11 @@ namespace Pergamon
 
                 if (_CaretPosition.GetTextRunLength(LogicalDirection.Backward) != 0 && !string.IsNullOrWhiteSpace(_CaretPosition.GetTextInRun(LogicalDirection.Backward)))
                 {
-                    StaticViewModels.FormattingSubmenuVMInstance.SelectedFontSize = (double)_CaretPosition.Parent.GetValue(TextElement.FontSizeProperty);
-                    StaticViewModels.FormattingSubmenuVMInstance.SelectedFontFamily = (System.Windows.Media.FontFamily)_CaretPosition.Parent.GetValue(TextElement.FontFamilyProperty);
+                    FormattingSubmenuViewModel.Instance.SelectedFontSize = (double)_CaretPosition.Parent.GetValue(TextElement.FontSizeProperty);
+                    FormattingSubmenuViewModel.Instance.SelectedFontFamily = (System.Windows.Media.FontFamily)_CaretPosition.Parent.GetValue(TextElement.FontFamilyProperty);
                 }
 
-                StaticViewModels.FormattingSubmenuVMInstance.UpdateButtonsState(CaretPosition, SelectedText);
+                FormattingSubmenuViewModel.Instance.UpdateButtonsState(CaretPosition, SelectedText);
             }
         }
 
@@ -61,13 +61,13 @@ namespace Pergamon
         public TextEditorViewModel()
         {
 
-            StaticViewModels.FormattingSubmenuVMInstance.OnLineSpacingChanged += OnLineSpacingChanged;
-            StaticViewModels.FormattingSubmenuVMInstance.OnApplyMarkerColorActionCalled += OnApplyMarkerAction;
-            StaticViewModels.FormattingSubmenuVMInstance.OnApplyFontColorActionCalled += OnApplyFontColorAction;
-            StaticViewModels.FormattingSubmenuVMInstance.OnFontFamilyChanged += OnFontFamilyChanged;
-            StaticViewModels.FormattingSubmenuVMInstance.OnFontSizeChanged += OnFontSizeChanged;
-            StaticViewModels.InsertSubmenuVMInstance.OnAttachFileAction += OnAttachedFilePathsChanged;
-            StaticViewModels.InsertSubmenuVMInstance.OnInsertImage += OnInsertImageAction;
+            FormattingSubmenuViewModel.Instance.OnLineSpacingChanged += OnLineSpacingChanged;
+            FormattingSubmenuViewModel.Instance.OnApplyMarkerColorActionCalled += OnApplyMarkerAction;
+            FormattingSubmenuViewModel.Instance.OnApplyFontColorActionCalled += OnApplyFontColorAction;
+            FormattingSubmenuViewModel.Instance.OnFontFamilyChanged += OnFontFamilyChanged;
+            FormattingSubmenuViewModel.Instance.OnFontSizeChanged += OnFontSizeChanged;
+            InsertSubmenuViewModel.Instance.OnAttachFileAction += OnAttachedFilePathsChanged;
+            InsertSubmenuViewModel.Instance.OnInsertImage += OnInsertImageAction;
 
             SendEmailCommand = new RelayCommand(SendEmail);
             DisplayDiscardEmailModalBoxCommand = new RelayCommand(DisplayDiscardEmailModalBox);
@@ -141,9 +141,8 @@ namespace Pergamon
             if (!(sender is FormattingSubmenuViewModel formattingVM))
                 return;
 
-            SelectedText.ApplyPropertyValue(TextElement.FontSizeProperty, formattingVM.SelectedFontSize);
+            SelectedText?.ApplyPropertyValue(TextElement.FontSizeProperty, formattingVM.SelectedFontSize);
             AdjustTextSelection();
-           
         }
 
         private void OnFontFamilyChanged(object sender, EventArgs e)
