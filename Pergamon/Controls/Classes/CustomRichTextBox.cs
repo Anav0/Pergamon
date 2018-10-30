@@ -34,33 +34,6 @@ namespace Pergamon
             
         }
 
-        public static readonly DependencyProperty SelectedWordProperty =
-       DependencyProperty.Register(
-               "SelectedWord",
-               typeof(string),
-               typeof(CustomRichTextBox),
-               new PropertyMetadata("")
-               );
-
-        public string SelectedWord
-        {
-            get { return (string)GetValue(SelectedWordProperty); }
-            set { SetValue(SelectedWordProperty, value); }
-        }
-
-        protected override void OnMouseUp(MouseButtonEventArgs e)
-        {
-            string wordBeforeCursor = CaretPosition.GetTextInRun(LogicalDirection.Backward).Split().Last();
-            string wordAfterCursor = CaretPosition.GetTextInRun(LogicalDirection.Forward).Split().First();
-
-            string text = wordBeforeCursor + wordAfterCursor;
-
-            SelectedWord = string.Join("", text
-                .Where(c => char.IsLetter(c))
-                .ToArray());
-
-            base.OnMouseUp(e);
-        }
     }
 }
 

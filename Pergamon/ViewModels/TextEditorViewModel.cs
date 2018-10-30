@@ -16,8 +16,6 @@ namespace Pergamon
     {
         #region Public properties
 
-        public string SelectedWord { get; set; }
-
         public System.Windows.Point EditorPointToScreen { get; set; }
 
         public FlowDocument Document { get; set; }
@@ -92,7 +90,6 @@ namespace Pergamon
 
         #region Private Methods
 
-        //TODO: Move to some helper class
         private void AdjustTextSelection()
         {
             SelectedText?.Select(SelectedText.Start, SelectedText.End);

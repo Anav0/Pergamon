@@ -188,7 +188,6 @@
                                         Grid.Row="3"
                                         MinHeight="100"
                                         x:Name="editor"
-                                        SelectedWord="{Binding SelectedWord, Mode=TwoWay}"
                                         IsDocumentEnabled = "true"
                                         Focusable="True"
                                         FontFamily="{Binding DefaultFontFamily, ElementName=control}"
