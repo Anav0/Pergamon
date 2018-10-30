@@ -18,6 +18,7 @@ namespace Pergamon
             DataContext = vm;
 
             InitializeComponent();
+
         }
 
         #region BarBackground
@@ -75,6 +76,9 @@ namespace Pergamon
             vm.Document = editor.Document;
             vm.SelectedText = editor.Selection;
 
+            //TODO:test test test
+            var rect = editor.CaretPosition.GetCharacterRect(LogicalDirection.Backward);
+            vm.EditorPointToScreen = editor.PointToScreen(rect.BottomRight);
         }
 
     }

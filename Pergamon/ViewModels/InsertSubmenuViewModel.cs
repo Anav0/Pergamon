@@ -18,23 +18,32 @@ namespace Pergamon
         #endregion
 
         public event EventHandler OnAttachFileAction;
+
         public event EventHandler OnInsertImage;
+
+        public event EventHandler OnInsertLink;
 
         private InsertSubmenuViewModel()
         {
             AttachFileCommand = new RelayCommand(AttachFile);
             InsertImageCommand = new RelayCommand(InsertImage);
+            InsertLinkCommand = new RelayCommand(InsertLink);
         }
+       
 
-        private void RaiseAttachFilePathsChanged(string path) => OnAttachFileAction?.Invoke(this, new FilePathArgs(path));
+        private void RaiseOnAttachFile(string path) => OnAttachFileAction?.Invoke(this, new FilePathArgs(path));
 
-        private void RaiseInsertImageAction(string path) => OnInsertImage?.Invoke(this, new FilePathArgs(path));
+        private void RaiseOnInsertImage(string path) => OnInsertImage?.Invoke(this, new FilePathArgs(path));
+
+        private void RaiseOnInsertLink() => OnInsertLink?.Invoke(this, new EventArgs());
 
         #region Public commands
 
         public ICommand AttachFileCommand { get; set; }
 
         public ICommand InsertImageCommand { get; set; }
+
+        public ICommand InsertLinkCommand { get; set; }
 
         #endregion
 
@@ -47,7 +56,7 @@ namespace Pergamon
 
             if(dialog.ShowDialog() == true)
             {
-                RaiseAttachFilePathsChanged(dialog.FileName);
+                RaiseOnAttachFile(dialog.FileName);
             }
 
         }
@@ -59,12 +68,14 @@ namespace Pergamon
 
             if (dialog.ShowDialog() == true)
             {
-                RaiseInsertImageAction(dialog.FileName);
+                RaiseOnInsertImage(dialog.FileName);
             }
-            else
-            {
+            
+        }
 
-            }
+        private void InsertLink()
+        {
+            RaiseOnInsertLink();
         }
 
         #endregion

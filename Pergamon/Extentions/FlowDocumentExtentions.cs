@@ -1,26 +1,40 @@
 ﻿
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
 
 namespace Pergamon
 {
-    public static class ImageHelpers
+    public static class FlowDocumentExtentions
     {
 
-        public static void InsertImageWithHookedEventsAtCaretPosition(System.Windows.Controls.Image image, TextPointer caretPosition)
-        {
-            image.LostFocus += OnLostFocus;
-            image.MouseDown += OnMouseDown;
-            image.Stretch = System.Windows.Media.Stretch.None;
+        //public static List<Hyperlink> GetHyperLinksContainingSelection(this TextSelection pos)
+        //{
+        //    var results = new List<Hyperlink>();
 
-            var imageContainer = new InlineUIContainer(image, caretPosition);
-            imageContainer.BaselineAlignment = BaselineAlignment.Baseline;
-            caretPosition?.Paragraph?.Inlines.Add(imageContainer);
-        }
+        //    foreach (var inline in pos.Start.Paragraph.Inlines)
+        //    {
+        //        if (inline is Hyperlink link)
+        //        {
+        //            try
+        //            {
+        //                if (link.Inlines.Contains((Inline)pos.Start.Parent))
+        //                    results.Add(link);
+        //            }
+        //            catch (InvalidCastException ex)
+        //            {
+        //                MessageBox.Show(ex.ToString());
+        //            }
+        //        }
+        //    }
 
-        public static void InsertImageWithHookedEvents(System.Windows.Controls.Image image, FlowDocument document)
+        //    return results;
+        //}
+
+        public static void InsertAdornedImage(this FlowDocument document, System.Windows.Controls.Image image)
         {
             image.LostFocus += OnLostFocus;
             image.MouseDown += OnMouseDown;
@@ -30,6 +44,8 @@ namespace Pergamon
             document.Blocks.Add(imageContainer);
         }
 
+
+       
 
         private static void OnMouseDown(object sender, MouseButtonEventArgs e)
         {

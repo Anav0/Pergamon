@@ -61,6 +61,8 @@
         <TextBox Style="{StaticResource PlaceholderTextBox}" 
                  Tag="Temat"
                  MaxLength="255"
+                 AcceptsTab="False"
+                 AcceptsReturn="False"
                  Text="{Binding Topic}"
                  Padding="8"/>
 

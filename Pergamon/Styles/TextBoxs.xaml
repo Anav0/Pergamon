@@ -26,8 +26,16 @@
                                 BorderBrush="{TemplateBinding BorderBrush}" 
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Background="{TemplateBinding Background}"
+                                HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                 SnapsToDevicePixels="True">
-                            <ScrollViewer x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                            
+                            <ScrollViewer x:Name="PART_ContentHost" 
+                                          Padding="{TemplateBinding Padding}"
+                                          Margin="{TemplateBinding Margin}" 
+                                          Focusable="False" 
+                                          HorizontalScrollBarVisibility="Hidden" 
+                                          VerticalScrollBarVisibility="Hidden"/>
                         </Border>
 
                         <!--Placeholder text-->
@@ -36,8 +44,8 @@
                                    x:Name="placeholder"
                                    Padding="{TemplateBinding Padding}"
                                    Margin="{TemplateBinding Margin}"
-                                   VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                                   HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                    Foreground="{StaticResource DefaultPlaceHolderColorBrush}"
                                    >
 

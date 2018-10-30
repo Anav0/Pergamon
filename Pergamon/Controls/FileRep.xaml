@@ -46,7 +46,6 @@
             <TextBlock
                 TextTrimming="CharacterEllipsis"
                 FontFamily="{StaticResource NotoSansRegular}"
-                Foreground="{StaticResource DefaultBorderColorBrush}"
                 Text="{Binding FileName}"
                 Margin="0" 
                 Padding="6"
@@ -54,7 +53,6 @@
             
             <!--File size-->
             <Label 
-                Foreground="{StaticResource DefaultBorderColorBrush}"
                 Content="{Binding FileSize, 
                 Converter={local:ByteSquasherConverter}}" 
                 Margin="0" 

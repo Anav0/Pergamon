@@ -18,7 +18,6 @@ namespace Pergamon
 
         #endregion
 
-
         #region Public properties
 
         #region bools
@@ -219,8 +218,8 @@ namespace Pergamon
             IsSubscriptChecked = CheckDependencyPropertyState(currentCaretPositon, Typography.VariantsProperty, FontVariants.Subscript);
             IsSuperscriptChecked = CheckDependencyPropertyState(currentCaretPositon, Typography.VariantsProperty, FontVariants.Superscript);
 
-            IsDottedListChecked = CheckTextMarkerPropertyState(currentSelectedText, TextMarkerStyle.Disc);
-            IsNumericListChecked = CheckTextMarkerPropertyState(currentSelectedText, TextMarkerStyle.Decimal);
+            IsDottedListChecked = currentSelectedText.CheckForStyle(TextMarkerStyle.Disc);
+            IsNumericListChecked = currentSelectedText.CheckForStyle(TextMarkerStyle.Decimal);
 
             IsMarkersColorPickerChecked = CheckDependencyPropertyState(currentCaretPositon, TextElement.BackgroundProperty, SelectedMarkerColor);
             IsFontColorPickerChecked = CheckDependencyPropertyState(currentCaretPositon, TextElement.ForegroundProperty, SelectedFontColor);
@@ -237,6 +236,7 @@ namespace Pergamon
             {
                 FontSizes.Add(i);
             }
+
             FontSizes.Add(36);
             FontSizes.Add(48);
             FontSizes.Add(72);

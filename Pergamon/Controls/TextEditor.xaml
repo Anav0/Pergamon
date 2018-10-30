@@ -118,6 +118,7 @@
 
                                         <!--Formatting submenu-->
                                         <local:FormattingSubmenu 
+                                            IsEnabled="{Binding RelativeSource={RelativeSource AncestorType=Border}, Path=DataContext.Document, Converter={local:NullToBooleanConverter}}"
                                             DataContext="{Binding Source={x:Static local:FormattingSubmenuViewModel.Instance}}"
                                             ActionTarget="{Binding ElementName=editor}"
                                             />
@@ -136,6 +137,7 @@
 
                                         <!--Formatting submenu-->
                                         <local:InsertSubmenu 
+                                        IsEnabled="{Binding RelativeSource={RelativeSource AncestorType=Border}, Path=DataContext.Document, Converter={local:NullToBooleanConverter}}"
                                         DataContext="{Binding Source={x:Static local:InsertSubmenuViewModel.Instance}}"
                                         ActionTarget="{Binding ElementName=editor}"
                                         />
@@ -186,6 +188,7 @@
                                         Grid.Row="3"
                                         MinHeight="100"
                                         x:Name="editor"
+                                        SelectedWord="{Binding SelectedWord, Mode=TwoWay}"
                                         IsDocumentEnabled = "true"
                                         Focusable="True"
                                         FontFamily="{Binding DefaultFontFamily, ElementName=control}"
@@ -203,8 +206,6 @@
                                         Margin="0"
                                         Padding="0"
                                         >
-
-
                                             <!--Deletes spacing between lines-->
                                             <local:CustomRichTextBox.Resources>
                                                 <Style TargetType="{x:Type Paragraph}">

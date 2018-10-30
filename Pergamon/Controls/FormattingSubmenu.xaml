@@ -460,5 +460,13 @@
         </StackPanel>
 
     </StackPanel>
-
+    <UserControl.Style>
+        <Style TargetType="{x:Type UserControl}">
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter Property="Opacity" Value="{StaticResource OpacityForUnabledControl}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Style>
 </UserControl>

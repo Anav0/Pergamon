@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\PropertyChanged.Fody.2.5.12\build\PropertyChanged.Fody.props" Condition="Exists('..\packages\PropertyChanged.Fody.2.5.12\build\PropertyChanged.Fody.props')" />
+  <Import Project="..\packages\PropertyChanged.Fody.2.5.13\build\PropertyChanged.Fody.props" Condition="Exists('..\packages\PropertyChanged.Fody.2.5.13\build\PropertyChanged.Fody.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -38,8 +38,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PropertyChanged, Version=2.5.12.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
-      <HintPath>..\packages\PropertyChanged.Fody.2.5.12\lib\net452\PropertyChanged.dll</HintPath>
+    <Reference Include="PropertyChanged, Version=2.5.13.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
+      <HintPath>..\packages\PropertyChanged.Fody.2.5.13\lib\net452\PropertyChanged.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -70,8 +70,11 @@
     <Compile Include="Controls\AddressSection.xaml.cs">
       <DependentUpon>AddressSection.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\CustomRichTextBox.cs" />
+    <Compile Include="Controls\Classes\CustomRichTextBox.cs" />
     <Compile Include="Controls\Design\MailWrapperDesign.cs" />
+    <Compile Include="Controls\InsertLinkPopup.xaml.cs">
+      <DependentUpon>InsertLinkPopup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\MailWrapper.xaml.cs">
       <DependentUpon>MailWrapper.xaml</DependentUpon>
     </Compile>
@@ -94,14 +97,20 @@
       <DependentUpon>InsertSubmenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="Enums\AddressCategory.cs" />
-    <Compile Include="Helpers\ButtonStateHelper.cs" />
-    <Compile Include="Helpers\FilePathEventArgs.cs" />
+    <Compile Include="Extentions\ButtonStateHelper.cs" />
+    <Compile Include="EventArgs\FilePathEventArgs.cs" />
     <Compile Include="Extentions\IconExtentions.cs" />
     <Compile Include="Extentions\Int64Extentions.cs" />
     <Compile Include="Enums\MenuCategories.cs" />
-    <Compile Include="Helpers\ImageHelpers.cs" />
+    <Compile Include="Extentions\FlowDocumentExtentions.cs" />
+    <Compile Include="Extentions\TextSelectionExtentions.cs" />
+    <Compile Include="HyperLinkFactory\BasicHyperLinkFactory.cs" />
+    <Compile Include="HyperLinkFactory\IHyperLinkFactory.cs" />
     <Compile Include="Models\Address.cs" />
-    <Compile Include="ValueConverter\BaseValueConverter.cs" />
+    <Compile Include="ValueConverter\Base\BaseMultiValueConverter.cs" />
+    <Compile Include="ValueConverter\Base\BaseValueConverter.cs" />
+    <Compile Include="ValueConverter\InverseStringNotEmptyMultiValueConverter.cs" />
+    <Compile Include="ValueConverter\NullToBooleanConverter.cs" />
     <Compile Include="ValueConverter\NumberToVisibilityGoneConverter.cs" />
     <Compile Include="ValueConverter\ByteSquasherConverter.cs" />
     <Compile Include="ValueConverter\BooleanToVisibilityGoneConverter.cs" />
@@ -125,6 +134,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\AddressSection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\InsertLinkPopup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -236,9 +249,6 @@
     </EmbeddedResource>
     <Resource Include="Fonts\Font Awesome 5 Free-Regular-400.otf" />
     <Resource Include="Fonts\Font Awesome 5 Free-Solid-900.otf" />
-    <Resource Include="Fonts\NotoSans-Bold.ttf" />
-    <Resource Include="Fonts\NotoSans-BoldItalic.ttf" />
-    <Resource Include="Fonts\NotoSans-Italic.ttf" />
     <Resource Include="Fonts\NotoSans-Regular.ttf" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -253,12 +263,12 @@
     <Resource Include="FodyWeavers.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Fody.3.2.13\build\Fody.targets" Condition="Exists('..\packages\Fody.3.2.13\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\PropertyChanged.Fody.2.5.12\build\PropertyChanged.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\PropertyChanged.Fody.2.5.12\build\PropertyChanged.Fody.props'))" />
-    <Error Condition="!Exists('..\packages\Fody.3.2.9\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.3.2.9\build\Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\Fody.3.2.13\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.3.2.13\build\Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\PropertyChanged.Fody.2.5.13\build\PropertyChanged.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\PropertyChanged.Fody.2.5.13\build\PropertyChanged.Fody.props'))" />
   </Target>
-  <Import Project="..\packages\Fody.3.2.9\build\Fody.targets" Condition="Exists('..\packages\Fody.3.2.9\build\Fody.targets')" />
 </Project>

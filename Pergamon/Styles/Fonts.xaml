@@ -9,9 +9,6 @@
 
     <!--Noto Sans-->
     <FontFamily x:Key="NotoSansRegular">pack://application;,,,/Fonts/#Noto Sans</FontFamily>
-    <!--<FontFamily x:Key="NotoSansBald">pack://application;,,,/Fonts/#Noto Sans</FontFamily>
-    <FontFamily x:Key="NotoSansItalic">pack://application;,,,/Fonts/#Noto Sans</FontFamily>
-    <FontFamily x:Key="NotoSansBaldItalic">pack://application;,,,/Fonts/#Noto Sans</FontFamily>-->
 
     <!--Font Awsome icons-->
     <system:String x:Key="FontAwesomeAlignLeft">&#xf036;</system:String>

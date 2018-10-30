@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -16,7 +16,11 @@ namespace Pergamon
     {
         #region Public properties
 
-        public FlowDocument Document { get; set; } = new FlowDocument();
+        public string SelectedWord { get; set; }
+
+        public System.Windows.Point EditorPointToScreen { get; set; }
+
+        public FlowDocument Document { get; set; }
 
         public TextSelection SelectedText { get; set; }
 
@@ -31,7 +35,7 @@ namespace Pergamon
                     return;
 
                 _CaretPosition = value;
-            
+
 
                 if (_CaretPosition.GetTextRunLength(LogicalDirection.Backward) != 0 && !string.IsNullOrWhiteSpace(_CaretPosition.GetTextInRun(LogicalDirection.Backward)))
                 {
@@ -51,16 +55,8 @@ namespace Pergamon
 
         #endregion
 
-        #region Public Commands
-
-        public ICommand DisplayDiscardEmailModalBoxCommand { get;  set; }
-
-        public ICommand SendEmailCommand { get; set; }
-        #endregion
-
         public TextEditorViewModel()
         {
-
             FormattingSubmenuViewModel.Instance.OnLineSpacingChanged += OnLineSpacingChanged;
             FormattingSubmenuViewModel.Instance.OnApplyMarkerColorActionCalled += OnApplyMarkerAction;
             FormattingSubmenuViewModel.Instance.OnApplyFontColorActionCalled += OnApplyFontColorAction;
@@ -68,10 +64,21 @@ namespace Pergamon
             FormattingSubmenuViewModel.Instance.OnFontSizeChanged += OnFontSizeChanged;
             InsertSubmenuViewModel.Instance.OnAttachFileAction += OnAttachedFilePathsChanged;
             InsertSubmenuViewModel.Instance.OnInsertImage += OnInsertImageAction;
+            InsertSubmenuViewModel.Instance.OnInsertLink += OnInsertLink;
 
             SendEmailCommand = new RelayCommand(SendEmail);
             DisplayDiscardEmailModalBoxCommand = new RelayCommand(DisplayDiscardEmailModalBox);
         }
+
+        #region Public Commands
+
+        public ICommand DisplayDiscardEmailModalBoxCommand { get; set; }
+
+        public ICommand SendEmailCommand { get; set; }
+
+        #endregion
+
+        #region Command Methods
 
         private void DisplayDiscardEmailModalBox()
         {
@@ -81,13 +88,20 @@ namespace Pergamon
         {
         }
 
+        #endregion
+
+        #region Private Methods
+
+        //TODO: Move to some helper class
         private void AdjustTextSelection()
         {
             SelectedText?.Select(SelectedText.Start, SelectedText.End);
         }
 
+        #endregion
 
         #region Event handlers
+        //TODO: Do something about this explosion of events
 
         private void OnLineSpacingChanged(object sender, EventArgs e)
         {
@@ -116,7 +130,7 @@ namespace Pergamon
             }
         }
 
-        private void OnApplyMarkerAction(object sender, System.EventArgs e)
+        private void OnApplyMarkerAction(object sender, EventArgs e)
         {
             if (!(sender is FormattingSubmenuViewModel formattingVM))
                 return;
@@ -128,12 +142,12 @@ namespace Pergamon
                 else
                     SelectedText.ApplyPropertyValue(TextElement.BackgroundProperty, formattingVM.SelectedMarkerColor);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 //TODO: log this exception
             }
 
-            
+
         }
 
         private void OnFontSizeChanged(object sender, EventArgs e)
@@ -147,7 +161,7 @@ namespace Pergamon
 
         private void OnFontFamilyChanged(object sender, EventArgs e)
         {
-            if (!(sender is FormattingSubmenuViewModel formattingVM) || formattingVM.SelectedFontFamily==null)
+            if (!(sender is FormattingSubmenuViewModel formattingVM) || formattingVM.SelectedFontFamily == null || SelectedText == null)
                 return;
 
             SelectedText.ApplyPropertyValue(TextElement.FontFamilyProperty, formattingVM.SelectedFontFamily);
@@ -156,13 +170,13 @@ namespace Pergamon
 
         private void OnAttachedFilePathsChanged(object sender, EventArgs e)
         {
-            var args = (FilePathArgs) e;
+            var args = (FilePathArgs)e;
 
-            foreach(var file in AttachedFilesListVM.Items)
+            foreach (var file in AttachedFilesListVM.Items)
             {
                 if (file.FilePath == args.FilePath)
                 {
-                    MessageBox.Show("File was already added","Error",MessageBoxButton.OK,MessageBoxImage.Exclamation);
+                    MessageBox.Show("File was already added", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     return;
                 }
             }
@@ -194,7 +208,6 @@ namespace Pergamon
             AttachedFilesListVM.Items.Add(fileVM);
         }
 
-
         private void OnInsertImageAction(object sender, EventArgs e)
         {
             var args = (FilePathArgs)e;
@@ -208,8 +221,44 @@ namespace Pergamon
             bimage.EndInit();
 
             var image = new System.Windows.Controls.Image { Source = bimage };
-            ImageHelpers.InsertImageWithHookedEvents(image, Document);
+            Document.InsertAdornedImage(image);
 
+        }
+
+        private void OnInsertLink(object sender, EventArgs e)
+        {
+            var insertLinkPopup = new InsertLinkPopup();
+            var popup = new Popup();
+
+            var existingLinks = SelectedText.GetHyperlinksFromSelection();
+
+            if (existingLinks == null || existingLinks.Count > 1)
+                return;
+
+            insertLinkPopup.TextToDisplay = SelectedText.Text;
+
+            if(existingLinks.Count == 1)
+                insertLinkPopup.Link = existingLinks[0]?.NavigateUri?.ToString();
+
+            popup.Child = insertLinkPopup;
+            popup.StaysOpen = false;
+            popup.HorizontalOffset = EditorPointToScreen.X;
+            popup.VerticalOffset = EditorPointToScreen.Y + 5;
+
+            insertLinkPopup.AcceptCommand = new RelayCommand(() =>
+            {
+                if (string.IsNullOrEmpty(insertLinkPopup.Link) || string.IsNullOrEmpty(insertLinkPopup.TextToDisplay))
+                    return;
+
+                SelectedText.Text = insertLinkPopup.TextToDisplay;
+
+                var link = new BasicHyperLinkFactory().CreateHyperLinkOnTopOfSelectedText(SelectedText, insertLinkPopup.Link);
+
+                popup.IsOpen = false;
+
+            });
+
+            popup.IsOpen = true;
         }
 
         #endregion

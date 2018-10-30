@@ -25,7 +25,7 @@
     <SolidColorBrush x:Key="DefaultDarkerTabBackgroundColorBrush" Color="{StaticResource DefaultDarkerTabBackgroundColor}" />
 
     <!--Default border color-->
-    <Color x:Key="DefaultBorderColor">#878a8c</Color>
+    <Color x:Key="DefaultBorderColor">#D3D3D3</Color>
     <SolidColorBrush x:Key="DefaultBorderColorBrush" Color="{StaticResource DefaultBorderColor}" />
 
     <!--Accent color-->

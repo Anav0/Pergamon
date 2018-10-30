@@ -8,7 +8,7 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Pergamon")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Pergamon is text editor written for Papilionem")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Pergamon")]
