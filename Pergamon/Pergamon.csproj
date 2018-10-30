@@ -104,8 +104,10 @@
     <Compile Include="Enums\MenuCategories.cs" />
     <Compile Include="Extentions\FlowDocumentExtentions.cs" />
     <Compile Include="Extentions\TextSelectionExtentions.cs" />
-    <Compile Include="HyperLinkFactory\BasicHyperLinkFactory.cs" />
-    <Compile Include="HyperLinkFactory\IHyperLinkFactory.cs" />
+    <Compile Include="Factories\HyperLinkFactories\BasicHyperLinkFactory.cs" />
+    <Compile Include="Factories\HyperLinkFactories\IHyperLinkFactory.cs" />
+    <Compile Include="Factories\PopupFactories\OffsetPopupFactory.cs" />
+    <Compile Include="Factories\PopupFactories\IPopupFactory.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="ValueConverter\Base\BaseMultiValueConverter.cs" />
     <Compile Include="ValueConverter\Base\BaseValueConverter.cs" />
@@ -262,6 +264,7 @@
   <ItemGroup>
     <Resource Include="FodyWeavers.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.3.2.13\build\Fody.targets" Condition="Exists('..\packages\Fody.3.2.13\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

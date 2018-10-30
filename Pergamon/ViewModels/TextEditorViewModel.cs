@@ -228,22 +228,18 @@ namespace Pergamon
         private void OnInsertLink(object sender, EventArgs e)
         {
             var insertLinkPopup = new InsertLinkPopup();
-            var popup = new Popup();
 
             var existingLinks = SelectedText.GetHyperlinksFromSelection();
 
             if (existingLinks == null || existingLinks.Count > 1)
                 return;
 
-            insertLinkPopup.TextToDisplay = SelectedText.Text;
-
             if(existingLinks.Count == 1)
                 insertLinkPopup.Link = existingLinks[0]?.NavigateUri?.ToString();
 
-            popup.Child = insertLinkPopup;
-            popup.StaysOpen = false;
-            popup.HorizontalOffset = EditorPointToScreen.X;
-            popup.VerticalOffset = EditorPointToScreen.Y + 5;
+            insertLinkPopup.TextToDisplay = SelectedText.Text;
+
+            var popup = new OffsetPopupFactory().CreatePopupOnPoint(EditorPointToScreen);
 
             insertLinkPopup.AcceptCommand = new RelayCommand(() =>
             {
@@ -258,6 +254,7 @@ namespace Pergamon
 
             });
 
+            popup.Child = insertLinkPopup;
             popup.IsOpen = true;
         }
 
