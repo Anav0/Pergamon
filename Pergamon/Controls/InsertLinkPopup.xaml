@@ -14,14 +14,11 @@
              MaxHeight="200"
              BorderThickness="1"
              BorderBrush="{StaticResource DefaultBorderColorBrush}"
+             Background="{StaticResource DefaultBackgroundColorBrush}"
              >
 
-    <Grid Background="{StaticResource DefaultBackgroundColorBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    <StackPanel Orientation="Vertical" 
+                >
 
         <!--Text to display textbox-->
         <TextBox Style="{StaticResource PlaceholderTextBox}" 
@@ -90,6 +87,6 @@
             </Button.Style>
         </Button>
 
-    </Grid>
+    </StackPanel>
 
 </UserControl>

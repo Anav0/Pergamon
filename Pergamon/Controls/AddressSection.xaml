@@ -11,14 +11,14 @@
 
     <StackPanel Orientation="Vertical">
 
-        <Grid >
+        <Grid>
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            
-        <local:AddressInputBox x:Name="first" 
+
+            <local:AddressInputBox x:Name="first" 
                                Padding="8 4" 
                                Grid.Column="0"
                                Purpose="From" 
@@ -55,7 +55,7 @@
                 Purpose="BCC"
                 Margin="0"/>
         </StackPanel>
-        
+
         <Border Style="{StaticResource HorizontalSeparator}"/>
 
         <TextBox Style="{StaticResource PlaceholderTextBox}" 

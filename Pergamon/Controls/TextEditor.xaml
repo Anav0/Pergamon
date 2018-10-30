@@ -8,6 +8,7 @@
              d:DesignHeight="250" d:DesignWidth="400" 
              Name="control"
              Style="{DynamicResource controlStyle}"
+             Background="White"
              >
 
     <UserControl.Resources>
@@ -30,14 +31,9 @@
                             >
 
                             <!--Main container-->
-                            <Grid Background="White">
+                            <StackPanel Orientation="Vertical">
 
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-
-                                <!--Menus/submenus-->
+                                <!--Menu bar-->
                                 <Grid Grid.Row="0">
 
                                     <Grid.RowDefinitions>
@@ -46,70 +42,90 @@
                                     </Grid.RowDefinitions>
 
                                     <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
 
 
                                     <!--TODO: check if keeping all different menus is better in terms of performance than using ContentPresenter-->
-                                    <!--Menus-->
-                                    <StackPanel
-                                            Grid.Row="0"
-                                            Grid.Column="0"
-                                            Margin="4"
-                                            Orientation="Horizontal">
+                                    
+                                    <!--Formatting menu item-->
+                                    <RadioButton 
+                                        Style="{StaticResource UnderscoreRadioButton}" 
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Margin="8"
+                                        IsChecked="{Binding SelectedMenu, 
+                                        Converter={local:EnumToBooleanConverter},
+                                        ConverterParameter={x:Static local:MenuCategories.Format}}"
+                                        GroupName="menuCategories" 
+                                        Content="Formatting"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Bottom"
+                                            />
 
-                                        <!--Formatting menu-->
-                                        <RadioButton Style="{StaticResource UnderscoreRadioButton}" 
-                                                     IsChecked="{Binding SelectedMenu, 
-                                                     Converter={local:EnumToBooleanConverter},
-                                                     ConverterParameter={x:Static local:MenuCategories.Format}}"
-                                                     GroupName="menuCategories" 
-                                                     Content="Formatting"/>
+                                    <!--Insert menu item-->
+                                    <RadioButton 
+                                        Style="{StaticResource UnderscoreRadioButton}" 
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Margin="8"
+                                        GroupName="menuCategories" 
+                                        Content="Insert"
+                                        IsChecked="{Binding SelectedMenu, 
+                                        Converter={local:EnumToBooleanConverter},
+                                        ConverterParameter={x:Static local:MenuCategories.Insert}}"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Bottom"
+                                        />
 
-                                        <!--Insert menu-->
-                                        <RadioButton Style="{StaticResource UnderscoreRadioButton}" 
-                                                     GroupName="menuCategories" 
-                                                     Content="Insert"
-                                                     IsChecked="{Binding SelectedMenu, 
-                                                     Converter={local:EnumToBooleanConverter},
-                                                     ConverterParameter={x:Static local:MenuCategories.Insert}}"
-                                                     />
+                                    <!--Options menu item-->
+                                    <RadioButton 
+                                        Style="{StaticResource UnderscoreRadioButton}" 
+                                        Grid.Row="0"
+                                        Grid.Column="2"
+                                        Margin="8"
+                                        GroupName="menuCategories" 
+                                        Content="Options"
+                                        IsChecked="{Binding SelectedMenu, 
+                                        Converter={local:EnumToBooleanConverter},
+                                        ConverterParameter={x:Static local:MenuCategories.Options}}"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Bottom"
+                                        />
 
-                                        <!--Options menu-->
-                                        <RadioButton Style="{StaticResource UnderscoreRadioButton}" 
-                                                     GroupName="menuCategories" 
-                                                     Content="Options"
-                                                     IsChecked="{Binding SelectedMenu, 
-                                                     Converter={local:EnumToBooleanConverter},
-                                                     ConverterParameter={x:Static local:MenuCategories.Options}}"
-                                                     />
-
-                                    </StackPanel>
-
+                                    <!--Send discard buttons-->
+                                    <StackPanel 
+                                        Orientation="Horizontal"
+                                        Grid.Row="0"
+                                        Grid.Column="3"
+                                        Margin="8"   
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                                >
+                                        
                                     <!--Discard message button-->
                                     <local:IconButtonWithText
-                                            Grid.Column="1"
-                                            FontSize="{StaticResource FontSizeRegularExtra}"
-                                            Icon="{StaticResource FontAwesomeBin}"
-                                            Command="{Binding DisplayDiscardEmailModalBoxCommand}"
-                                            Text="Discard"/>
+                                        FontSize="{StaticResource FontSizeRegularExtra}"
+                                        Icon="{StaticResource FontAwesomeBin}"
+                                        Command="{Binding DisplayDiscardEmailModalBoxCommand}"
+                                        Text="Discard"/>
 
                                     <!--Send message button-->
                                     <local:IconButtonWithText 
-                                                Grid.Column="2"
-                                                FontSize="{StaticResource FontSizeRegularExtra}"
-                                                Icon="{StaticResource FontAwesomePaperplane}" 
-                                                Command="{Binding SendEmailCommand}"
-                                                Text="Send"
-                                                Margin="8"            
+                                        FontSize="{StaticResource FontSizeRegularExtra}"
+                                        Icon="{StaticResource FontAwesomePaperplane}" 
+                                        Command="{Binding SendEmailCommand}"
+                                        Text="Send"
                                         />
+                                    </StackPanel>
 
                                     <!--Formatting submenu container-->
                                     <Border
                                         Grid.Row="1"
-                                        Grid.ColumnSpan="3"
+                                        Grid.ColumnSpan="5"
                                         Background="{Binding BarBackground, ElementName=control}"
                                         Visibility="{Binding SelectedMenu, 
                                         Converter={local:EnumToVisibilityGoneConverter},
@@ -128,7 +144,7 @@
                                     <!--Insert submenu container-->
                                     <Border
                                         Grid.Row="1"
-                                        Grid.ColumnSpan="3"
+                                        Grid.ColumnSpan="5"
                                         Background="{Binding BarBackground, ElementName=control}"
                                         Visibility="{Binding SelectedMenu, 
                                         Converter={local:EnumToVisibilityGoneConverter},
@@ -137,10 +153,10 @@
 
                                         <!--Formatting submenu-->
                                         <local:InsertSubmenu 
-                                        IsEnabled="{Binding RelativeSource={RelativeSource AncestorType=Border}, Path=DataContext.Document, Converter={local:NullToBooleanConverter}}"
-                                        DataContext="{Binding Source={x:Static local:InsertSubmenuViewModel.Instance}}"
-                                        ActionTarget="{Binding ElementName=editor}"
-                                        />
+                                            IsEnabled="{Binding RelativeSource={RelativeSource AncestorType=Border}, Path=DataContext.Document, Converter={local:NullToBooleanConverter}}"
+                                            DataContext="{Binding Source={x:Static local:InsertSubmenuViewModel.Instance}}"
+                                            ActionTarget="{Binding ElementName=editor}"
+                                            />
                                     </Border>
 
                                     <!--Selected submenu-->
@@ -157,31 +173,32 @@
 
                                         <!--Address section-->
                                         <local:AddressSection  
-                                                              DataContext="{x:Static local:AddressSectionViewModel.Instance}" 
-                                                              Margin="0 8 0 0"/>
+                                                DataContext="{x:Static local:AddressSectionViewModel.Instance}" 
+                                                Margin="0 8 0 0"/>
 
-
+                                        <!--Separator-->
                                         <Border Style="{StaticResource HorizontalSeparator}"/>
 
                                         <!--Attachments-->
                                         <StackPanel 
-                                            Visibility="{Binding AttachedFilesListVM.Items.Count, Converter={local:NumberToVisibilityGoneConverter}}"
                                             Orientation="Vertical" 
-                                            Margin="8 0 0 0">
+                                            Margin="8 0 0 0"
+                                            Visibility="{Binding AttachedFilesListVM.Items.Count, Converter={local:NumberToVisibilityGoneConverter}}"
+                                            >
 
+                                            <!--Attachments label-->
                                             <Label 
-                                            Content="Attachments"
-                                            FontSize="{StaticResource FontSizeRegularExtra}"
-                                            />
+                                                Content="Attachments"
+                                                FontSize="{StaticResource FontSizeRegularExtra}"
+                                                />
 
                                             <!--Attached files list-->
                                             <local:FileRepList 
-                                            DataContext="{Binding AttachedFilesListVM}"/>
+                                                DataContext="{Binding AttachedFilesListVM}"/>
 
                                             <Border Style="{StaticResource HorizontalSeparator}"/>
 
                                         </StackPanel>
-
 
                                         <!--Editor-->
                                         <local:CustomRichTextBox
@@ -217,7 +234,7 @@
                                     </StackPanel>
                                 </ScrollViewer>
 
-                            </Grid>
+                            </StackPanel>
 
                         </Border>
 

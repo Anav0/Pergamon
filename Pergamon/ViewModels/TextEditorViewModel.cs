@@ -224,6 +224,9 @@ namespace Pergamon
 
         private void OnInsertLink(object sender, EventArgs e)
         {
+            if (SelectedText.Start.Paragraph != SelectedText.End.Paragraph)
+                return;
+
             var insertLinkPopup = new InsertLinkPopup();
 
             var existingLinks = SelectedText.GetHyperlinksFromSelection();

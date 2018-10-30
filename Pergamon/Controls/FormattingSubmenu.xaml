@@ -14,43 +14,33 @@
             Grid.Row="0"
             >
 
-        <!--Font options-->
-        <StackPanel
-                Orientation="Horizontal"
-                >
-
-            <!--Selected font-->
-            <ComboBox
-                    FontWeight="Normal"
-                    ItemsSource="{Binding FontFamilies}"
-                    SelectedItem="{Binding SelectedFontFamily}"
-                    IsEditable="True"
-                    >
-                <ComboBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <VirtualizingStackPanel
+        <!--Selected font-->
+        <ComboBox
+            ItemsSource="{Binding FontFamilies}"
+            SelectedItem="{Binding SelectedFontFamily}"
+            IsEditable="True"
+            >
+            <ComboBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel
                                 VirtualizingPanel.ScrollUnit="Pixel"
                                 />
-                    </ItemsPanelTemplate>
-                </ComboBox.ItemsPanel>
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <Label 
+                </ItemsPanelTemplate>
+            </ComboBox.ItemsPanel>
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <Label 
                             Content="{Binding}"
                             FontFamily="{Binding}"/>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
 
-            <!--Font size-->
-            <ComboBox 
-                    IsEditable="True"
-                    SelectedItem="{Binding SelectedFontSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    ItemsSource="{Binding FontSizes}">
-
-            </ComboBox>
-
-        </StackPanel>
+        <!--Font size-->
+        <ComboBox 
+            IsEditable="True"
+            SelectedItem="{Binding SelectedFontSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            ItemsSource="{Binding FontSizes}"/>
 
         <!--Separator-->
         <Border 
@@ -59,13 +49,8 @@
                 Background="{Binding Foreground, ElementName=firstIcon}"
                 />
 
-        <!--Text edit options-->
-        <StackPanel 
-                Name="textEditSection"
-                Orientation="Horizontal">
-
-            <!--Bold-->
-            <ToggleButton 
+        <!--Bold-->
+        <ToggleButton 
                     Style="{StaticResource PressableIconButton}"
                     Name="firstIcon"
                     Content="{StaticResource FontAwesomeBald}"
@@ -76,8 +61,8 @@
                     IsChecked="{Binding IsBoldChecked}"
                     />
 
-            <!--Italic-->
-            <ToggleButton 
+        <!--Italic-->
+        <ToggleButton 
                     Style="{StaticResource PressableIconButton}"
                     Content="{StaticResource FontAwesomeItalic}"
                     ToolTip="Italic"
@@ -87,8 +72,8 @@
                     IsChecked="{Binding IsItalicChecked}"
                 />
 
-            <!--Underline-->
-            <ToggleButton 
+        <!--Underline-->
+        <ToggleButton 
                     Style="{StaticResource PressableIconButton}"
                     Content="{StaticResource FontAwesomeUnderLine}"
                     ToolTip="Underline"
@@ -98,56 +83,58 @@
                     IsChecked="{Binding IsUnderlineChecked}"
                             />
 
-            
-            <!--Marker-->
-            <StackPanel 
-                    Orientation="Vertical"
-                    Margin="8"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    ToolTip="Marker"
+        <!--Marker-->
+        <Grid Margin="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!--Apply marker color button-->
+            <ToggleButton
+                Grid.Column="0"
+                Name="marker"
+                Style="{StaticResource PressableIconButton}"
+                Content="{StaticResource FontAwesomeMarker}"
+                Margin="0"
+                IsChecked="{Binding IsMarkersColorPickerChecked}"
+                Foreground="{Binding Foreground, ElementName=firstIcon}"
+                Command="{Binding ApplyMarkerColorCommand}"
+                />
+
+            <!--expand color list-->
+            <Button 
+                Grid.Column="1"
+                Margin="0"
+                Padding="2"
+                Style="{StaticResource IconButton}"
+                Command="{Binding ShowMarkerColorPickerCommand}"
                     >
+                <Button.Content>
+                    <Path 
+                        Data="M0,0 L0,2 L4,6 L8,2 L8,0 L4,4 z"
+                        HorizontalAlignment="Center" Fill="{StaticResource DefaultTabForegroundColorBrush}">
+                    </Path>
+                </Button.Content>
+            </Button>
 
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
+            <!--Marker color-->
+            <Border 
+                    Grid.Row="1"
+                    Grid.ColumnSpan="2"
+                    Height="4"
+                    Background="{Binding SelectedMarkerColor}"
+                    />
 
-                    <ToggleButton
-                        Grid.Column="0"
-                        Name="marker"
-                        Style="{StaticResource PressableIconButton}"
-                        Content="{StaticResource FontAwesomeMarker}"
-                        Margin="0"
-                        IsChecked="{Binding IsMarkersColorPickerChecked}"
-                        Foreground="{Binding Foreground, ElementName=firstIcon}"
-                        Command="{Binding ApplyMarkerColorCommand}"
-                        />
+        </Grid>
 
-                    <Button 
-                            Grid.Column="1"
-                            Margin="0"
-                            Padding="2"
-                            Style="{StaticResource IconButton}"
-                            Command="{Binding ShowMarkerColorPickerCommand}"
-                                >
-                        <Button.Content>
-                            <Path 
-                                    Data="M0,0 L0,2 L4,6 L8,2 L8,0 L4,4 z"
-                                    HorizontalAlignment="Center" Fill="{StaticResource DefaultTabForegroundColorBrush}">
-                            </Path>
-                        </Button.Content>
-                    </Button>
-                </Grid>
-
-                <Border 
-                        Height="4"
-                        Background="{Binding SelectedMarkerColor}"
-                        />
-            </StackPanel>
-            <!--Marker color picker popup-->
-            <Popup 
+        <!--Marker color picker popup-->
+        <Popup 
                 Name="popup"
                 IsOpen="{Binding IsMarkerColorPickerVisible}"
                 PlacementTarget="{x:Reference Name=marker}"
@@ -158,29 +145,26 @@
                 VerticalOffset="10"
                 >
 
-                <!--Color picker control-->
-                <local:ColorPicker
+            <!--Color picker control-->
+            <local:ColorPicker
                             DataContext="{Binding ColorPickerVM}"
                             Padding="8"/>
-            </Popup>
+        </Popup>
 
-            <!--Font color-->
-            <StackPanel 
-                    Orientation="Vertical"
-                    Margin="8"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    ToolTip="Font color"
-                    >
+        <!--Font color selector-->
+        <Grid Margin="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
 
-                <Grid >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-                    <!--Apply font color button-->
-                    <ToggleButton
+            <!--Apply font color button-->
+            <ToggleButton
                         Grid.Column="0"
                         Name="font"
                         Style="{StaticResource PressableIconButton}"
@@ -191,30 +175,33 @@
                         Command="{Binding ApplyFontColorCommand}"
                         />
 
-                    <!--Show font color picker-->
-                    <Button 
-                            Grid.Column="1"
-                            Margin="0"
-                            Padding="2"
-                            Style="{StaticResource IconButton}"
-                            Command="{Binding ShowFontColorPickerCommand}">
-                        
-                        <Button.Content>
-                            <Path 
-                                Data="M0,0 L0,2 L4,6 L8,2 L8,0 L4,4 z"
-                                HorizontalAlignment="Center" Fill="{StaticResource DefaultTabForegroundColorBrush}">
-                            </Path>
-                        </Button.Content>
-                    </Button>
-                </Grid>
+            <!--Show font color picker-->
+            <Button 
+                    Grid.Column="1"
+                    Margin="0"
+                    Padding="2"
+                    Style="{StaticResource IconButton}"
+                    Command="{Binding ShowFontColorPickerCommand}">
 
-                <Border 
-                        Height="4"
-                        Background="{Binding SelectedFontColor}"
-                        />
-            </StackPanel>
-            <!--Font color picker popup-->
-            <Popup 
+                <Button.Content>
+                    <Path 
+                            Data="M0,0 L0,2 L4,6 L8,2 L8,0 L4,4 z"
+                            HorizontalAlignment="Center" Fill="{StaticResource DefaultTabForegroundColorBrush}">
+                    </Path>
+                </Button.Content>
+            </Button>
+
+            <!--Selected font color-->
+            <Border 
+                Grid.Row="2"
+                Grid.ColumnSpan="2"
+                Height="4"
+                Background="{Binding SelectedFontColor}"
+                />
+        </Grid>
+
+        <!--Font color picker popup-->
+        <Popup 
                 IsOpen="{Binding IsFontColorPickerVisible}"
                 PlacementTarget="{x:Reference Name=font}"
                 Placement="Bottom"
@@ -224,30 +211,30 @@
                 VerticalOffset="10"
                 >
 
-                <!--Color picker control-->
-                <local:ColorPicker
+            <!--Color picker control-->
+            <local:ColorPicker
                             DataContext="{Binding ColorPickerVM}"
                             Padding="8"/>
-            </Popup>
-            
-            <!--Additional options dropdown-->
-            <Button 
+        </Popup>
+
+        <!--Additional options dropdown-->
+        <Button 
                     Name="additionalOptionsButton"
                     Style="{StaticResource IconButton}"
                     Command="{Binding ShowAdditionalOptionsCommand}"
                         >
-                <Button.Content>
-                    <Path 
+            <Button.Content>
+                <Path 
                             Data="M0,0 L0,2 L4,6 L8,2 L8,0 L4,4 z"
                             HorizontalAlignment="Center" Fill="{StaticResource DefaultTabForegroundColorBrush}">
 
-                        <Path.RenderTransform>
-                            <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
-                        </Path.RenderTransform>
-                    </Path>
-                </Button.Content>
-            </Button>
-            <Popup 
+                    <Path.RenderTransform>
+                        <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                    </Path.RenderTransform>
+                </Path>
+            </Button.Content>
+        </Button>
+        <Popup 
                     IsOpen="{Binding IsAdditionalOptionVisible}"
                     PlacementTarget="{x:Reference Name=additionalOptionsButton}"
                     Placement="Bottom"
@@ -257,11 +244,11 @@
                     VerticalOffset="10"
                     >
 
-                <StackPanel Orientation="Vertical"
+            <StackPanel Orientation="Vertical"
                                 Background="{StaticResource DefaultTabBackgroundColorBrush}">
 
-                    <!--Lower index-->
-                    <ToggleButton 
+                <!--Lower index-->
+                <ToggleButton 
                             Style="{StaticResource PressableIconButton}"
                             Padding="8"
                             IsChecked="{Binding IsSubscriptChecked}"
@@ -269,8 +256,8 @@
                             CommandTarget="{Binding ActionTarget, ElementName=control}"
                             Content="{StaticResource FontAwesomeLowerIndex}"/>
 
-                    <!--Upper index-->
-                    <ToggleButton
+                <!--Upper index-->
+                <ToggleButton
                             Style="{StaticResource PressableIconButton}"
                             Padding="8"
                             IsChecked="{Binding IsSuperscriptChecked}"
@@ -279,10 +266,8 @@
                             Content="{StaticResource FontAwesomeUpperIndex}"/>
 
 
-                </StackPanel>
-            </Popup>
-
-        </StackPanel>
+            </StackPanel>
+        </Popup>
 
         <!--Separator-->
         <Border 
@@ -291,13 +276,8 @@
                 Background="{Binding Foreground, ElementName=firstIcon}"
                 />
 
-        <!--Aligment-->
-        <StackPanel 
-                Name="aligmentSection"
-                Orientation="Horizontal">
-
-            <!--Align left-->
-            <ToggleButton 
+        <!--Align left-->
+        <ToggleButton 
                     x:Name="alignLeftButton"
                     Style="{StaticResource PressableIconButton}"
                     Content="{StaticResource FontAwesomeAlignLeft}"
@@ -308,8 +288,8 @@
                     IsChecked="{Binding IsLeftAlignChecked}"
                     />
 
-            <!--Align right-->
-            <ToggleButton 
+        <!--Align right-->
+        <ToggleButton 
                     Style="{StaticResource PressableIconButton}"
                     Content="{StaticResource FontAwesomeAlignRight}"
                     Foreground="{Binding Foreground, ElementName=firstIcon}"
@@ -319,8 +299,8 @@
                     IsChecked="{Binding IsRightAlignChecked}"
                             />
 
-            <!--Align center-->
-            <ToggleButton 
+        <!--Align center-->
+        <ToggleButton 
                     Style="{StaticResource PressableIconButton}"
                     Content="{StaticResource FontAwesomeAlignCenter}"
                     Foreground="{Binding Foreground, ElementName=firstIcon}"
@@ -330,8 +310,8 @@
                     IsChecked="{Binding IsCenterAlignChecked}"
                 />
 
-            <!--Justify-->
-            <ToggleButton 
+        <!--Justify-->
+        <ToggleButton 
                     Style="{StaticResource PressableIconButton}"
                     Foreground="{Binding Foreground, ElementName=firstIcon}"
                     Content="{StaticResource FontAwesomeAlignJustify}"
@@ -341,26 +321,26 @@
                     IsChecked="{Binding IsJustifyChecked}"
                     />
 
-
-            <!--Additional aligment options-->
-            <Button 
+        <!--Additional aligment options-->
+        <Button 
                     Name="additionalAlignOptionsButton"
                     Style="{StaticResource IconButton}"
                     Command="{Binding ShowAdditionalAlignOptionsCommand}">
 
-                <Button.Content>
-                    <Path 
+            <Button.Content>
+                <Path 
                             Data="M0,0 L0,2 L4,6 L8,2 L8,0 L4,4 z"
                             HorizontalAlignment="Center" Fill="{StaticResource DefaultTabForegroundColorBrush}">
 
-                        <Path.RenderTransform>
-                            <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
-                        </Path.RenderTransform>
-                    </Path>
-                </Button.Content>
-            </Button>
+                    <Path.RenderTransform>
+                        <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                    </Path.RenderTransform>
+                </Path>
+            </Button.Content>
+        </Button>
 
-            <Popup IsOpen="{Binding IsAdditionalAlignOptionVisible}"
+        <!--Additional aligment options popup-->
+        <Popup IsOpen="{Binding IsAdditionalAlignOptionVisible}"
                         PlacementTarget="{x:Reference Name=additionalAlignOptionsButton}"
                         Placement="Bottom"
                         StaysOpen="False"
@@ -369,59 +349,58 @@
                         VerticalOffset="10"
                         >
 
-                <Grid
+            <Grid
                         Background="{StaticResource DefaultTabBackgroundColorBrush}"
                         >
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-                    <!--Indent/Outdent buttons-->
-                    <StackPanel 
+                <!--Indent/Outdent buttons-->
+                <StackPanel 
                             Orientation="Horizontal" 
                             Grid.Row="0"
                                 >
 
-                        <!--Indent-->
-                        <Button
+                    <!--Indent-->
+                    <Button
                                 Style="{StaticResource IconButton}"
                                 Padding="8"
                                 Command="EditingCommands.IncreaseIndentation"
                                 CommandTarget="{Binding ActionTarget, ElementName=control}"
                                 Content="{StaticResource FontAwesomeIndent}"/>
 
-                        <!--Outdent-->
-                        <Button
+                    <!--Outdent-->
+                    <Button
                                 Style="{StaticResource IconButton}"
                                 Padding="8"
                                 Command="EditingCommands.DecreaseIndentation"
                                 CommandTarget="{Binding ActionTarget, ElementName=control}"
                                 Content="{StaticResource FontAwesomeOutdent}"/>
 
-                    </StackPanel>
+                </StackPanel>
 
-                    <StackPanel Orientation="Vertical"
+                <StackPanel Orientation="Vertical"
                                     Grid.Row="1">
 
-                        <!--Spacing label-->
-                        <Label Content="Line spacing"
+                    <!--Spacing label-->
+                    <Label Content="Line spacing"
                                     HorizontalAlignment="Center"/>
 
-                        <!--Spacing-->
-                        <ComboBox
+                    <!--Spacing-->
+                    <ComboBox
                                 IsEditable="True"
                                 SelectedIndex="0"
                                 SelectedItem="{Binding SelectedSpacing}"
                                 ItemsSource="{Binding SpacingOptions}"
                                 >
-                        </ComboBox>
+                    </ComboBox>
 
-                    </StackPanel>
+                </StackPanel>
 
-                </Grid>
-            </Popup>
-        </StackPanel>
+            </Grid>
+        </Popup>
 
         <!--Separator-->
         <Border 
@@ -430,36 +409,31 @@
                 Background="{Binding Foreground, ElementName=firstIcon}"
                 />
 
-        <!--Lists-->
-        <StackPanel 
-                Name="listsSection"
-                Orientation="Horizontal">
+        <!--Bullets-->
+        <ToggleButton 
+            Style="{StaticResource PressableIconButton}"
+            Content="{StaticResource FontAwesomeDotedList}"
+            Foreground="{Binding Foreground, ElementName=firstIcon}"
+            ToolTip="Dotted list"
+            Command="EditingCommands.ToggleBullets"
+            CommandTarget="{Binding ActionTarget, ElementName=control}"
+            IsChecked="{Binding IsDottedListChecked}"
+            />
 
-            <!--Bullets-->
-            <ToggleButton 
-                    Style="{StaticResource PressableIconButton}"
-                    Content="{StaticResource FontAwesomeDotedList}"
-                    Foreground="{Binding Foreground, ElementName=firstIcon}"
-                    ToolTip="Dotted list"
-                    Command="EditingCommands.ToggleBullets"
-                    CommandTarget="{Binding ActionTarget, ElementName=control}"
-                    IsChecked="{Binding IsDottedListChecked}"
-                    />
-
-            <!--Numeric list-->
-            <ToggleButton 
-                    Style="{StaticResource PressableIconButton}"
-                    Content="{StaticResource FontAwesomeNumberList}"
-                    Foreground="{Binding Foreground, ElementName=firstIcon}"
-                    ToolTip="Numeric list"
-                    Command="EditingCommands.ToggleNumbering"
-                    CommandTarget="{Binding ActionTarget, ElementName=control}"
-                    IsChecked="{Binding IsNumericListChecked}"
-                    />
-
-        </StackPanel>
+        <!--Numeric list-->
+        <ToggleButton 
+            Style="{StaticResource PressableIconButton}"
+            Content="{StaticResource FontAwesomeNumberList}"
+            Foreground="{Binding Foreground, ElementName=firstIcon}"
+            ToolTip="Numeric list"
+            Command="EditingCommands.ToggleNumbering"
+            CommandTarget="{Binding ActionTarget, ElementName=control}"
+            IsChecked="{Binding IsNumericListChecked}"
+            />
 
     </StackPanel>
+
+
     <UserControl.Style>
         <Style TargetType="{x:Type UserControl}">
             <Style.Triggers>
@@ -469,4 +443,5 @@
             </Style.Triggers>
         </Style>
     </UserControl.Style>
+
 </UserControl>

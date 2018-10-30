@@ -10,7 +10,6 @@
 
     <StackPanel Orientation="Horizontal" 
                 Background="Transparent"
-                Opacity="1"
                 >
 
         <!--Attach file button-->
@@ -19,6 +18,7 @@
             Text="File"
             Icon="{StaticResource FontAwesomePaperclip}" 
             Command="{Binding AttachFileCommand}"
+            Margin="0 0 4 0"
             />
 
         <!--Insert table button-->
@@ -35,6 +35,7 @@
             Text="Image"
             Icon="{StaticResource FontAwesomeImage}" 
             Command="{Binding InsertImageCommand}"
+            Margin="4 0 4 0"
             />
 
         <!--Insert link button-->
@@ -43,6 +44,7 @@
             Text="Link"
             Icon="{StaticResource FontAwesomeLink}" 
             Command="{Binding InsertLinkCommand}"
+            Margin="4 0 4 0"
             />
 
     </StackPanel>
@@ -56,4 +58,5 @@
             </Style.Triggers>
         </Style>
     </UserControl.Style>
+    
 </UserControl>

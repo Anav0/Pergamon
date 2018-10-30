@@ -23,53 +23,42 @@
 
     <ScrollViewer>
         <Grid>
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <!--Theme colors-->
-            <StackPanel Orientation="Vertical"
-                    Grid.Row="0">
-                <Label 
+            <!--Theme colors label-->
+            <Label 
+            Grid.Row="0"
             Content="Theme colors"
             Padding="6"
             Foreground="{StaticResource ForegroundColor}"
             Background="{DynamicResource LabelBackground}"
             />
 
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                </Grid>
+            <!--Theme colors list-->
+            <ItemsControl
+                    Grid.Row="1"
+                    ItemsSource="{Binding Source={StaticResource colors}}" 
+                    HorizontalAlignment="Left"
+                    Margin="8"
+                    Name="list"
+                    >
 
-                <!--Theme colors list-->
-                <ItemsControl ItemsSource="{Binding Source={StaticResource colors}}" 
-                          HorizontalAlignment="Left"
-                          Margin="8"
-                          Name="list"
-                          >
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="10"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
 
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Columns="10"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border 
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border 
                         Name="themeColor"
                         Background="{Binding Name}" 
                         BorderThickness="1"
@@ -79,55 +68,54 @@
                         Height="32"
                         Cursor="Hand"
                                >
-                                <Border.InputBindings>
-                                    <MouseBinding MouseAction="LeftClick" 
+                            <Border.InputBindings>
+                                <MouseBinding MouseAction="LeftClick" 
                                               Command="{Binding ElementName=list, Path=DataContext.StandardColorClickedCommand}"
                                               CommandParameter="{Binding ElementName=themeColor, Path=Background}"/>
-                                </Border.InputBindings>
+                            </Border.InputBindings>
 
-                                <Border.Style>
-                                    <Style TargetType="{x:Type Border}">
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="true">
-                                                <Setter Property="Opacity" Value="0.8"/>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
+                            <Border.Style>
+                                <Style TargetType="{x:Type Border}">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter Property="Opacity" Value="0.8"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
 
-                </ItemsControl>
+            </ItemsControl>
 
-            </StackPanel>
-
-            <!--Standard color palette-->
-            <StackPanel Grid.Row="1">
-
-                <Label 
+            <!--Standard colors label-->
+            <Label 
+                Grid.Row="2"
                 Content="Standard color palette"
                 Padding="6"
                 Foreground="{StaticResource ForegroundColor}"
                 Background="{DynamicResource LabelBackground}"
                 />
 
-                <ItemsControl 
-                          ItemsSource="{Binding StandardColors}" 
-                          HorizontalAlignment="Left"
-                          Margin="8"
-                          Name="list2"
-                          >
+            <!--Standard colors list-->
+            <ItemsControl
+                Grid.Row="3"
+                ItemsSource="{Binding StandardColors}" 
+                HorizontalAlignment="Left"
+                Margin="8"
+                Name="list2"
+                >
 
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
 
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border 
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border 
                             Name="standardColor"
                             Background="{Binding}" 
                             BorderThickness="1"
@@ -137,33 +125,31 @@
                             Height="32"
                             Cursor="Hand"
                                    >
-                                <Border.InputBindings>
-                                    <MouseBinding MouseAction="LeftClick" 
+                            <Border.InputBindings>
+                                <MouseBinding MouseAction="LeftClick" 
                                               Command="{Binding ElementName=list2, Path=DataContext.StandardColorClickedCommand}"
                                               CommandParameter="{Binding ElementName=standardColor, Path=Background}"/>
-                                </Border.InputBindings>
+                            </Border.InputBindings>
 
-                                <Border.Style>
-                                    <Style TargetType="{x:Type Border}">
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="true">
-                                                <Setter Property="Opacity" Value="0.8"/>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
+                            <Border.Style>
+                                <Style TargetType="{x:Type Border}">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter Property="Opacity" Value="0.8"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
 
-                </ItemsControl>
-
-            </StackPanel>
+            </ItemsControl>
 
             <!--Automatic color-->
             <StackPanel 
+                    Grid.Row="4"
                     Orientation="Horizontal" 
-                    Grid.Row="2"
                     Background="{DynamicResource LabelBackground}">
 
                 <Border 
@@ -175,7 +161,7 @@
                     Width="24" 
                     Height="24"
                     Cursor="Hand">
-                    
+
                     <Border.InputBindings>
                         <MouseBinding MouseAction="LeftClick" 
                                               Command="{Binding ElementName=list2, Path=DataContext.StandardColorClickedCommand}"
@@ -203,7 +189,6 @@
                     />
 
             </StackPanel>
-
 
         </Grid>
     </ScrollViewer>

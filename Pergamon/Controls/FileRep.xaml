@@ -11,7 +11,7 @@
              Background="{StaticResource DefaultTabBackgroundColorBrush}"
              MaxWidth="250"
              >
-    
+
     <!--Main container-->
     <Grid>
         <Grid.ColumnDefinitions>
@@ -19,12 +19,18 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        
-        
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+
         <!--File icon-->
         <Image
             Source="{Binding FileIcon}"
             Grid.Column="0"
+            Grid.RowSpan="2"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Margin="6"
@@ -36,40 +42,43 @@
             </Image.InputBindings>
         </Image>
 
-        <!--File informations-->
-        <StackPanel Orientation="Vertical"
-                    Grid.Column="1"
-                    ToolTip="Open file"
-                    >
-            
-            <!--File name-->
-            <TextBlock
+
+
+        <!--File name-->
+        <TextBlock
+                Grid.Row="0"
+                Grid.Column="1"
                 TextTrimming="CharacterEllipsis"
                 FontFamily="{StaticResource NotoSansRegular}"
                 Text="{Binding FileName}"
                 Margin="0" 
                 Padding="6"
-                />
-            
-            <!--File size-->
-            <Label 
+                >
+            <TextBlock.InputBindings>
+                <MouseBinding Command="{Binding FileClickCommand}" MouseAction="LeftClick"/>
+            </TextBlock.InputBindings>
+        </TextBlock>
+
+        <!--File size-->
+        <Label 
+                Grid.Row="1"
+                Grid.Column="1"
                 Content="{Binding FileSize, 
                 Converter={local:ByteSquasherConverter}}" 
                 Margin="0" 
                 Padding="6 0 0 0"
                 FontSize="{StaticResource FontSizeSmall}"
-                   />
-
-
-            <StackPanel.InputBindings>
+                   >
+            <Label.InputBindings>
                 <MouseBinding Command="{Binding FileClickCommand}" MouseAction="LeftClick"/>
-            </StackPanel.InputBindings>
-        </StackPanel>
-
+            </Label.InputBindings>
+        </Label>
+        
         <!--Remove button-->
         <Button 
             Style="{StaticResource IconButton}"
             Grid.Column="2"
+            Grid.RowSpan="2"
             Padding="6"
             Margin="0"
             Command="{Binding DeleteFileCommand}"
@@ -83,7 +92,7 @@
                             <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)"
                                             To="Red"
                                             Duration="0:0:0.1"/>
-                            
+
                             <ColorAnimation Storyboard.TargetProperty="(Button.Foreground).(SolidColorBrush.Color)"
                                             To="white"
                                             Duration="0:0:0.1"/>
@@ -97,7 +106,7 @@
                             <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)"
                                             To="Transparent"
                                             Duration="0:0:0.2"/>
-                            
+
                             <ColorAnimation Storyboard.TargetProperty="(Button.Foreground).(SolidColorBrush.Color)"
                                             To="{StaticResource DefaultTabForegroundColor}"
                                             Duration="0:0:0.2"/>
@@ -108,7 +117,7 @@
         </Button>
 
     </Grid>
-    
+
     <UserControl.Triggers>
         <EventTrigger RoutedEvent="MouseEnter">
             <BeginStoryboard>

@@ -10,6 +10,7 @@
         x:Name="control" 
         Background="Transparent"
         Foreground="{StaticResource DefaultTabForegroundColorBrush}"
+        FontSize="{StaticResource FontSizeRegularExtra}"
              >
 
     <Button Style="{DynamicResource style}" 

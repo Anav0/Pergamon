@@ -34,59 +34,48 @@
                    />
             </Border>
 
-            <!--Address and delete button-->
+            <!--Address -->
+            <Label 
+                Content="{Binding Address}"
+                Padding="8"
+                Foreground="{StaticResource AccentForegroundColorBrush}"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                />
 
-
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-
-                <Label Content="{Binding Address}"
-                       Grid.Column="0"
-                       Foreground="{StaticResource AccentForegroundColorBrush}"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"/>
-
-                <!--Remove button-->
-                <Button 
-                    Style="{StaticResource IconButton}"
-                    Grid.Column="1"
-                    Padding="6"
-                    Margin="0"
-                    Foreground="{StaticResource AccentForegroundColorBrush}"
-                    Command="{Binding DeleteCommand}"
-                    Content="{StaticResource FontAwesomeClose}"
-                    ToolTip="Remove address"
-                    >
-                    <Button.Triggers>
-                        <EventTrigger RoutedEvent="MouseEnter">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <ColorAnimation Storyboard.TargetProperty="(Button.Foreground).(SolidColorBrush.Color)"
+            <!--Remove button-->
+            <Button 
+                Style="{StaticResource IconButton}"
+                Padding="8"
+                Margin="0"
+                Foreground="{StaticResource AccentForegroundColorBrush}"
+                Command="{Binding DeleteCommand}"
+                Content="{StaticResource FontAwesomeClose}"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                ToolTip="Remove address"
+                >
+                <Button.Triggers>
+                    <EventTrigger RoutedEvent="MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetProperty="(Button.Foreground).(SolidColorBrush.Color)"
                                             To="Red"
                                             Duration="0:0:0.1"/>
-
-                                  
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-
-                        <EventTrigger RoutedEvent="MouseLeave">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <ColorAnimation Storyboard.TargetProperty="(Button.Foreground).(SolidColorBrush.Color)"
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetProperty="(Button.Foreground).(SolidColorBrush.Color)"
                                             To="{StaticResource DefaultTabForegroundColor}"
                                             Duration="0:0:0.1"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </Button.Triggers>
-                </Button>
-
-            </Grid>
-
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Button.Triggers>
+            </Button>
 
         </StackPanel>
     </Border>
