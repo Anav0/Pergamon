@@ -19,8 +19,6 @@ namespace Pergamon
 
         public XmlLanguage SpellingLanguage { get; set; }
 
-        public System.Windows.Point EditorPointToScreen { get; set; }
-
         public FlowDocument Document { get; set; }
 
         public TextSelection SelectedText { get; set; }
@@ -229,7 +227,10 @@ namespace Pergamon
 
         private void OnInsertLink(object sender, EventArgs e)
         {
-            if (SelectedText.Start.Paragraph != SelectedText.End.Paragraph)
+            if (SelectedText.Start.Paragraph != SelectedText.End.Paragraph || !(e is ControlEventArgs arg))
+                return;
+
+            if (!(arg.control is CustomRichTextBox editor))
                 return;
 
             var insertLinkPopup = new InsertLinkPopup();
@@ -244,7 +245,7 @@ namespace Pergamon
 
             insertLinkPopup.TextToDisplay = SelectedText.Text;
 
-            var popup = new OffsetPopupFactory().CreatePopupOnPoint(EditorPointToScreen);
+            var popup = new OffsetPopupFactory().CreatePopupOnPoint(GetEditorPointToScreen(editor));
 
             insertLinkPopup.AcceptCommand = new RelayCommand(() =>
             {
@@ -279,7 +280,7 @@ namespace Pergamon
             if (!(arg.control is CustomRichTextBox editor))
                 return;
 
-            var popup = new OffsetPopupFactory().CreatePopupOnPoint(EditorPointToScreen);
+            var popup = new OffsetPopupFactory().CreatePopupOnPoint(GetEditorPointToScreen(editor));
             var spellCheckOptions = new SpellCheckOptions();
 
             popup.Child = spellCheckOptions;
@@ -335,6 +336,11 @@ namespace Pergamon
 
         }
 
+        private System.Windows.Point GetEditorPointToScreen(RichTextBox editor)
+        {
+            var rect = editor.CaretPosition.GetCharacterRect(LogicalDirection.Backward);
+            return editor.PointToScreen(rect.BottomRight);
+        }
         #endregion
 
     }

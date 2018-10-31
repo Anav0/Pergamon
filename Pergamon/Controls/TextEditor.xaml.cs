@@ -75,8 +75,6 @@ namespace Pergamon
             vm.CaretPosition = editor.CaretPosition;
             vm.Document = editor.Document;
             vm.SelectedText = editor.Selection;
-            var rect = editor.CaretPosition.GetCharacterRect(LogicalDirection.Backward);
-            vm.EditorPointToScreen = editor.PointToScreen(rect.BottomRight);
 
         }
 

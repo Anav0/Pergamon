@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Pergamon"
              mc:Ignorable="d" 
              d:DesignHeight="60" d:DesignWidth="800"
+             Name="control"
              >
 
     <StackPanel Orientation="Horizontal" 
@@ -44,6 +45,7 @@
             Text="Link"
             Icon="{StaticResource FontAwesomeLink}" 
             Command="{Binding InsertLinkCommand}"
+            CommandParameter="{Binding ActionTarget, ElementName=control}"
             Margin="4 0 4 0"
             />
 

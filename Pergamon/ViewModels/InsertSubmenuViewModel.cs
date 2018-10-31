@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Pergamon
@@ -27,15 +28,12 @@ namespace Pergamon
         {
             AttachFileCommand = new RelayCommand(AttachFile);
             InsertImageCommand = new RelayCommand(InsertImage);
-            InsertLinkCommand = new RelayCommand(InsertLink);
+            InsertLinkCommand = new RelayCommandWithParameter((param) => { OnInsertLink?.Invoke(this, new ControlEventArgs((Control)param)); });
         }
-       
 
         private void RaiseOnAttachFile(string path) => OnAttachFileAction?.Invoke(this, new FilePathArgs(path));
 
         private void RaiseOnInsertImage(string path) => OnInsertImage?.Invoke(this, new FilePathArgs(path));
-
-        private void RaiseOnInsertLink() => OnInsertLink?.Invoke(this, new EventArgs());
 
         #region Public commands
 
@@ -60,6 +58,7 @@ namespace Pergamon
             }
 
         }
+
         private void InsertImage()
         {
             var dialog = new OpenFileDialog();
@@ -71,11 +70,6 @@ namespace Pergamon
                 RaiseOnInsertImage(dialog.FileName);
             }
             
-        }
-
-        private void InsertLink()
-        {
-            RaiseOnInsertLink();
         }
 
         #endregion
