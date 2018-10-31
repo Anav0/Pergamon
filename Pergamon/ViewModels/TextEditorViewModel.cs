@@ -70,9 +70,9 @@ namespace Pergamon
             InsertSubmenuViewModel.Instance.AttachFileCommand = new RelayCommand(AttachFile);
 
             OptionsSubmenuViewModel.Instance.OnLanguageChanged += OnLanguageChanged;
-            OptionsSubmenuViewModel.Instance.OnPerformSpellCheck += OnPerformSpellCheck;
+            OptionsSubmenuViewModel.Instance.PerformSpellCheckCommand = new RelayCommandWithParameter((param)=> { PerformSpellCheck((Control)param); });
+            OptionsSubmenuViewModel.Instance.ShowSearchSectionCommand = new RelayCommand(() => SearchSectionVM.IsVisible ^= true);
 
-            OptionsSubmenuViewModel.Instance.OnShowSearchSection += OnShowSearchSection;
             SendEmailCommand = new RelayCommand(SendEmail);
             DisplayDiscardEmailModalBoxCommand = new RelayCommand(DisplayDiscardEmailModalBox);
 
@@ -296,12 +296,9 @@ namespace Pergamon
             Document.Language = XmlLanguage.GetLanguage(vm.SelectedLanguage.IetfLanguageTag);
         }
 
-        private void OnPerformSpellCheck(object sender, EventArgs e)
+        private void PerformSpellCheck(Control cntrl)
         {
-            if (!(sender is OptionsSubmenuViewModel vm) || vm.SelectedLanguage == null || !(e is ControlEventArgs arg))
-                return;
-
-            if (!(arg.control is CustomRichTextBox editor))
+            if (!(cntrl is CustomRichTextBox editor))
                 return;
 
             var popup = new OffsetPopupFactory().CreatePopupOnPoint(GetEditorPointToScreen(editor));
@@ -341,7 +338,7 @@ namespace Pergamon
                         {
                             EditingCommands.IgnoreSpellingError.Execute(null, editor);
                             popup.IsOpen = false;
-                            OnPerformSpellCheck(sender, e);
+                            PerformSpellCheck(editor);
                         });
 
 
@@ -349,7 +346,7 @@ namespace Pergamon
                         {
                             EditingCommands.CorrectSpellingError.Execute(correction, editor);
                             popup.IsOpen = false;
-                            OnPerformSpellCheck(sender, e);
+                            PerformSpellCheck(editor);
                         });
 
                     }

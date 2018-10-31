@@ -36,7 +36,7 @@ namespace Pergamon
 
                 _SelectedLanguage = value;
 
-                RaiseOnLanguageChanged();
+                OnLanguageChanged?.Invoke(this, new EventArgs());
             }
         }
 
@@ -48,20 +48,13 @@ namespace Pergamon
             langs.Sort((x, y) => string.Compare(x.DisplayName, y.DisplayName));
             LanguageList = new ObservableCollection<CultureInfo>(langs);
             SelectedLanguage = CultureInfo.CurrentCulture;
-
-            PerformSpellCheckCommand = new RelayCommandWithParameter((param) => { PerformSpellCheck(param); });
-            ShowSearchSectionCommand = new RelayCommand(() => OnShowSearchSection?.Invoke(this, new EventArgs()));
         }
 
-        #region Eventhandlers
+        #region Event Handlers
 
         public EventHandler OnLanguageChanged;
-        public EventHandler OnPerformSpellCheck;
-        public EventHandler OnShowSearchSection;
 
         #endregion
-
-        private void RaiseOnLanguageChanged() => OnLanguageChanged?.Invoke(this, new EventArgs());
 
         #region Public Commands
 
@@ -71,16 +64,5 @@ namespace Pergamon
 
         #endregion
 
-        #region Command Methods
-
-        private void PerformSpellCheck(object actionTarget)
-        {
-            if (!(actionTarget is Control contr))
-                return;
-
-            OnPerformSpellCheck?.Invoke(this, new ControlEventArgs(contr));
-        }
-
-        #endregion
     }
 }
