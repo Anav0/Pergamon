@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Markup;
@@ -18,8 +16,6 @@ namespace Pergamon
     public class TextEditorViewModel : BaseViewModel
     {
         #region Public properties
-
-        public CustomRichTextBox editor;
 
         public XmlLanguage SpellingLanguage { get; set; }
 
@@ -77,11 +73,7 @@ namespace Pergamon
 
             SpellingLanguage = XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag);
         }
-
-
-
-
-        #region Public Commands
+                #region Public Commands
 
         public ICommand DisplayDiscardEmailModalBoxCommand { get; set; }
 
@@ -281,14 +273,16 @@ namespace Pergamon
 
         private void OnPerformSpellCheck(object sender, EventArgs e)
         {
-            if (!(sender is OptionsSubmenuViewModel vm) || vm.SelectedLanguage == null)
+            if (!(sender is OptionsSubmenuViewModel vm) || vm.SelectedLanguage == null || !(e is ControlEventArgs arg))
                 return;
-           
+
+            if (!(arg.control is CustomRichTextBox editor))
+                return;
+
             var popup = new OffsetPopupFactory().CreatePopupOnPoint(EditorPointToScreen);
             var spellCheckOptions = new SpellCheckOptions();
 
             popup.Child = spellCheckOptions;
-
             editor.SelectAll();
 
             for (int i = 0; i < editor.Selection.Text.Length; i++)

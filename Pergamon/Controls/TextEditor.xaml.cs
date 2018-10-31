@@ -78,8 +78,6 @@ namespace Pergamon
             var rect = editor.CaretPosition.GetCharacterRect(LogicalDirection.Backward);
             vm.EditorPointToScreen = editor.PointToScreen(rect.BottomRight);
 
-            //TODO: try not to break MVVM
-            vm.editor = editor;
         }
 
         

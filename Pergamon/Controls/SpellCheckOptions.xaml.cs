@@ -15,6 +15,8 @@ namespace Pergamon
             InitializeComponent();
         }
 
+        #region Items
+
         public ObservableCollection<string> Items
         {
             get { return (ObservableCollection<string>)GetValue(ItemsProperty); }
@@ -25,7 +27,9 @@ namespace Pergamon
         public static readonly DependencyProperty ItemsProperty =
             DependencyProperty.Register("Items", typeof(ObservableCollection<string>), typeof(SpellCheckOptions), new PropertyMetadata(new ObservableCollection<string>()));
 
+        #endregion
 
+        #region Selected
 
         public string Selected
         {
@@ -37,6 +41,9 @@ namespace Pergamon
         public static readonly DependencyProperty SelectedProperty =
             DependencyProperty.Register("Selected", typeof(string), typeof(SpellCheckOptions), new PropertyMetadata(null));
 
+        #endregion
+
+        #region CorrectionClicked
 
         public ICommand CorrectionClicked
         {
@@ -48,8 +55,9 @@ namespace Pergamon
         public static readonly DependencyProperty CorrectionClickedProperty =
             DependencyProperty.Register("CorrectionClicked", typeof(ICommand), typeof(SpellCheckOptions), new PropertyMetadata(null));
 
+        #endregion
 
-
+        #region IgnoreCommand
 
         public ICommand IgnoreCommand
         {
@@ -61,6 +69,7 @@ namespace Pergamon
         public static readonly DependencyProperty IgnoreCommandProperty =
             DependencyProperty.Register("IgnoreCommand", typeof(ICommand), typeof(SpellCheckOptions), new PropertyMetadata(null));
 
+        #endregion
 
 
     }

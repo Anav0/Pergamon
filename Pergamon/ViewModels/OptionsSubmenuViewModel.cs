@@ -6,6 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Pergamon
@@ -18,7 +19,6 @@ namespace Pergamon
 
         #endregion
         
-
         public ObservableCollection<CultureInfo> LanguageList { get; set; }
 
         private CultureInfo _SelectedLanguage;
@@ -52,12 +52,15 @@ namespace Pergamon
             LanguageList = new ObservableCollection<CultureInfo>(langs);
             SelectedLanguage = CultureInfo.CurrentCulture;
 
-            PerformSpellCheckCommand = new RelayCommand(PerformSpellCheck);
+            PerformSpellCheckCommand = new RelayCommandWithParameter((param) => { PerformSpellCheck(param); });
         }
 
-        private void PerformSpellCheck()
+        private void PerformSpellCheck(object actionTarget)
         {
-            OnPerformSpellCheck?.Invoke(this, new EventArgs());
+            if (!(actionTarget is Control contr))
+                return;
+
+            OnPerformSpellCheck?.Invoke(this, new ControlEventArgs(contr));
         }
 
     }

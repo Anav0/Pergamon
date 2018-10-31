@@ -103,6 +103,7 @@
       <DependentUpon>SpellCheckOptions.xaml</DependentUpon>
     </Compile>
     <Compile Include="Enums\AddressCategory.cs" />
+    <Compile Include="EventArgs\ControlEventArgs.cs" />
     <Compile Include="Extentions\ButtonStateHelper.cs" />
     <Compile Include="EventArgs\FilePathEventArgs.cs" />
     <Compile Include="Extentions\IconExtentions.cs" />

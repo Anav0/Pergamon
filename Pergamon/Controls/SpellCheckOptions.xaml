@@ -10,8 +10,8 @@
              Name="control"
              >
 
-    <Grid Background="{StaticResource DefaultTabBackgroundColorBrush}"
-          >
+    <Grid Background="{StaticResource DefaultTabBackgroundColorBrush}">
+        
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
@@ -42,7 +42,7 @@
                                     Style="{StaticResource IconButton}"
                                     Margin="4"
                                     FontFamily="{StaticResource NotoSansRegular}"
-                                    HorizontalAlignment="Center" 
+                                    HorizontalAlignment="Left" 
                                     VerticalAlignment="Center" 
                                     Content="{Binding}"
                                     CommandParameter="{Binding}"
@@ -56,6 +56,7 @@
 
         </ListView>
 
+        <!--Ignore misspell button-->
         <local:IconButtonWithText
             Grid.Column="1"
             Padding="8"
