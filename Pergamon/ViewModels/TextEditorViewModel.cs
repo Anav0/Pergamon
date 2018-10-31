@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -63,9 +64,11 @@ namespace Pergamon
             FormattingSubmenuViewModel.Instance.OnApplyFontColorActionCalled += OnApplyFontColorAction;
             FormattingSubmenuViewModel.Instance.OnFontFamilyChanged += OnFontFamilyChanged;
             FormattingSubmenuViewModel.Instance.OnFontSizeChanged += OnFontSizeChanged;
-            InsertSubmenuViewModel.Instance.OnAttachFileAction += OnAttachedFilePathsChanged;
-            InsertSubmenuViewModel.Instance.OnInsertImage += OnInsertImageAction;
-            InsertSubmenuViewModel.Instance.OnInsertLink += OnInsertLink;
+
+            InsertSubmenuViewModel.Instance.InsertImageCommand = new RelayCommand(InsertImage);
+            InsertSubmenuViewModel.Instance.InsertLinkCommand = new RelayCommandWithParameter((param) => OnInsertLink((Control)param));
+            InsertSubmenuViewModel.Instance.AttachFileCommand = new RelayCommand(AttachFile);
+
             OptionsSubmenuViewModel.Instance.OnLanguageChanged += OnLanguageChanged;
             OptionsSubmenuViewModel.Instance.OnPerformSpellCheck += OnPerformSpellCheck;
 
@@ -77,7 +80,7 @@ namespace Pergamon
 
         }
 
-       
+
         #region Public Commands
 
         public ICommand DisplayDiscardEmailModalBoxCommand { get; set; }
@@ -114,7 +117,7 @@ namespace Pergamon
         #endregion
 
         #region Event handlers
-        //TODO: Do something about this explosion of events
+        //TODO: Do something about this explosion of handlers
 
         private void OnLineSpacingChanged(object sender, EventArgs e)
         {
@@ -181,69 +184,77 @@ namespace Pergamon
             AdjustTextSelection();
         }
 
-        private void OnAttachedFilePathsChanged(object sender, EventArgs e)
+        private void AttachFile()
         {
-            var args = (FilePathArgs)e;
+            var dialog = new OpenFileDialog();
+            dialog.Title = "Select file to attach";
 
-            foreach (var file in AttachedFilesListVM.Items)
+            if (dialog.ShowDialog() == true)
             {
-                if (file.FilePath == args.FilePath)
+                foreach (var file in AttachedFilesListVM.Items)
                 {
-                    MessageBox.Show("File was already added", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                    return;
+                    if (file.FilePath == dialog.FileName)
+                    {
+                        MessageBox.Show("File was already added", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        return;
+                    }
                 }
+
+                var fileVM = new FileRepViewModel
+                {
+                    FilePath = dialog.FileName,
+                    FileName = Path.GetFileName(dialog.FileName),
+                    FileSize = new FileInfo(dialog.FileName).Length,
+                    FileIcon = Icon.ExtractAssociatedIcon(dialog.FileName).ToImageSource(),
+                };
+
+                fileVM.OnDeleteAction += ((s, arg) =>
+                {
+                    if (!(s is FileRepViewModel sdr))
+                        return;
+
+                    AttachedFilesListVM.Items.Remove(sdr);
+                });
+
+                fileVM.OnFileClick += ((s, arg) =>
+                {
+                    if (!(s is FileRepViewModel sdr))
+                        return;
+
+                    System.Diagnostics.Process.Start(sdr.FilePath);
+                });
+
+                AttachedFilesListVM.Items.Add(fileVM);
             }
-
-            var fileVM = new FileRepViewModel
-            {
-                FilePath = args.FilePath,
-                FileName = Path.GetFileName(args.FilePath),
-                FileSize = new FileInfo(args.FilePath).Length,
-                FileIcon = Icon.ExtractAssociatedIcon(args.FilePath).ToImageSource(),
-            };
-
-            fileVM.OnDeleteAction += ((s, arg) =>
-            {
-                if (!(s is FileRepViewModel sdr))
-                    return;
-
-                AttachedFilesListVM.Items.Remove(sdr);
-            });
-
-            fileVM.OnFileClick += ((s, arg) =>
-            {
-                if (!(s is FileRepViewModel sdr))
-                    return;
-
-                System.Diagnostics.Process.Start(sdr.FilePath);
-            });
-
-            AttachedFilesListVM.Items.Add(fileVM);
         }
 
-        private void OnInsertImageAction(object sender, EventArgs e)
+        private void InsertImage()
         {
-            var args = (FilePathArgs)e;
-
-            if (args == null || Document == null)
+            if (Document == null)
                 return;
 
-            BitmapImage bimage = new BitmapImage();
-            bimage.BeginInit();
-            bimage.UriSource = new Uri(args.FilePath, UriKind.Absolute);
-            bimage.EndInit();
+            var dialog = new OpenFileDialog();
+            dialog.Title = "Select image to insert";
+            dialog.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
 
-            var image = new System.Windows.Controls.Image { Source = bimage };
-            Document.InsertAdornedImage(image);
+            if (dialog.ShowDialog() == true)
+            {
+                BitmapImage bimage = new BitmapImage();
+                bimage.BeginInit();
+                bimage.UriSource = new Uri(dialog.FileName, UriKind.Absolute);
+                bimage.EndInit();
 
+                var image = new System.Windows.Controls.Image { Source = bimage };
+                Document.InsertAdornedImage(image);
+            }
         }
 
-        private void OnInsertLink(object sender, EventArgs e)
+        private void OnInsertLink(Control cntrl)
         {
-            if (SelectedText.Start.Paragraph != SelectedText.End.Paragraph || !(e is ControlEventArgs arg))
+            if (SelectedText.Start.Paragraph != SelectedText.End.Paragraph)
                 return;
 
-            if (!(arg.control is CustomRichTextBox editor))
+            if (!(cntrl is CustomRichTextBox editor))
                 return;
 
             var insertLinkPopup = new InsertLinkPopup();
