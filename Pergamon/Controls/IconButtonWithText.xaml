@@ -15,9 +15,13 @@
 
     <Button Style="{DynamicResource style}" 
             Command="{Binding Command, ElementName=control}"
+            CommandTarget="{Binding CommandTarget, ElementName=control}"
+            CommandParameter="{Binding CommandParameter, ElementName=control}"
             Foreground="{Binding Foreground, ElementName=control}"
             Background="{Binding Background, ElementName=control}"
             FontSize="{Binding FontSize, ElementName=control}"
+            HorizontalAlignment="{Binding HorizontalAlignment, ElementName=control}"
+            VerticalAlignment="{Binding VerticalAlignment, ElementName=control}"
             >
     </Button>
 

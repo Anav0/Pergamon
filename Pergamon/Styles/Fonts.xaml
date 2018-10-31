@@ -50,6 +50,7 @@
 
     <system:String x:Key="FontAwesomeBin">&#xf1f8;</system:String>
     <system:String x:Key="FontAwesomePaperplane">&#xf1d8;</system:String>
+    <system:String x:Key="FontAwesomeGlasses">&#xf530;</system:String>
 
     <!--Font sizes-->
     <system:Double x:Key="FontSizeSmallest">4</system:Double>

@@ -75,6 +75,9 @@
     <Compile Include="Controls\InsertLinkPopup.xaml.cs">
       <DependentUpon>InsertLinkPopup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\OptionsSubmenu.xaml.cs">
+      <DependentUpon>OptionsSubmenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\MailWrapper.xaml.cs">
       <DependentUpon>MailWrapper.xaml</DependentUpon>
     </Compile>
@@ -95,6 +98,9 @@
     </Compile>
     <Compile Include="Controls\InsertSubmenu.xaml.cs">
       <DependentUpon>InsertSubmenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SpellCheckOptions.xaml.cs">
+      <DependentUpon>SpellCheckOptions.xaml</DependentUpon>
     </Compile>
     <Compile Include="Enums\AddressCategory.cs" />
     <Compile Include="Extentions\ButtonStateHelper.cs" />
@@ -130,6 +136,7 @@
     <Compile Include="ViewModels\InsertSubmenuViewModel.cs" />
     <Compile Include="ViewModels\Base\RelayCommand.cs" />
     <Compile Include="ViewModels\Base\RelayCommandWithParameter.cs" />
+    <Compile Include="ViewModels\OptionsSubmenuViewModel.cs" />
     <Compile Include="ViewModels\TextEditorViewModel.cs" />
     <Page Include="Controls\AddressInputBox.xaml">
       <SubType>Designer</SubType>
@@ -142,6 +149,10 @@
     <Page Include="Controls\InsertLinkPopup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\OptionsSubmenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\MailWrapper.xaml">
       <SubType>Designer</SubType>
@@ -168,6 +179,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\InsertSubmenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SpellCheckOptions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

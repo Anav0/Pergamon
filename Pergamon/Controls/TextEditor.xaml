@@ -50,7 +50,7 @@
 
 
                                     <!--TODO: check if keeping all different menus is better in terms of performance than using ContentPresenter-->
-                                    
+
                                     <!--Formatting menu item-->
                                     <RadioButton 
                                         Style="{StaticResource UnderscoreRadioButton}" 
@@ -105,16 +105,16 @@
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Bottom"
                                                 >
-                                        
-                                    <!--Discard message button-->
-                                    <local:IconButtonWithText
+
+                                        <!--Discard message button-->
+                                        <local:IconButtonWithText
                                         FontSize="{StaticResource FontSizeRegularExtra}"
                                         Icon="{StaticResource FontAwesomeBin}"
                                         Command="{Binding DisplayDiscardEmailModalBoxCommand}"
                                         Text="Discard"/>
 
-                                    <!--Send message button-->
-                                    <local:IconButtonWithText 
+                                        <!--Send message button-->
+                                        <local:IconButtonWithText 
                                         FontSize="{StaticResource FontSizeRegularExtra}"
                                         Icon="{StaticResource FontAwesomePaperplane}" 
                                         Command="{Binding SendEmailCommand}"
@@ -155,6 +155,24 @@
                                         <local:InsertSubmenu 
                                             IsEnabled="{Binding RelativeSource={RelativeSource AncestorType=Border}, Path=DataContext.Document, Converter={local:NullToBooleanConverter}}"
                                             DataContext="{Binding Source={x:Static local:InsertSubmenuViewModel.Instance}}"
+                                            ActionTarget="{Binding ElementName=editor}"
+                                            />
+                                    </Border>
+
+                                    <!--Options submenu container-->
+                                    <Border
+                                        Grid.Row="1"
+                                        Grid.ColumnSpan="5"
+                                        Background="{Binding BarBackground, ElementName=control}"
+                                        Visibility="{Binding SelectedMenu, 
+                                        Converter={local:EnumToVisibilityGoneConverter},
+                                        ConverterParameter={x:Static local:MenuCategories.Options}}"
+                                        >
+
+                                        <!--Formatting submenu-->
+                                        <local:OptionsSubmenu 
+                                            IsEnabled="{Binding RelativeSource={RelativeSource AncestorType=Border}, Path=DataContext.Document, Converter={local:NullToBooleanConverter}}"
+                                            DataContext="{Binding Source={x:Static local:OptionsSubmenuViewModel.Instance}}"
                                             ActionTarget="{Binding ElementName=editor}"
                                             />
                                     </Border>
@@ -216,7 +234,8 @@
                                         BorderThickness="0"
                                         BorderBrush="Transparent"
                                         AllowDrop="True"
-                                        SpellCheck.SpellingReform="Postreform"
+                                        SpellCheck.IsEnabled="True"
+                                        Language="{Binding SpellingLanguage, Mode=TwoWay}"
                                         AcceptsTab="True"
                                         AcceptsReturn="True"
                                         Margin="0"
@@ -232,6 +251,7 @@
                                         </local:CustomRichTextBox>
 
                                     </StackPanel>
+                                
                                 </ScrollViewer>
 
                             </StackPanel>

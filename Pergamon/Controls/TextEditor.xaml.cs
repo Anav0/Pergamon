@@ -64,7 +64,7 @@ namespace Pergamon
 
         private void editor_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            if (!(sender is RichTextBox editor))
+            if (!(sender is CustomRichTextBox editor))
                 return;
 
             var vm = DataContext as TextEditorViewModel;
@@ -75,11 +75,13 @@ namespace Pergamon
             vm.CaretPosition = editor.CaretPosition;
             vm.Document = editor.Document;
             vm.SelectedText = editor.Selection;
-
-            //TODO:test test test
             var rect = editor.CaretPosition.GetCharacterRect(LogicalDirection.Backward);
             vm.EditorPointToScreen = editor.PointToScreen(rect.BottomRight);
+
+            //TODO: try not to break MVVM
+            vm.editor = editor;
         }
 
+        
     }
 }

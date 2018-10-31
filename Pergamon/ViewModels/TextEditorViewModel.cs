@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -15,6 +18,10 @@ namespace Pergamon
     public class TextEditorViewModel : BaseViewModel
     {
         #region Public properties
+
+        public CustomRichTextBox editor;
+
+        public XmlLanguage SpellingLanguage { get; set; }
 
         public System.Windows.Point EditorPointToScreen { get; set; }
 
@@ -63,10 +70,16 @@ namespace Pergamon
             InsertSubmenuViewModel.Instance.OnAttachFileAction += OnAttachedFilePathsChanged;
             InsertSubmenuViewModel.Instance.OnInsertImage += OnInsertImageAction;
             InsertSubmenuViewModel.Instance.OnInsertLink += OnInsertLink;
-
+            OptionsSubmenuViewModel.Instance.OnLanguageChanged += OnLanguageChanged;
+            OptionsSubmenuViewModel.Instance.OnPerformSpellCheck += OnPerformSpellCheck;
             SendEmailCommand = new RelayCommand(SendEmail);
             DisplayDiscardEmailModalBoxCommand = new RelayCommand(DisplayDiscardEmailModalBox);
+
+            SpellingLanguage = XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag);
         }
+
+
+
 
         #region Public Commands
 
@@ -234,7 +247,7 @@ namespace Pergamon
             if (existingLinks == null || existingLinks.Count > 1)
                 return;
 
-            if(existingLinks.Count == 1)
+            if (existingLinks.Count == 1)
                 insertLinkPopup.Link = existingLinks[0]?.NavigateUri?.ToString();
 
             insertLinkPopup.TextToDisplay = SelectedText.Text;
@@ -256,6 +269,76 @@ namespace Pergamon
 
             popup.Child = insertLinkPopup;
             popup.IsOpen = true;
+        }
+
+        private void OnLanguageChanged(object sender, EventArgs e)
+        {
+            if (!(sender is OptionsSubmenuViewModel vm) || vm.SelectedLanguage == null)
+                return;
+
+            Document.Language = XmlLanguage.GetLanguage(vm.SelectedLanguage.IetfLanguageTag);
+        }
+
+        private void OnPerformSpellCheck(object sender, EventArgs e)
+        {
+            if (!(sender is OptionsSubmenuViewModel vm) || vm.SelectedLanguage == null)
+                return;
+           
+            var popup = new OffsetPopupFactory().CreatePopupOnPoint(EditorPointToScreen);
+            var spellCheckOptions = new SpellCheckOptions();
+
+            popup.Child = spellCheckOptions;
+
+            editor.SelectAll();
+
+            for (int i = 0; i < editor.Selection.Text.Length; i++)
+            {
+                //Get starting insertion point
+                TextPointer start = editor.Document.ContentStart.GetNextInsertionPosition(LogicalDirection.Forward).GetPositionAtOffset(i, LogicalDirection.Forward);
+
+                //Check for errars at start
+                SpellingError spellingError = editor.GetSpellingError(start);
+
+                //if there is misspelling
+                if (spellingError != null)
+                {
+                    //get range of error
+                    int errRange = editor.GetSpellingErrorRange(start).Text.Length;
+
+                    TextPointer end = editor.Document.ContentStart.GetNextInsertionPosition(LogicalDirection.Forward).GetPositionAtOffset(i + errRange, LogicalDirection.Forward);
+
+                    //focus editor
+                    editor.Focus();
+
+                    //select text containing error
+                    editor.Selection.Select(start, end);
+
+                    spellCheckOptions.Items.Clear();
+                    foreach (string str in spellingError.Suggestions)
+                    {
+                        spellCheckOptions.Items.Add(str);
+
+                        spellCheckOptions.IgnoreCommand = new RelayCommand(() =>
+                        {
+                            EditingCommands.IgnoreSpellingError.Execute(null, editor);
+                            popup.IsOpen = false;
+                            OnPerformSpellCheck(sender, e);
+                        });
+
+
+                        spellCheckOptions.CorrectionClicked = new RelayCommandWithParameter((correction) =>
+                        {
+                            EditingCommands.CorrectSpellingError.Execute(correction, editor);
+                            popup.IsOpen = false;
+                            OnPerformSpellCheck(sender, e);
+                        });
+
+                    }
+                    popup.IsOpen = true;
+                    return;
+                }
+            }
+
         }
 
         #endregion
