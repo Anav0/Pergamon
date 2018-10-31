@@ -46,7 +46,16 @@
             Margin="4 0 4 0"
             />
 
-       
+        <!--Find button-->
+        <local:IconButtonWithText 
+            Foreground="{StaticResource DefaultTabForegroundColorBrush}"
+            Text="Search"
+            Icon="{StaticResource FontAwesomeSearch}" 
+            Command="{Binding ShowSearchSectionCommand}"
+            Margin="4 0 4 0"
+            />
+
+
     </StackPanel>
 
     <UserControl.Style>

@@ -51,6 +51,11 @@
     <system:String x:Key="FontAwesomeBin">&#xf1f8;</system:String>
     <system:String x:Key="FontAwesomePaperplane">&#xf1d8;</system:String>
     <system:String x:Key="FontAwesomeGlasses">&#xf530;</system:String>
+    <system:String x:Key="FontAwesomeSearch">&#xf002;</system:String>
+    <system:String x:Key="FontAwesomeCog">&#xf013;</system:String>
+
+    <system:String x:Key="FontAwesomeCaretLeft">&#xf104;</system:String>
+    <system:String x:Key="FontAwesomeCaretRight">&#xf105;</system:String>
 
     <!--Font sizes-->
     <system:Double x:Key="FontSizeSmallest">4</system:Double>

@@ -52,6 +52,8 @@ namespace Pergamon
 
         public FileRepListViewModel AttachedFilesListVM { get; set; } = new FileRepListViewModel();
 
+        public SearchSectionViewModel SearchSectionVM { get; set; } = new SearchSectionViewModel();
+
         #endregion
 
         public TextEditorViewModel()
@@ -66,12 +68,17 @@ namespace Pergamon
             InsertSubmenuViewModel.Instance.OnInsertLink += OnInsertLink;
             OptionsSubmenuViewModel.Instance.OnLanguageChanged += OnLanguageChanged;
             OptionsSubmenuViewModel.Instance.OnPerformSpellCheck += OnPerformSpellCheck;
+
+            OptionsSubmenuViewModel.Instance.OnShowSearchSection += OnShowSearchSection;
             SendEmailCommand = new RelayCommand(SendEmail);
             DisplayDiscardEmailModalBoxCommand = new RelayCommand(DisplayDiscardEmailModalBox);
 
             SpellingLanguage = XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag);
+
         }
-                #region Public Commands
+
+       
+        #region Public Commands
 
         public ICommand DisplayDiscardEmailModalBoxCommand { get; set; }
 
@@ -96,6 +103,12 @@ namespace Pergamon
         private void AdjustTextSelection()
         {
             SelectedText?.Select(SelectedText.Start, SelectedText.End);
+        }
+
+        private System.Windows.Point GetEditorPointToScreen(RichTextBox editor)
+        {
+            var rect = editor.CaretPosition.GetCharacterRect(LogicalDirection.Backward);
+            return editor.PointToScreen(rect.BottomRight);
         }
 
         #endregion
@@ -336,11 +349,9 @@ namespace Pergamon
 
         }
 
-        private System.Windows.Point GetEditorPointToScreen(RichTextBox editor)
-        {
-            var rect = editor.CaretPosition.GetCharacterRect(LogicalDirection.Backward);
-            return editor.PointToScreen(rect.BottomRight);
-        }
+        private void OnShowSearchSection(object sender, EventArgs e) => SearchSectionVM.IsVisible ^= true;
+
+
         #endregion
 
     }

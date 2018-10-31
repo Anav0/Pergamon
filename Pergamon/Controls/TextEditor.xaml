@@ -38,7 +38,8 @@
 
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="54"/>
+                                        <RowDefinition Height="56"/>
+                                        <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
 
                                     <Grid.ColumnDefinitions>
@@ -176,6 +177,17 @@
                                             ActionTarget="{Binding ElementName=editor}"
                                             />
                                     </Border>
+
+
+                                    <!--Search section-->
+                                    <local:SearchSection 
+                                        DataContext="{Binding SearchSectionVM}"
+                                        Grid.Row="3"
+                                        Grid.ColumnSpan="4"
+                                        Margin="0 8"
+                                        
+                                        />
+
 
                                     <!--Selected submenu-->
                                     <!--<ContentPresenter 

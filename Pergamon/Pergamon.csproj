@@ -99,6 +99,12 @@
     <Compile Include="Controls\InsertSubmenu.xaml.cs">
       <DependentUpon>InsertSubmenu.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Search.xaml.cs">
+      <DependentUpon>Search.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SearchSection.xaml.cs">
+      <DependentUpon>SearchSection.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SpellCheckOptions.xaml.cs">
       <DependentUpon>SpellCheckOptions.xaml</DependentUpon>
     </Compile>
@@ -138,6 +144,7 @@
     <Compile Include="ViewModels\Base\RelayCommand.cs" />
     <Compile Include="ViewModels\Base\RelayCommandWithParameter.cs" />
     <Compile Include="ViewModels\OptionsSubmenuViewModel.cs" />
+    <Compile Include="ViewModels\SearchSectionViewModel.cs" />
     <Compile Include="ViewModels\TextEditorViewModel.cs" />
     <Page Include="Controls\AddressInputBox.xaml">
       <SubType>Designer</SubType>
@@ -180,6 +187,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\InsertSubmenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Search.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SearchSection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

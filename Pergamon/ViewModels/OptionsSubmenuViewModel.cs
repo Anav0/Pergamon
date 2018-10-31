@@ -18,7 +18,9 @@ namespace Pergamon
         public static OptionsSubmenuViewModel Instance { get; private set; } = new OptionsSubmenuViewModel();
 
         #endregion
-        
+
+        #region Public properties
+
         public ObservableCollection<CultureInfo> LanguageList { get; set; }
 
         private CultureInfo _SelectedLanguage;
@@ -38,12 +40,7 @@ namespace Pergamon
             }
         }
 
-        public EventHandler OnLanguageChanged;
-        public EventHandler OnPerformSpellCheck;
-
-        public ICommand PerformSpellCheckCommand { get; set; }
-
-        private void RaiseOnLanguageChanged() => OnLanguageChanged?.Invoke(this, new EventArgs());
+        #endregion
 
         private OptionsSubmenuViewModel()
         {
@@ -53,7 +50,28 @@ namespace Pergamon
             SelectedLanguage = CultureInfo.CurrentCulture;
 
             PerformSpellCheckCommand = new RelayCommandWithParameter((param) => { PerformSpellCheck(param); });
+            ShowSearchSectionCommand = new RelayCommand(() => OnShowSearchSection?.Invoke(this, new EventArgs()));
         }
+
+        #region Eventhandlers
+
+        public EventHandler OnLanguageChanged;
+        public EventHandler OnPerformSpellCheck;
+        public EventHandler OnShowSearchSection;
+
+        #endregion
+
+        private void RaiseOnLanguageChanged() => OnLanguageChanged?.Invoke(this, new EventArgs());
+
+        #region Public Commands
+
+        public ICommand PerformSpellCheckCommand { get; set; }
+
+        public ICommand ShowSearchSectionCommand { get; set; }
+
+        #endregion
+
+        #region Command Methods
 
         private void PerformSpellCheck(object actionTarget)
         {
@@ -63,5 +81,6 @@ namespace Pergamon
             OnPerformSpellCheck?.Invoke(this, new ControlEventArgs(contr));
         }
 
+        #endregion
     }
 }
