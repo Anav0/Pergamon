@@ -64,48 +64,48 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Adorners\ResizingAdorner.cs" />
-    <Compile Include="Controls\AddressInputBox.xaml.cs">
+    <Compile Include="AddressSection\AddressInputBox.xaml.cs">
       <DependentUpon>AddressInputBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\AddressSection.xaml.cs">
+    <Compile Include="AddressSection\AddressSection.xaml.cs">
       <DependentUpon>AddressSection.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Classes\CustomRichTextBox.cs" />
-    <Compile Include="Controls\Design\MailWrapperDesign.cs" />
-    <Compile Include="Controls\InsertLinkPopup.xaml.cs">
+    <Compile Include="CommonControls\Classes\CustomRichTextBox.cs" />
+    <Compile Include="AttachmentsSection\MailWrapperDesign.cs" />
+    <Compile Include="InsertSubmenu\InsertLinkPopup.xaml.cs">
       <DependentUpon>InsertLinkPopup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\OptionsSubmenu.xaml.cs">
+    <Compile Include="OptionsSubmenu\OptionsSubmenu.xaml.cs">
       <DependentUpon>OptionsSubmenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\MailWrapper.xaml.cs">
+    <Compile Include="AddressSection\MailWrapper.xaml.cs">
       <DependentUpon>MailWrapper.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ColorPicker.xaml.cs">
+    <Compile Include="ColorPicker\ColorPicker.xaml.cs">
       <DependentUpon>ColorPicker.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\FileRep.xaml.cs">
+    <Compile Include="AttachmentsSection\FileRep.xaml.cs">
       <DependentUpon>FileRep.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\FileRepList.xaml.cs">
+    <Compile Include="AttachmentsSection\FileRepList.xaml.cs">
       <DependentUpon>FileRepList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\FormattingSubmenu.xaml.cs">
+    <Compile Include="FormattingSubmenu\FormattingSubmenu.xaml.cs">
       <DependentUpon>FormattingSubmenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\IconButtonWithText.xaml.cs">
+    <Compile Include="CommonControls\IconButtonWithText.xaml.cs">
       <DependentUpon>IconButtonWithText.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\InsertSubmenu.xaml.cs">
+    <Compile Include="InsertSubmenu\InsertSubmenu.xaml.cs">
       <DependentUpon>InsertSubmenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Search.xaml.cs">
+    <Compile Include="SearchSection\Search.xaml.cs">
       <DependentUpon>Search.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SearchSection.xaml.cs">
+    <Compile Include="SearchSection\SearchSection.xaml.cs">
       <DependentUpon>SearchSection.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SpellCheckOptions.xaml.cs">
+    <Compile Include="TextEditor\SpellCheckOptions.xaml.cs">
       <DependentUpon>SpellCheckOptions.xaml</DependentUpon>
     </Compile>
     <Compile Include="Enums\AddressCategory.cs" />
@@ -133,76 +133,76 @@
     <Compile Include="ValueConverter\EnumToBooleanConverter.cs" />
     <Compile Include="ValueConverter\MenuCategoriesToControlConverter.cs" />
     <Compile Include="ValueConverter\StringToBrushConverter.cs" />
-    <Compile Include="ViewModels\AddressSectionViewModel.cs" />
-    <Compile Include="ViewModels\MailWrapperViewModel.cs" />
-    <Compile Include="ViewModels\Base\BaseViewModel.cs" />
-    <Compile Include="ViewModels\ColorPickerViewModel.cs" />
-    <Compile Include="ViewModels\FileRepListViewModel.cs" />
-    <Compile Include="ViewModels\FileRepViewModel.cs" />
-    <Compile Include="ViewModels\FormattingSubmenuViewModel.cs" />
-    <Compile Include="ViewModels\InsertSubmenuViewModel.cs" />
-    <Compile Include="ViewModels\Base\RelayCommand.cs" />
-    <Compile Include="ViewModels\Base\RelayCommandWithParameter.cs" />
-    <Compile Include="ViewModels\OptionsSubmenuViewModel.cs" />
-    <Compile Include="ViewModels\SearchSectionViewModel.cs" />
-    <Compile Include="ViewModels\TextEditorViewModel.cs" />
-    <Page Include="Controls\AddressInputBox.xaml">
+    <Compile Include="AddressSection\AddressSectionViewModel.cs" />
+    <Compile Include="AddressSection\MailWrapperViewModel.cs" />
+    <Compile Include="ViewModelBase\BaseViewModel.cs" />
+    <Compile Include="ColorPicker\ColorPickerViewModel.cs" />
+    <Compile Include="AttachmentsSection\FileRepListViewModel.cs" />
+    <Compile Include="AttachmentsSection\FileRepViewModel.cs" />
+    <Compile Include="FormattingSubmenu\FormattingSubmenuViewModel.cs" />
+    <Compile Include="InsertSubmenu\InsertSubmenuViewModel.cs" />
+    <Compile Include="ViewModelBase\RelayCommand.cs" />
+    <Compile Include="ViewModelBase\RelayCommandWithParameter.cs" />
+    <Compile Include="OptionsSubmenu\OptionsSubmenuViewModel.cs" />
+    <Compile Include="SearchSection\SearchSectionViewModel.cs" />
+    <Compile Include="TextEditor\TextEditorViewModel.cs" />
+    <Page Include="AddressSection\AddressInputBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\AddressSection.xaml">
+    <Page Include="AddressSection\AddressSection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\InsertLinkPopup.xaml">
+    <Page Include="InsertSubmenu\InsertLinkPopup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\OptionsSubmenu.xaml">
+    <Page Include="OptionsSubmenu\OptionsSubmenu.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\MailWrapper.xaml">
+    <Page Include="AddressSection\MailWrapper.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\ColorPicker.xaml">
+    <Page Include="ColorPicker\ColorPicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\FileRep.xaml">
+    <Page Include="AttachmentsSection\FileRep.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\FileRepList.xaml">
+    <Page Include="AttachmentsSection\FileRepList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\FormattingSubmenu.xaml">
+    <Page Include="FormattingSubmenu\FormattingSubmenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\IconButtonWithText.xaml">
+    <Page Include="CommonControls\IconButtonWithText.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\InsertSubmenu.xaml">
+    <Page Include="InsertSubmenu\InsertSubmenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Search.xaml">
+    <Page Include="SearchSection\Search.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\SearchSection.xaml">
+    <Page Include="SearchSection\SearchSection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\SpellCheckOptions.xaml">
+    <Page Include="TextEditor\SpellCheckOptions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\TextEditor.xaml">
+    <Page Include="TextEditor\TextEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -214,7 +214,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controls\TextEditor.xaml.cs">
+    <Compile Include="TextEditor\TextEditor.xaml.cs">
       <DependentUpon>TextEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">

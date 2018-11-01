@@ -22,14 +22,6 @@
             Margin="0 0 4 0"
             />
 
-        <!--Insert table button-->
-        <!--<local:IconButtonWithText 
-            Foreground="{StaticResource DefaultTabForegroundColorBrush}"
-            Text="Tabel"
-            Icon="{StaticResource FontAwesomeTable}" 
-            Command="{Binding InsertTableCommand}"
-            />-->
-
         <!--Insert image button-->
         <local:IconButtonWithText 
             Foreground="{StaticResource DefaultTabForegroundColorBrush}"

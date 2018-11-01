@@ -271,20 +271,6 @@
 
                         </Border>
 
-                        <!--Triggers-->
-                        <ControlTemplate.Triggers>
-                            <!--<Trigger Property="BarPlacement" Value="Left">
-                                <Setter Property="Orientation" TargetName="subMenu" Value="Vertical"/>
-                                <Setter Property="Orientation" TargetName="aligmentSection" Value="Vertical"/>
-                                <Setter Property="Orientation" TargetName="textEditSection" Value="Vertical"/>
-                            </Trigger>
-                            <Trigger Property="BarPlacement" Value="Right">
-                                <Setter Property="Orientation" TargetName="subMenu" Value="Vertical"/>
-                                <Setter Property="Orientation" TargetName="aligmentSection" Value="Vertical"/>
-                                <Setter Property="Orientation" TargetName="textEditSection" Value="Vertical"/>
-                            </Trigger>-->
-                        </ControlTemplate.Triggers>
-
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
