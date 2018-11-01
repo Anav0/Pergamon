@@ -73,12 +73,16 @@ namespace Pergamon
             OptionsSubmenuViewModel.Instance.PerformSpellCheckCommand = new RelayCommandWithParameter((param)=> { PerformSpellCheck((Control)param); });
             OptionsSubmenuViewModel.Instance.ShowSearchSectionCommand = new RelayCommand(() => SearchSectionVM.IsVisible ^= true);
 
+            SearchSectionVM.SearchCommand = new RelayCommandWithParameter((param) => PerformSearch((Control)param));
+
             SendEmailCommand = new RelayCommand(SendEmail);
             DisplayDiscardEmailModalBoxCommand = new RelayCommand(DisplayDiscardEmailModalBox);
 
             SpellingLanguage = XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag);
 
         }
+
+        
 
 
         #region Public Commands
@@ -306,7 +310,6 @@ namespace Pergamon
 
             popup.Child = spellCheckOptions;
             editor.SelectAll();
-
             for (int i = 0; i < editor.Selection.Text.Length; i++)
             {
                 //Get starting insertion point
@@ -320,7 +323,6 @@ namespace Pergamon
                 {
                     //get range of error
                     int errRange = editor.GetSpellingErrorRange(start).Text.Length;
-
                     TextPointer end = editor.Document.ContentStart.GetNextInsertionPosition(LogicalDirection.Forward).GetPositionAtOffset(i + errRange, LogicalDirection.Forward);
 
                     //focus editor
@@ -357,8 +359,34 @@ namespace Pergamon
 
         }
 
-        private void OnShowSearchSection(object sender, EventArgs e) => SearchSectionVM.IsVisible ^= true;
+        private void PerformSearch(Control cntrl)
+        {
 
+            if (!(cntrl is RichTextBox editor))
+                return;
+
+            TextPointer start = Document.ContentStart;
+
+            while (start != null)
+            {
+                string textInRun = start.GetTextInRun(LogicalDirection.Forward);
+
+                if (!string.IsNullOrWhiteSpace(textInRun))
+                {
+                    int index = textInRun.IndexOf(SearchSectionVM.Phrase);
+
+                    if (index != -1)
+                    {
+                        TextPointer selectionStart = start.GetPositionAtOffset(index, LogicalDirection.Forward);
+                        TextPointer selectionEnd = selectionStart.GetPositionAtOffset(SearchSectionVM.Phrase.Length, LogicalDirection.Forward);
+
+                        editor.Selection.Select(selectionStart, selectionEnd);
+                    }
+                }
+                start = start.GetNextContextPosition(LogicalDirection.Forward);
+            }
+                    
+        }
 
         #endregion
 

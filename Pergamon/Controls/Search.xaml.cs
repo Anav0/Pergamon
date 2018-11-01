@@ -28,6 +28,20 @@ namespace Pergamon
 
         #endregion
 
+        #region SearchCommandParameter
+
+        public object SearchCommandParameter
+        {
+            get { return (object)GetValue(SearchCommandParameterProperty); }
+            set { SetValue(SearchCommandParameterProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SearchCommandParameter.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SearchCommandParameterProperty =
+            DependencyProperty.Register("SearchCommandParameter", typeof(object), typeof(Search), new PropertyMetadata(null));
+
+        #endregion
+
         #region SearchPhrase
 
         public string SearchPhrase
@@ -38,7 +52,7 @@ namespace Pergamon
 
         // Using a DependencyProperty as the backing store for SearchPhrase.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SearchPhraseProperty =
-            DependencyProperty.Register("SearchPhrase", typeof(string), typeof(Search), new PropertyMetadata(null));
+            DependencyProperty.Register("SearchPhrase", typeof(string), typeof(Search), new FrameworkPropertyMetadata(null,FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         #endregion
 
@@ -52,7 +66,7 @@ namespace Pergamon
 
         // Using a DependencyProperty as the backing store for PlaceholderText.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PlaceholderTextProperty =
-            DependencyProperty.Register("PlaceholderText", typeof(string), typeof(Search), new PropertyMetadata("Search..."));
+            DependencyProperty.Register("PlaceholderText", typeof(string), typeof(Search), new FrameworkPropertyMetadata("Search..", FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         #endregion
     }

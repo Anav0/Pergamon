@@ -36,6 +36,8 @@
             Margin="0"
             Padding="6"
             Command="{Binding SearchCommand, ElementName=control}"
+            CommandParameter="{Binding SearchCommandParameter, ElementName=control}"
             />
+        
     </Grid>
 </UserControl>

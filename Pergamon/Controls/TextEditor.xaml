@@ -181,6 +181,7 @@
 
                                     <!--Search section-->
                                     <local:SearchSection 
+                                        ActionTarget="{Binding ElementName=editor}"
                                         DataContext="{Binding SearchSectionVM}"
                                         Grid.Row="3"
                                         Grid.ColumnSpan="4"

@@ -9,6 +9,8 @@ namespace Pergamon
 
         public bool IsVisible { get; set; }
 
+        public string Phrase { get; set; }
+
         #endregion
 
         public SearchSectionViewModel()

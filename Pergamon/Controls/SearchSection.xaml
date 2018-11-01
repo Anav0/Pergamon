@@ -9,6 +9,7 @@
              Name="control"
              Background="{StaticResource DefaultTabBackgroundColorBrush}"
              Visibility="{Binding IsVisible, Converter={local:BooleanToVisibilityGoneConverter}}"
+             
              >
 
     <Grid>
@@ -37,10 +38,13 @@
 
         <!--Search box-->
         <local:Search 
+            x:Name="searchbox"
             Grid.Column="1"
             PlaceholderText="Find..."
             Margin="8"
+            SearchPhrase="{Binding Phrase, Mode=TwoWay}"
             SearchCommand="{Binding SearchCommand}"
+            SearchCommandParameter="{Binding ActionTarget, ElementName=control}"
             />
 
         <!--Replace box-->
