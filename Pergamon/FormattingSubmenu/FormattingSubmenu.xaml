@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:Pergamon"
              mc:Ignorable="d" 
              d:DesignHeight="48" 
-             d:DesignWidth="650" Name="control">
+             d:DesignWidth="650" Name="control"
+             Background="{StaticResource DefaultTabBackgroundColorBrush}">
 
     <!--Formatting submenu-->
     <StackPanel

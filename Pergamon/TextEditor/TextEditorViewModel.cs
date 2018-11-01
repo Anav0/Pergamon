@@ -53,7 +53,7 @@ namespace Pergamon
 
         public FileRepListViewModel AttachedFilesListVM { get; set; } = new FileRepListViewModel();
 
-        public SearchSectionViewModel SearchSectionVM { get; set; } = new SearchSectionViewModel();
+        public bool IsSearchSectionVisible { get; set; }
 
         #endregion
 
@@ -71,9 +71,7 @@ namespace Pergamon
 
             OptionsSubmenuViewModel.Instance.OnLanguageChanged += OnLanguageChanged;
             OptionsSubmenuViewModel.Instance.PerformSpellCheckCommand = new RelayCommandWithParameter((param)=> { PerformSpellCheck((Control)param); });
-            OptionsSubmenuViewModel.Instance.ShowSearchSectionCommand = new RelayCommand(() => SearchSectionVM.IsVisible ^= true);
-
-            SearchSectionVM.SearchCommand = new RelayCommandWithParameter((param) => PerformSearch((Control)param));
+            OptionsSubmenuViewModel.Instance.ShowSearchSectionCommand = new RelayCommand(() => IsSearchSectionVisible ^= true);
 
             SendEmailCommand = new RelayCommand(SendEmail);
             DisplayDiscardEmailModalBoxCommand = new RelayCommand(DisplayDiscardEmailModalBox);
@@ -81,9 +79,6 @@ namespace Pergamon
             SpellingLanguage = XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag);
 
         }
-
-        
-
 
         #region Public Commands
 
@@ -359,34 +354,7 @@ namespace Pergamon
 
         }
 
-        private void PerformSearch(Control cntrl)
-        {
-
-            if (!(cntrl is RichTextBox editor))
-                return;
-
-            TextPointer start = Document.ContentStart;
-
-            while (start != null)
-            {
-                string textInRun = start.GetTextInRun(LogicalDirection.Forward);
-
-                if (!string.IsNullOrWhiteSpace(textInRun))
-                {
-                    int index = textInRun.IndexOf(SearchSectionVM.Phrase);
-
-                    if (index != -1)
-                    {
-                        TextPointer selectionStart = start.GetPositionAtOffset(index, LogicalDirection.Forward);
-                        TextPointer selectionEnd = selectionStart.GetPositionAtOffset(SearchSectionVM.Phrase.Length, LogicalDirection.Forward);
-
-                        editor.Selection.Select(selectionStart, selectionEnd);
-                    }
-                }
-                start = start.GetNextContextPosition(LogicalDirection.Forward);
-            }
-                    
-        }
+        
 
         #endregion
 

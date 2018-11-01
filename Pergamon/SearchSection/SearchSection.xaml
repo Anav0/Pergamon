@@ -8,8 +8,6 @@
              d:DesignHeight="45" d:DesignWidth="800"
              Name="control"
              Background="{StaticResource DefaultTabBackgroundColorBrush}"
-             Visibility="{Binding IsVisible, Converter={local:BooleanToVisibilityGoneConverter}}"
-             
              >
 
     <Grid>
@@ -18,8 +16,6 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
@@ -91,23 +87,6 @@
                 Margin="0"
                 Padding="8"
                 Command="{Binding GoToNextCommand}"/>
-
-        <!--Separator-->
-        <Border Grid.Column="7" 
-                Margin="8 12" 
-                Padding="0" 
-                Style="{StaticResource Separator}"/>
-
-        <!--Close-->
-        <Button Style="{StaticResource IconButton}"
-                Grid.Column="8"
-                Content="{StaticResource FontAwesomeClose}"
-                FontSize="{StaticResource FontSizeBigger}"
-                Margin="0"
-                Padding="8"
-                Command="{Binding CloseCommand}"
-                HorizontalAlignment="Right"/>
-
 
     </Grid>
 </UserControl>

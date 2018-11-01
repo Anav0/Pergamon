@@ -10,6 +10,8 @@ namespace Pergamon
     {
         public SearchSection()
         {
+            //TODO: new vm every time...
+            DataContext = new SearchSectionViewModel();
             InitializeComponent();
         }
 

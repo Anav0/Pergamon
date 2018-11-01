@@ -72,6 +72,7 @@ namespace Pergamon
             if (vm == null)
                 return;
 
+            StaticReferences.editor = editor;
             vm.CaretPosition = editor.CaretPosition;
             vm.Document = editor.Document;
             vm.SelectedText = editor.Selection;

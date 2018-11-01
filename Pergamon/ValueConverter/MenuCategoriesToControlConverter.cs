@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Globalization;
+using System.Windows.Controls;
 
 namespace Pergamon
 {
@@ -8,20 +9,34 @@ namespace Pergamon
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-
             if (!(value is MenuCategories category))
                 return null;
 
-            switch(category)
+            switch (category)
             {
                 case MenuCategories.Format:
-                    return new FormattingSubmenu();
-                case MenuCategories.Insert:
-                    return null;
-                case MenuCategories.Options:
-                    return null;
-            }
+                    {
+                        var output = new FormattingSubmenu();
+                        output.DataContext = FormattingSubmenuViewModel.Instance;
+                        output.ActionTarget = StaticReferences.editor;
+                        return output;
+                    }
 
+                case MenuCategories.Insert:
+                    {
+                        var output = new InsertSubmenu();
+                        output.DataContext = InsertSubmenuViewModel.Instance;
+                        output.ActionTarget = StaticReferences.editor;
+                        return output;
+                    }
+                case MenuCategories.Options:
+                    {
+                        var output = new OptionsSubmenu();
+                        output.DataContext = OptionsSubmenuViewModel.Instance;
+                        output.ActionTarget = StaticReferences.editor;
+                        return output;
+                    }
+            }
 
             return null;
         }

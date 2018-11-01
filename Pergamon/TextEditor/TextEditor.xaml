@@ -49,9 +49,6 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
-
-                                    <!--TODO: check if keeping all different menus is better in terms of performance than using ContentPresenter-->
-
                                     <!--Formatting menu item-->
                                     <RadioButton 
                                         Style="{StaticResource UnderscoreRadioButton}" 
@@ -123,76 +120,23 @@
                                         />
                                     </StackPanel>
 
-                                    <!--Formatting submenu container-->
-                                    <Border
+                                    <!--Selected submenu-->
+                                    <ContentPresenter 
                                         Grid.Row="1"
                                         Grid.ColumnSpan="5"
-                                        Background="{Binding BarBackground, ElementName=control}"
-                                        Visibility="{Binding SelectedMenu, 
-                                        Converter={local:EnumToVisibilityGoneConverter},
-                                        ConverterParameter={x:Static local:MenuCategories.Format}}"
-                                        >
-
-                                        <!--Formatting submenu-->
-                                        <local:FormattingSubmenu 
-                                            IsEnabled="{Binding RelativeSource={RelativeSource AncestorType=Border}, Path=DataContext.Document, Converter={local:NullToBooleanConverter}}"
-                                            DataContext="{Binding Source={x:Static local:FormattingSubmenuViewModel.Instance}}"
-                                            ActionTarget="{Binding ElementName=editor}"
-                                            />
-
-                                    </Border>
-
-                                    <!--Insert submenu container-->
-                                    <Border
-                                        Grid.Row="1"
-                                        Grid.ColumnSpan="5"
-                                        Background="{Binding BarBackground, ElementName=control}"
-                                        Visibility="{Binding SelectedMenu, 
-                                        Converter={local:EnumToVisibilityGoneConverter},
-                                        ConverterParameter={x:Static local:MenuCategories.Insert}}"
-                                        >
-
-                                        <!--Formatting submenu-->
-                                        <local:InsertSubmenu 
-                                            IsEnabled="{Binding RelativeSource={RelativeSource AncestorType=Border}, Path=DataContext.Document, Converter={local:NullToBooleanConverter}}"
-                                            DataContext="{Binding Source={x:Static local:InsertSubmenuViewModel.Instance}}"
-                                            ActionTarget="{Binding ElementName=editor}"
-                                            />
-                                    </Border>
-
-                                    <!--Options submenu container-->
-                                    <Border
-                                        Grid.Row="1"
-                                        Grid.ColumnSpan="5"
-                                        Background="{Binding BarBackground, ElementName=control}"
-                                        Visibility="{Binding SelectedMenu, 
-                                        Converter={local:EnumToVisibilityGoneConverter},
-                                        ConverterParameter={x:Static local:MenuCategories.Options}}"
-                                        >
-
-                                        <!--Formatting submenu-->
-                                        <local:OptionsSubmenu 
-                                            IsEnabled="{Binding RelativeSource={RelativeSource AncestorType=Border}, Path=DataContext.Document, Converter={local:NullToBooleanConverter}}"
-                                            DataContext="{Binding Source={x:Static local:OptionsSubmenuViewModel.Instance}}"
-                                            ActionTarget="{Binding ElementName=editor}"
-                                            />
-                                    </Border>
-
-
+                                        Content="{Binding SelectedMenu, Converter={local:MenuCategoriesToControlConverter}}"
+                                        IsEnabled="{Binding RelativeSource={RelativeSource AncestorType=Border}, Path=DataContext.Document, Converter={local:NullToBooleanConverter}}"
+                                        />
+                                    
                                     <!--Search section-->
                                     <local:SearchSection 
                                         ActionTarget="{Binding ElementName=editor}"
-                                        DataContext="{Binding SearchSectionVM}"
+                                        Visibility="{Binding ElementName=mainContainer, Path=DataContext.IsSearchSectionVisible, Converter={local:BooleanToVisibilityGoneConverter}}"
                                         Grid.Row="3"
                                         Grid.ColumnSpan="4"
                                         Margin="0 8"
                                         
                                         />
-
-
-                                    <!--Selected submenu-->
-                                    <!--<ContentPresenter 
-                                        Content="{Binding SelectedMenu, Converter={local:MenuCategoriesToControlConverter}}"/>-->
 
                                 </Grid>
 
