@@ -1,8 +1,6 @@
-﻿using System.Windows;
+﻿using Nuntium.Core;
+using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Pergamon
@@ -12,13 +10,13 @@ namespace Pergamon
     /// </summary>
     public partial class TextEditor : UserControl
     {
+
         public TextEditor()
         {
-            var vm = new TextEditorViewModel();
-            DataContext = vm;
-
             InitializeComponent();
 
+            //TODO: :/
+            IoC.Kernel.Rebind<CustomRichTextBox>().ToConstant(editor);
         }
 
         #region BarBackground
@@ -47,38 +45,5 @@ namespace Pergamon
 
         #endregion
 
-        #region BarPlacement
-
-        public Dock BarPlacement
-        {
-            get { return (Dock)GetValue(BarPlacementProperty); }
-            set
-            {
-                SetValue(BarPlacementProperty, value);
-            }
-        }
-        public static readonly DependencyProperty BarPlacementProperty =
-            DependencyProperty.Register("BarPlacement", typeof(Dock), typeof(TextEditor), new PropertyMetadata(Dock.Top));
-
-        #endregion
-
-        private void editor_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            if (!(sender is CustomRichTextBox editor))
-                return;
-
-            var vm = DataContext as TextEditorViewModel;
-
-            if (vm == null)
-                return;
-
-            StaticReferences.editor = editor;
-            vm.CaretPosition = editor.CaretPosition;
-            vm.Document = editor.Document;
-            vm.SelectedText = editor.Selection;
-
-        }
-
-        
     }
 }

@@ -6,7 +6,7 @@ using System.Windows.Media.Imaging;
 
 namespace Pergamon
 {
-    public class FileRepViewModel : BaseViewModel
+    public class AttachFileViewModel : BaseViewModel
     {
         #region Public properties
 
@@ -20,7 +20,7 @@ namespace Pergamon
 
         #endregion
 
-        public FileRepViewModel()
+        public AttachFileViewModel()
         {
             DeleteFileCommand = new RelayCommand(DeleteFile);
             FileClickCommand = new RelayCommand(FileClick);

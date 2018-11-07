@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using Ninject;
+using Nuntium.Core;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Windows;
 using System.Windows.Controls;
@@ -82,7 +84,7 @@ namespace Pergamon
                     EmailCategory = Purpose,
                 };
 
-                AddressSectionViewModel.Instance.Addresses.Add(adr);
+                IoC.Kernel.Get<AddressSectionViewModel>().Addresses.Add(adr);
 
                 var wrapper = new MailWrapperViewModel
                 {
@@ -94,7 +96,7 @@ namespace Pergamon
                 wrapper.OnDeleteButtonClick += ((s, args) =>
                 {
                     Addresses.Remove(wrapper);
-                    AddressSectionViewModel.Instance.Addresses.Remove(adr);
+                    IoC.Kernel.Get<AddressSectionViewModel>().Addresses.Remove(adr);
                 });
 
                 Addresses.Add(wrapper);

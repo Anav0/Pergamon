@@ -1,4 +1,5 @@
 ﻿
+using Nuntium.Core;
 using System;
 using System.Drawing;
 using System.Linq;
@@ -30,8 +31,6 @@ namespace Pergamon
                 //Cancel so we can add image with hooked events instead
                 e.CancelCommand();
             }
-            
-            
         }
 
         protected override void OnTextChanged(TextChangedEventArgs e)

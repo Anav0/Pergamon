@@ -12,6 +12,5 @@
         >
     
     <local:TextEditor
-        BarPlacement="Top"
         />
 </Window>

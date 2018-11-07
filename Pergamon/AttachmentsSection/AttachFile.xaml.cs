@@ -3,11 +3,11 @@
 namespace Pergamon
 {
     /// <summary>
-    /// Interaction logic for FileRepList.xaml
+    /// Interaction logic for FileRep.xaml
     /// </summary>
-    public partial class FileRepList : UserControl
+    public partial class AttachFile : UserControl
     {
-        public FileRepList()
+        public AttachFile()
         {
             InitializeComponent();
         }

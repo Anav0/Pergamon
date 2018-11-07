@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Pergamon
@@ -8,6 +9,7 @@ namespace Pergamon
     /// </summary>
     public partial class FormattingSubmenu : UserControl
     {
+
         public FormattingSubmenu()
         {
             InitializeComponent();

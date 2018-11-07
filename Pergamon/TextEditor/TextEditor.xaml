@@ -5,222 +5,193 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Pergamon"
              mc:Ignorable="d" 
-             d:DesignHeight="250" d:DesignWidth="400" 
+             d:DesignHeight="500" d:DesignWidth="750" 
              Name="control"
-             Style="{DynamicResource controlStyle}"
+             DataContext="{Binding TextEditorVM, 
+             Source={x:Static local:ConstantViewModels.Instance}}"
              Background="White"
+             BorderThickness="1"
+             BorderBrush="{StaticResource DefaultBorderColorBrush}"
              >
 
-    <UserControl.Resources>
+    <!--Main container-->
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <Style x:Key="controlStyle" TargetType="{x:Type local:TextEditor}">
+        <!--Menu bar-->
+        <Grid Grid.Row="0">
 
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type local:TextEditor}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="56"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-                        <!--Border of main container-->
-                        <Border
-                            FocusManager.FocusedElement="{Binding ElementName=editor}"
-                            BorderThickness="1"
-                            BorderBrush="{StaticResource DefaultBorderColorBrush}"
-                            Background="{Binding Background, ElementName=control}"
-                            Padding="{Binding Padding, ElementName=control}"
-                            Margin="{Binding Margin, ElementName=control}"
-                            Name="mainContainer"
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!--Formatting menu item-->
+            <RadioButton 
+                    Style="{StaticResource UnderscoreRadioButton}" 
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="8"
+                    IsChecked="{Binding SelectedMenu, 
+                    Converter={local:EnumToBooleanConverter},
+                    ConverterParameter={x:Static local:MenuCategories.Format}}"
+                    GroupName="menuCategories" 
+                    Content="Formatting"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                        />
+
+            <!--Insert menu item-->
+            <RadioButton 
+                    Style="{StaticResource UnderscoreRadioButton}" 
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="8"
+                    GroupName="menuCategories" 
+                    Content="Insert"
+                    IsChecked="{Binding SelectedMenu, 
+                    Converter={local:EnumToBooleanConverter},
+                    ConverterParameter={x:Static local:MenuCategories.Insert}}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    />
+
+            <!--Options menu item-->
+            <RadioButton 
+                    Style="{StaticResource UnderscoreRadioButton}" 
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Margin="8"
+                    GroupName="menuCategories" 
+                    Content="Options"
+                    IsChecked="{Binding SelectedMenu, 
+                    Converter={local:EnumToBooleanConverter},
+                    ConverterParameter={x:Static local:MenuCategories.Options}}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    />
+
+            <!--Send discard buttons-->
+            <StackPanel 
+                    Orientation="Horizontal"
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    Margin="8"   
+                    HorizontalAlignment="Right"
                             >
 
-                            <!--Main container-->
-                            <StackPanel Orientation="Vertical">
+                <!--Discard message button-->
+                <local:IconButtonWithText
+                            FontSize="{StaticResource FontSizeRegularExtra}"
+                            Icon="{StaticResource FontAwesomeBin}"
+                            Command="{Binding DisplayDiscardEmailModalBoxCommand}"
+                            Text="Discard"/>
 
-                                <!--Menu bar-->
-                                <Grid Grid.Row="0">
+                <!--Send message button-->
+                <local:IconButtonWithText 
+                            FontSize="{StaticResource FontSizeRegularExtra}"
+                            Icon="{StaticResource FontAwesomePaperplane}" 
+                            Command="{Binding SendEmailCommand}"
+                            Text="Send"
+                            />
+            </StackPanel>
 
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="56"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
+            <!--Selected submenu-->
+            <ContentPresenter 
+                Grid.Row="1"
+                Grid.ColumnSpan="5"
+                Content="{Binding SelectedMenu, Converter={local:MenuCategoriesToControlConverter}}"
+                />
 
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
+            <!--Search section-->
+            <local:SearchSection 
+                DataContext="{Binding SearchSectionVM, 
+                Source={x:Static local:ConstantViewModels.Instance}}" 
+                    
+                ActionTarget="{Binding ElementName=editor}"
+                
+                Visibility="{Binding TextEditorVM.IsSearchSectionVisible, 
+                Source={x:Static local:ConstantViewModels.Instance},
+                Converter={local:BooleanToVisibilityGoneConverter}}" 
+                
+                    
+                Grid.Row="3"
+                Grid.ColumnSpan="5"
+                Margin="0 8"
+                />
 
-                                    <!--Formatting menu item-->
-                                    <RadioButton 
-                                        Style="{StaticResource UnderscoreRadioButton}" 
-                                        Grid.Row="0"
-                                        Grid.Column="0"
-                                        Margin="8"
-                                        IsChecked="{Binding SelectedMenu, 
-                                        Converter={local:EnumToBooleanConverter},
-                                        ConverterParameter={x:Static local:MenuCategories.Format}}"
-                                        GroupName="menuCategories" 
-                                        Content="Formatting"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Bottom"
-                                            />
+        </Grid>
 
-                                    <!--Insert menu item-->
-                                    <RadioButton 
-                                        Style="{StaticResource UnderscoreRadioButton}" 
-                                        Grid.Row="0"
-                                        Grid.Column="1"
-                                        Margin="8"
-                                        GroupName="menuCategories" 
-                                        Content="Insert"
-                                        IsChecked="{Binding SelectedMenu, 
-                                        Converter={local:EnumToBooleanConverter},
-                                        ConverterParameter={x:Static local:MenuCategories.Insert}}"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Bottom"
-                                        />
+        <!--Address section/attachments/editor-->
+        <ScrollViewer VerticalScrollBarVisibility="Auto" 
+                      Grid.Row="1">
 
-                                    <!--Options menu item-->
-                                    <RadioButton 
-                                        Style="{StaticResource UnderscoreRadioButton}" 
-                                        Grid.Row="0"
-                                        Grid.Column="2"
-                                        Margin="8"
-                                        GroupName="menuCategories" 
-                                        Content="Options"
-                                        IsChecked="{Binding SelectedMenu, 
-                                        Converter={local:EnumToBooleanConverter},
-                                        ConverterParameter={x:Static local:MenuCategories.Options}}"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Bottom"
-                                        />
+            <StackPanel Orientation="Vertical" >
 
-                                    <!--Send discard buttons-->
-                                    <StackPanel 
-                                        Orientation="Horizontal"
-                                        Grid.Row="0"
-                                        Grid.Column="3"
-                                        Margin="8"   
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Bottom"
-                                                >
+                <!--Address section-->
+                <local:AddressSection  
+                            DataContext="{Binding AddressSectionVM, 
+                            Source={x:Static local:ConstantViewModels.Instance}}" 
+                            Margin="0 8 0 0"/>
 
-                                        <!--Discard message button-->
-                                        <local:IconButtonWithText
-                                        FontSize="{StaticResource FontSizeRegularExtra}"
-                                        Icon="{StaticResource FontAwesomeBin}"
-                                        Command="{Binding DisplayDiscardEmailModalBoxCommand}"
-                                        Text="Discard"/>
+                <!--Separator-->
+                <Border Style="{StaticResource HorizontalSeparator}"/>
 
-                                        <!--Send message button-->
-                                        <local:IconButtonWithText 
-                                        FontSize="{StaticResource FontSizeRegularExtra}"
-                                        Icon="{StaticResource FontAwesomePaperplane}" 
-                                        Command="{Binding SendEmailCommand}"
-                                        Text="Send"
-                                        />
-                                    </StackPanel>
+                <!--Attachments section-->
+                <local:AttachmentsSection
+                            DataContext="{Binding AttachmentsSectionVM, 
+                            Source={x:Static local:ConstantViewModels.Instance}}" 
+                            Visibility="{Binding Items.Count, Converter={local:NumberToVisibilityGoneConverter}}"
+                            />
 
-                                    <!--Selected submenu-->
-                                    <ContentPresenter 
-                                        Grid.Row="1"
-                                        Grid.ColumnSpan="5"
-                                        Content="{Binding SelectedMenu, Converter={local:MenuCategoriesToControlConverter}}"
-                                        IsEnabled="{Binding RelativeSource={RelativeSource AncestorType=Border}, Path=DataContext.Document, Converter={local:NullToBooleanConverter}}"
-                                        />
-                                    
-                                    <!--Search section-->
-                                    <local:SearchSection 
-                                        ActionTarget="{Binding ElementName=editor}"
-                                        Visibility="{Binding ElementName=mainContainer, Path=DataContext.IsSearchSectionVisible, Converter={local:BooleanToVisibilityGoneConverter}}"
-                                        Grid.Row="3"
-                                        Grid.ColumnSpan="4"
-                                        Margin="0 8"
-                                        
-                                        />
 
-                                </Grid>
+                <!--Editor-->
+                <local:CustomRichTextBox
+                        Grid.Row="3"
+                        MinHeight="100"
+                        x:Name="editor"
+                        ScrollViewer.CanContentScroll="True"
+                        IsDocumentEnabled = "true"
+                        Focusable="True"
+                        IsInactiveSelectionHighlightEnabled="True"
+                        SelectionBrush="Blue"
+                        Background="{Binding Background, ElementName=control}"
+                        Foreground="{Binding Foreground, ElementName=control}"
+                        BorderThickness="0"
+                        BorderBrush="Transparent"
+                        AllowDrop="True"
+                        SpellCheck.IsEnabled="True"
+                        AcceptsTab="True"
+                        AcceptsReturn="True"
+                        Margin="0"
+                        Padding="0"
+                        >
 
-                                <!--Address section/attachments/editor-->
-                                <ScrollViewer VerticalScrollBarVisibility="Auto" 
-                                              Grid.Row="1">
+                    <!--Deletes spacing between lines-->
+                    <local:CustomRichTextBox.Resources>
+                        <Style TargetType="{x:Type Paragraph}">
+                            <Setter Property="LineHeight" Value="{Binding LineSpacing}" />
+                        </Style>
+                    </local:CustomRichTextBox.Resources>
 
-                                    <StackPanel Orientation="Vertical" >
+                </local:CustomRichTextBox>
 
-                                        <!--Address section-->
-                                        <local:AddressSection  
-                                                DataContext="{x:Static local:AddressSectionViewModel.Instance}" 
-                                                Margin="0 8 0 0"/>
+            </StackPanel>
 
-                                        <!--Separator-->
-                                        <Border Style="{StaticResource HorizontalSeparator}"/>
+        </ScrollViewer>
 
-                                        <!--Attachments-->
-                                        <StackPanel 
-                                            Orientation="Vertical" 
-                                            Margin="8 0 0 0"
-                                            Visibility="{Binding AttachedFilesListVM.Items.Count, Converter={local:NumberToVisibilityGoneConverter}}"
-                                            >
-
-                                            <!--Attachments label-->
-                                            <Label 
-                                                Content="Attachments"
-                                                FontSize="{StaticResource FontSizeRegularExtra}"
-                                                />
-
-                                            <!--Attached files list-->
-                                            <local:FileRepList 
-                                                DataContext="{Binding AttachedFilesListVM}"/>
-
-                                            <Border Style="{StaticResource HorizontalSeparator}"/>
-
-                                        </StackPanel>
-
-                                        <!--Editor-->
-                                        <local:CustomRichTextBox
-                                        Grid.Row="3"
-                                        MinHeight="100"
-                                        x:Name="editor"
-                                        IsDocumentEnabled = "true"
-                                        Focusable="True"
-                                        FontFamily="{Binding DefaultFontFamily, ElementName=control}"
-                                        SelectionChanged="editor_SelectionChanged"
-                                        IsInactiveSelectionHighlightEnabled="True"
-                                        SelectionBrush="Blue"
-                                        Background="{Binding Background, ElementName=mainContainer}"
-                                        Foreground="{Binding Foreground, ElementName=control}"
-                                        BorderThickness="0"
-                                        BorderBrush="Transparent"
-                                        AllowDrop="True"
-                                        SpellCheck.IsEnabled="True"
-                                        Language="{Binding SpellingLanguage, Mode=TwoWay}"
-                                        AcceptsTab="True"
-                                        AcceptsReturn="True"
-                                        Margin="0"
-                                        Padding="0"
-                                        >
-                                            <!--Deletes spacing between lines-->
-                                            <local:CustomRichTextBox.Resources>
-                                                <Style TargetType="{x:Type Paragraph}">
-                                                    <Setter Property="LineHeight" Value="{Binding LineSpacing}" />
-                                                </Style>
-                                            </local:CustomRichTextBox.Resources>
-
-                                        </local:CustomRichTextBox>
-
-                                    </StackPanel>
-                                
-                                </ScrollViewer>
-
-                            </StackPanel>
-
-                        </Border>
-
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </UserControl.Resources>
-
+    </Grid>
 
 
 </UserControl>

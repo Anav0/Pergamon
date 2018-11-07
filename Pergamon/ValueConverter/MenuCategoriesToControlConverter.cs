@@ -1,7 +1,8 @@
 ﻿
+using Ninject;
+using Nuntium.Core;
 using System;
 using System.Globalization;
-using System.Windows.Controls;
 
 namespace Pergamon
 {
@@ -17,23 +18,23 @@ namespace Pergamon
                 case MenuCategories.Format:
                     {
                         var output = new FormattingSubmenu();
-                        output.DataContext = FormattingSubmenuViewModel.Instance;
-                        output.ActionTarget = StaticReferences.editor;
+                        output.ActionTarget = IoC.Kernel.Get<CustomRichTextBox>();
+                        output.DataContext = new FormattingSubmenuViewModel();
                         return output;
                     }
 
                 case MenuCategories.Insert:
                     {
                         var output = new InsertSubmenu();
-                        output.DataContext = InsertSubmenuViewModel.Instance;
-                        output.ActionTarget = StaticReferences.editor;
+                        output.ActionTarget = IoC.Kernel.Get<CustomRichTextBox>();
+                        output.DataContext = new InsertSubmenuViewModel();
                         return output;
                     }
                 case MenuCategories.Options:
                     {
                         var output = new OptionsSubmenu();
-                        output.DataContext = OptionsSubmenuViewModel.Instance;
-                        output.ActionTarget = StaticReferences.editor;
+                        output.ActionTarget = IoC.Kernel.Get<CustomRichTextBox>();
+                        output.DataContext = new OptionsSubmenuViewModel();
                         return output;
                     }
             }

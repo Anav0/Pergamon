@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Ninject;
+using Nuntium.Core;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -12,39 +14,19 @@ namespace Pergamon
 {
     public class FormattingSubmenuViewModel : BaseViewModel
     {
-        #region Singleton
-
-        public static FormattingSubmenuViewModel Instance { get; set; } = new FormattingSubmenuViewModel();
-
-        #endregion
 
         #region Public properties
 
-        #region bools
-
-        public bool IsBoldChecked { get; set; }
-        public bool IsItalicChecked { get; set; }
-        public bool IsUnderlineChecked { get; set; }
-        public bool IsLeftAlignChecked { get; set; }
-        public bool IsRightAlignChecked { get; set; }
-        public bool IsCenterAlignChecked { get; set; }
-        public bool IsJustifyChecked { get; set; }
-        public bool IsDottedListChecked { get; set; }
-        public bool IsNumericListChecked { get; set; }
+        
 
         public bool IsAdditionalOptionVisible { get; set; }
         public bool IsAdditionalAlignOptionVisible { get; set; }
 
-        public bool IsSuperscriptChecked { get; set; }
-        public bool IsSubscriptChecked { get; set; }
+      
 
         public bool IsMarkerColorPickerVisible { get; set; }
         public bool IsFontColorPickerVisible { get; set; }
-        public bool IsFontColorPickerChecked { get; set; }
 
-        public bool IsMarkersColorPickerChecked { get; set; }
-
-        #endregion
 
         public ObservableCollection<double> FontSizes { get; set; }
 
@@ -61,7 +43,7 @@ namespace Pergamon
 
                 _SelectedFontSize = value;
 
-                RaiseOnFontSizeChanged();
+                ApplyFontSize(IoC.Kernel.Get<CustomRichTextBox>());
             }
         }
 
@@ -74,7 +56,7 @@ namespace Pergamon
 
                 _SelectedFontFamily = value;
 
-                RaiseOnFontFamilyChanged();
+                ApplyFontFamily(IoC.Kernel.Get<CustomRichTextBox>());
             }
         }
 
@@ -95,7 +77,8 @@ namespace Pergamon
                 _SelectedSpacing = value;
 
                 LineSpacing = _SelectedSpacing * SelectedFontSize;
-                RaiseOnLineSpacingChanged();
+
+                //TODO: wdniadniadniandiawnd
             }
         }
 
@@ -107,43 +90,16 @@ namespace Pergamon
 
         #endregion
 
-        #region Event handlers
-
-        public event EventHandler OnApplyMarkerColorActionCalled;
-
-        public event EventHandler OnApplyFontColorActionCalled;
-
-        public event EventHandler OnLineSpacingChanged;
-
-        public event EventHandler OnFontSizeChanged;
-
-        public event EventHandler OnFontFamilyChanged;
-
-        #endregion
-
-        #region Event raisers
-
-        private void RaiseOnLineSpacingChanged() => OnLineSpacingChanged?.Invoke(this, new EventArgs());
-
-        private void RaiseOnApplyMarkerColor() => OnApplyMarkerColorActionCalled?.Invoke(this, new EventArgs());
-
-        private void RaiseOnApplyFontColor() => OnApplyFontColorActionCalled?.Invoke(this, new EventArgs());
-
-        private void RaiseOnFontSizeChanged() => OnFontSizeChanged?.Invoke(this, new EventArgs());
-
-        private void RaiseOnFontFamilyChanged() => OnFontFamilyChanged?.Invoke(this, new EventArgs());
-
-        #endregion
-
-        private FormattingSubmenuViewModel()
+        public FormattingSubmenuViewModel()
         {
             ShowMarkerColorPickerCommand = new RelayCommand(ShowMarkerColorPicker);
             ShowFontColorPickerCommand = new RelayCommand(ShowFontColorPicker);
 
             ShowAdditionalOptionsCommand = new RelayCommand(ShowAdditionalOptions);
             ShowAdditionalAlignOptionsCommand = new RelayCommand(ShowAdditionalAlignOptions);
-            ApplyMarkerColorCommand = new RelayCommand(RaiseOnApplyMarkerColor);
-            ApplyFontColorCommand = new RelayCommand(RaiseOnApplyFontColor);
+
+            ApplyMarkerColorCommand = new RelayCommandWithParameter((param) => { ApplyMarkerColor((RichTextBox)(param)); });
+            ApplyFontColorCommand = new RelayCommandWithParameter((param)=> { ApplyFontColor((RichTextBox)(param)); });
 
             FontSizes = new ObservableCollection<double>();
             FillFontSizesList();
@@ -154,23 +110,23 @@ namespace Pergamon
             SpacingOptions = new ObservableCollection<double>();
             FillSpacingOptions();
 
-            ColorPickerVM = new ColorPickerViewModel();
+            var colorPickerVM = new ColorPickerViewModel();
 
-
-            ColorPickerVM.OnColorSelectionChanged += ((s, e) =>
+            colorPickerVM.OnColorSelectionChanged += ((s, e) =>
             {
-                if(IsFontColorPickerVisible)
+                if (IsFontColorPickerVisible)
                 {
-                    SelectedFontColor = ColorPickerVM.SelectedStandardBrush;
-                    RaiseOnApplyFontColor();
+                    SelectedFontColor = colorPickerVM.SelectedStandardBrush;
+                    ApplyFontColor(IoC.Kernel.Get<CustomRichTextBox>());
                 }
                 else
                 {
-                    SelectedMarkerColor = ColorPickerVM.SelectedStandardBrush;
-                    RaiseOnApplyMarkerColor();
+                    SelectedMarkerColor = colorPickerVM.SelectedStandardBrush;
+                    ApplyMarkerColor(IoC.Kernel.Get<CustomRichTextBox>());
                 }
 
             });
+            
         }
 
         #region Public Command
@@ -199,32 +155,59 @@ namespace Pergamon
 
         private void ShowAdditionalAlignOptions() => IsAdditionalAlignOptionVisible ^= true;
 
+        private void ApplyFontColor(RichTextBox editor)
+        {
+
+            try
+            {
+                if (editor.Selection.GetPropertyValue(TextElement.ForegroundProperty) == SelectedFontColor)
+                    editor.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, new SolidColorBrush(Colors.Transparent));
+                else
+                    editor.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, SelectedFontColor);
+            }
+            catch (Exception ex)
+            {
+                //TODO: log this exception
+            }
+        }
+
+        private void ApplyMarkerColor(RichTextBox editor)
+        {
+            try
+            {
+                if (editor.Selection.GetPropertyValue(TextElement.BackgroundProperty) == SelectedMarkerColor)
+                    editor.Selection.ApplyPropertyValue(TextElement.BackgroundProperty, new SolidColorBrush(Colors.Transparent));
+                else
+                    editor.Selection.ApplyPropertyValue(TextElement.BackgroundProperty, SelectedMarkerColor);
+            }
+            catch (Exception ex)
+            {
+                //TODO: log this exception
+            }
+
+
+        }
+
+        private void ApplyFontSize(RichTextBox editor)
+        {
+            editor.Selection?.ApplyPropertyValue(TextElement.FontSizeProperty, SelectedFontSize);
+            editor.Selection?.Select(editor.Selection.Start, editor.Selection.End);
+        }
+
+        private void ApplyFontFamily(RichTextBox editor)
+        {
+            if (SelectedFontFamily == null)
+                return;
+
+            editor.Selection?.ApplyPropertyValue(TextElement.FontFamilyProperty, SelectedFontFamily);
+            editor.Selection?.Select(editor.Selection.Start, editor.Selection.End);
+        }
+
         #endregion
 
         #region Private methods
 
-        public void UpdateButtonsState(TextPointer currentCaretPositon, TextSelection currentSelectedText)
-        {
-
-            IsBoldChecked = CheckDependencyPropertyState(currentCaretPositon, TextElement.FontWeightProperty, FontWeights.Bold);
-            IsItalicChecked = CheckDependencyPropertyState(currentCaretPositon, TextElement.FontStyleProperty, FontStyles.Italic);
-            IsUnderlineChecked = CheckDependencyPropertyState(currentCaretPositon, TextBlock.TextDecorationsProperty, TextDecorations.Underline);
-
-            IsLeftAlignChecked = CheckDependencyPropertyState(currentCaretPositon, Paragraph.TextAlignmentProperty, TextAlignment.Left);
-            IsRightAlignChecked = CheckDependencyPropertyState(currentCaretPositon, Paragraph.TextAlignmentProperty, TextAlignment.Right);
-            IsCenterAlignChecked = CheckDependencyPropertyState(currentCaretPositon, Paragraph.TextAlignmentProperty, TextAlignment.Center);
-            IsJustifyChecked = CheckDependencyPropertyState(currentCaretPositon, Paragraph.TextAlignmentProperty, TextAlignment.Justify);
-
-            IsSubscriptChecked = CheckDependencyPropertyState(currentCaretPositon, Typography.VariantsProperty, FontVariants.Subscript);
-            IsSuperscriptChecked = CheckDependencyPropertyState(currentCaretPositon, Typography.VariantsProperty, FontVariants.Superscript);
-
-            IsDottedListChecked = currentSelectedText.CheckForStyle(TextMarkerStyle.Disc);
-            IsNumericListChecked = currentSelectedText.CheckForStyle(TextMarkerStyle.Decimal);
-
-            IsMarkersColorPickerChecked = CheckDependencyPropertyState(currentCaretPositon, TextElement.BackgroundProperty, SelectedMarkerColor);
-            IsFontColorPickerChecked = CheckDependencyPropertyState(currentCaretPositon, TextElement.ForegroundProperty, SelectedFontColor);
-        }
-
+        //TODO: Find good way to update buttons state
         private void FillFontSizesList()
         {
             FontSizes.Add(8);
