@@ -1,4 +1,7 @@
-﻿using System.Windows.Documents;
+﻿using Ninject;
+using Nuntium.Core;
+using Prism.Events;
+using System.Windows.Documents;
 using System.Windows.Input;
 
 namespace Pergamon
@@ -19,6 +22,11 @@ namespace Pergamon
         {
             SendEmailCommand = new RelayCommand(SendEmail);
             DisplayDiscardEmailModalBoxCommand = new RelayCommand(DisplayDiscardEmailModalBox);
+
+            IoC.Kernel.Get<IEventAggregator>().GetEvent<LineSpacingChangedEvent>().Subscribe((value) =>
+            {
+                LineSpacing = value;
+            });
         }
 
         #region Public Commands

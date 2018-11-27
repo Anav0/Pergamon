@@ -17,6 +17,7 @@ namespace Pergamon
 
             //TODO: Binding texteditor instance
             IoC.Kernel.Rebind<CustomRichTextBox>().ToConstant(editor);
+
         }
 
         #region BarBackground

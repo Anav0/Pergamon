@@ -1,5 +1,6 @@
 ﻿using Ninject;
 using Nuntium.Core;
+using Prism.Events;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -55,8 +56,6 @@ namespace Pergamon
             }
         }
 
-        public double LineSpacing { get; set; } = 0.5d;
-
         private double _SelectedSpacing;
         public double SelectedSpacing
         {
@@ -66,14 +65,9 @@ namespace Pergamon
                 if (_SelectedSpacing == value)
                     return;
 
-                if (!(SpacingOptions.Contains(value)))
-                    SpacingOptions.Add(value);
-
                 _SelectedSpacing = value;
 
-                LineSpacing = _SelectedSpacing * SelectedFontSize;
-
-                //TODO: wdniadniadniandiawnd
+                IoC.Kernel.Get<IEventAggregator>().GetEvent<LineSpacingChangedEvent>().Publish(_SelectedSpacing * SelectedFontSize);
             }
         }
 
