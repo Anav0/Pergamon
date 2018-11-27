@@ -28,6 +28,7 @@
     </ControlTemplate>
 
 
+    <!--Default ComboBox-->
     <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource BaseStyle}">
 
         <Setter Property="SnapsToDevicePixels" Value="True"/>

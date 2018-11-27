@@ -2,11 +2,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Pergamon">
     
-    <Style TargetType="ToolTip">
+    <Style TargetType="{x:Type ToolTip}" BasedOn="{StaticResource BaseStyle}">
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property = "Background" Value="{StaticResource DefaultTabBackgroundColorBrush}"/>
         <Setter Property = "Foreground" Value="{StaticResource DefaultTabForegroundColorBrush}"/>
         <Setter Property = "Padding" Value="4"/>
-
     </Style>
+    
 </ResourceDictionary>
