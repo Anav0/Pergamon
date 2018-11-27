@@ -39,16 +39,12 @@ namespace Pergamon
 
         public OptionsSubmenuViewModel()
         {
-            var langs = CultureInfo.GetCultures(CultureTypes.AllCultures).ToList();
-            langs.Sort((x, y) => string.Compare(x.DisplayName, y.DisplayName));
-            LanguageList = new ObservableCollection<CultureInfo>(langs);
+
+            LanguageList = PrepareLanguageList();
 
             SelectedCultureGroup = CultureInfo.CurrentCulture;
 
-            PerformSpellCheckCommand = new RelayCommandWithParameter((param) =>
-            {
-                PerformEditorSpellCheck(IoC.Kernel.Get<CustomRichTextBox>());
-            });
+            PerformSpellCheckCommand = new RelayCommandWithParameter((param) => { PerformEditorSpellCheck(IoC.Kernel.Get<CustomRichTextBox>()); });
 
             ShowSearchSectionCommand = new RelayCommand(() => { IoC.Kernel.Get<IEventAggregator>().GetEvent<ToggleSearchSectionVisibilityEvent>().Publish(); });
         }
@@ -63,7 +59,9 @@ namespace Pergamon
 
         public ICommand PerformSpellCheckCommand { get; private set; }
 
-        #endregion 
+        #endregion
+
+        #region Public Command methods
 
         private void PerformEditorSpellCheck(RichTextBox editor, int startingPoint = 0)
         {
@@ -86,42 +84,28 @@ namespace Pergamon
             });
 
             popup.Child = spellCheckOptions;
-            editor.SelectAll();
+            spellCheckOptions.Items.Clear();
 
-            for (int i = startingPoint; i < editor.Selection.Text.Length; i++)
+            var spellCheckResult = editor.SpellCheck(startingPoint);
+
+            foreach (var option in spellCheckResult.SpellingErrors)
             {
-                //Get starting insertion point
-                TextPointer start = editor.Document.ContentStart.GetNextInsertionPosition(LogicalDirection.Forward).GetPositionAtOffset(i, LogicalDirection.Forward);
-
-                //Check for errors at start
-                SpellingError spellingError = editor.GetSpellingError(start);
-
-                //if there is misspelling
-                if (spellingError != null)
-                {
-                    //get range of error
-                    int errRange = editor.GetSpellingErrorRange(start).Text.Length;
-                    TextPointer end = editor.Document.ContentStart.GetNextInsertionPosition(LogicalDirection.Forward).GetPositionAtOffset(i + errRange, LogicalDirection.Forward);
-
-                    //focus editor
-                    editor.Focus();
-
-                    //select text containing error
-                    editor.Selection.Select(start, end);
-
-                    spellCheckOptions.Items.Clear();
-                    foreach (string str in spellingError.Suggestions)
-                    {
-                        spellCheckOptions.Items.Add(str);
-                    }
-                    popup.IsOpen = true;
-
-                    startingPoint = editor.Document.ContentStart.GetOffsetToPosition(end);
-
-                    return;
-                }
+                spellCheckOptions.Items.Add(option);
             }
 
+            startingPoint = spellCheckResult.endPosition;
+
+            popup.IsOpen = true;
+
+        }
+
+        #endregion
+
+        private ObservableCollection<CultureInfo> PrepareLanguageList()
+        {
+            var langs = CultureInfo.GetCultures(CultureTypes.AllCultures).ToList();
+            langs.Sort((x, y) => string.Compare(x.DisplayName, y.DisplayName));
+            return new ObservableCollection<CultureInfo>(langs);
         }
     }
 }

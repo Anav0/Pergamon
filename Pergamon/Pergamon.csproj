@@ -99,6 +99,7 @@
     <Compile Include="InsertSubmenu\InsertLinkPopup.xaml.cs">
       <DependentUpon>InsertLinkPopup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\SpellcheckResult.cs" />
     <Compile Include="OptionsSubmenu\OptionsSubmenu.xaml.cs">
       <DependentUpon>OptionsSubmenu.xaml</DependentUpon>
     </Compile>
