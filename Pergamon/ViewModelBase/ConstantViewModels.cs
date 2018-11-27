@@ -1,6 +1,7 @@
 ﻿
 using Ninject;
 using Nuntium.Core;
+using Prism.Events;
 
 namespace Pergamon
 {
@@ -10,6 +11,8 @@ namespace Pergamon
     public class ConstantViewModels
     {
         public static ConstantViewModels Instance { get; private set; } = new ConstantViewModels();
+
+        public IEventAggregator EventAggregatorInstance { get; private set; } = IoC.Kernel.Get<IEventAggregator>();
 
         public TextEditorViewModel TextEditorVM { get; private set; } = IoC.Kernel.Get<TextEditorViewModel>();
 
