@@ -43,7 +43,6 @@
             Text="Spellcheck"
             Icon="{StaticResource FontAwesomeGlasses}" 
             Command="{Binding PerformSpellCheckCommand}"
-            CommandParameter="{Binding ActionTarget, ElementName=control}"
             Margin="4 0 4 0"
             />
 

@@ -20,7 +20,6 @@
             Text="File"
             Icon="{StaticResource FontAwesomePaperclip}" 
             Command="{Binding InsertFileCommand}"
-            CommandParameter="{Binding ActionTarget, ElementName=control}"
             Margin="0 0 4 0"
             />
 
@@ -30,7 +29,6 @@
             Text="Image"
             Icon="{StaticResource FontAwesomeImage}" 
             Command="{Binding InsertImageCommand}"
-            CommandParameter="{Binding ActionTarget, ElementName=control}"
             Margin="4 0 4 0"
             />
 
@@ -40,7 +38,6 @@
             Text="Link"
             Icon="{StaticResource FontAwesomeLink}" 
             Command="{Binding InsertLinkCommand}"
-            CommandParameter="{Binding ActionTarget, ElementName=control}"
             Margin="4 0 4 0"
             />
 

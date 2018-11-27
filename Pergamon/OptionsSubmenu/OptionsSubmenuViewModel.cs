@@ -1,13 +1,10 @@
 ﻿
 using Ninject;
 using Nuntium.Core;
-using System;
-using System.Collections.Generic;
+using Prism.Events;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -47,8 +44,11 @@ namespace Pergamon
             LanguageList = new ObservableCollection<CultureInfo>(langs);
             SelectedCultureGroup = CultureInfo.CurrentCulture;
 
-            PerformSpellCheckCommand = new RelayCommandWithParameter((param) => { PerformSpellCheck((RichTextBox)param); });
-            ShowSearchSectionCommand = new RelayCommand(() => { IoC.Kernel.Get<TextEditorViewModel>().IsSearchSectionVisible ^= true; });
+            PerformSpellCheckCommand = new RelayCommandWithParameter((param) =>
+            {
+                PerformEditorSpellCheck(IoC.Kernel.Get<CustomRichTextBox>());
+            });
+            ShowSearchSectionCommand = new RelayCommand(() => { IoC.Kernel.Get<IEventAggregator>().GetEvent<ToggleSearchSectionVisibilityEvent>().Publish(); });
         }
 
         #region Public Commands
@@ -59,7 +59,7 @@ namespace Pergamon
 
         public ICommand PerformSpellCheckCommand { get; private set; }
 
-        private void PerformSpellCheck(RichTextBox editor)
+        private void PerformEditorSpellCheck(RichTextBox editor)
         {
             var popup = new OffsetPopupFactory().CreatePopupOnPoint(editor.GetEditorPointToScreen());
             var spellCheckOptions = new SpellCheckOptions();
@@ -96,7 +96,7 @@ namespace Pergamon
                         {
                             EditingCommands.IgnoreSpellingError.Execute(null, editor);
                             popup.IsOpen = false;
-                            PerformSpellCheck(editor);
+                            PerformEditorSpellCheck(editor);
                         });
 
 
@@ -104,7 +104,7 @@ namespace Pergamon
                         {
                             EditingCommands.CorrectSpellingError.Execute(correction, editor);
                             popup.IsOpen = false;
-                            PerformSpellCheck(editor);
+                            PerformEditorSpellCheck(editor);
                         });
 
                     }

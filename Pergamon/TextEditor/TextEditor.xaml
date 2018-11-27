@@ -119,13 +119,6 @@
                 DataContext="{Binding SearchSectionVM, 
                 Source={x:Static local:ConstantViewModels.Instance}}" 
                     
-                ActionTarget="{Binding ElementName=editor}"
-                
-                Visibility="{Binding TextEditorVM.IsSearchSectionVisible, 
-                Source={x:Static local:ConstantViewModels.Instance},
-                Converter={local:BooleanToVisibilityGoneConverter}}" 
-                
-                    
                 Grid.Row="3"
                 Grid.ColumnSpan="5"
                 Margin="0 8"

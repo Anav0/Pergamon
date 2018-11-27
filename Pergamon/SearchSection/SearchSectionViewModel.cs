@@ -1,4 +1,7 @@
 ﻿
+using Ninject;
+using Nuntium.Core;
+using Prism.Events;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -11,11 +14,15 @@ namespace Pergamon
 
         public string Phrase { get; set; }
 
+        public bool IsVisible { get; set; }
+
         #endregion
 
         public SearchSectionViewModel()
         {
-            SearchCommand = new RelayCommandWithParameter((param) => { Search((Control)param); });
+            SearchCommand = new RelayCommandWithParameter((param) => { Search(IoC.Kernel.Get<CustomRichTextBox>().Document); });
+
+            IoC.Kernel.Get<IEventAggregator>().GetEvent<ToggleSearchSectionVisibilityEvent>().Subscribe(() => IsVisible ^= true);
         }
 
         #region Private Command
@@ -36,13 +43,13 @@ namespace Pergamon
 
         #region Command Methods
 
-        private void Search(Control cntrl)
+        private void Search(FlowDocument document)
         {
 
-            if (!(cntrl is RichTextBox editor) || string.IsNullOrWhiteSpace(Phrase))
+            if (document == null || string.IsNullOrWhiteSpace(Phrase))
                 return;
 
-            TextPointer start = editor.Document.ContentStart;
+            TextPointer start = document.ContentStart;
 
             while (start != null)
             {

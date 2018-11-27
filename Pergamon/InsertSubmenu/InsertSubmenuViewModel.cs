@@ -3,17 +3,21 @@ using Ninject;
 using Nuntium.Core;
 using System;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using Image = System.Windows.Controls.Image;
+using System.Windows;
 
 namespace Pergamon
 {
     public class InsertSubmenuViewModel : BaseViewModel
     {
-        public InsertSubmenuViewModel()
+
+        public InsertSubmenuViewModel(FlowDocument document, Point popupPlacement, TextSelection selectedText)
         {
-            InsertImageCommand = new RelayCommandWithParameter((param) => { InsertImage((RichTextBox)param); });
-            InsertLinkCommand = new RelayCommandWithParameter((param) => { InsertLink((RichTextBox)param); });
+            InsertImageCommand = new RelayCommandWithParameter((param) => { InsertImage(document); });
+            InsertLinkCommand = new RelayCommandWithParameter((param) => { InsertLink(selectedText, popupPlacement); });
             InsertFileCommand = new RelayCommand(() => { IoC.Kernel.Get<AttachmentsSectionViewModel>().InsertFileFromDialog(); });
         }
 
@@ -27,9 +31,9 @@ namespace Pergamon
 
         #endregion
 
-        private void InsertImage(RichTextBox editor)
+        private void InsertImage(FlowDocument document)
         {
-            if (editor.Document == null)
+            if (document == null)
                 return;
 
             var dialog = new OpenFileDialog();
@@ -43,16 +47,16 @@ namespace Pergamon
                 bimage.UriSource = new Uri(dialog.FileName, UriKind.Absolute);
                 bimage.EndInit();
 
-                var image = new System.Windows.Controls.Image { Source = bimage };
-                editor.Document.InsertAdornedImage(image);
+                var image = new Image { Source = bimage };
+                document.InsertAdornedImage(image);
             }
         }
 
-        private void InsertLink(RichTextBox editor)
+        private void InsertLink(TextSelection selectedText, Point popupPlacement)
         {
             var insertLinkPopup = new InsertLinkPopup();
 
-            var existingLinks = editor.Selection.GetHyperlinksFromSelection();
+            var existingLinks = selectedText.GetHyperlinksFromSelection();
 
             if (existingLinks == null || existingLinks.Count > 1)
                 return;
@@ -60,18 +64,18 @@ namespace Pergamon
             if (existingLinks.Count == 1)
                 insertLinkPopup.Link = existingLinks[0]?.NavigateUri?.ToString();
 
-            insertLinkPopup.TextToDisplay = editor.Selection.Text;
+            insertLinkPopup.TextToDisplay = selectedText.Text;
 
-            var popup = new OffsetPopupFactory().CreatePopupOnPoint(editor.GetEditorPointToScreen());
+            var popup = new OffsetPopupFactory().CreatePopupOnPoint(popupPlacement);
 
             insertLinkPopup.AcceptCommand = new RelayCommand(() =>
             {
                 if (string.IsNullOrEmpty(insertLinkPopup.Link) || string.IsNullOrEmpty(insertLinkPopup.TextToDisplay))
                     return;
 
-                editor.Selection.Text = insertLinkPopup.TextToDisplay;
+                selectedText.Text = insertLinkPopup.TextToDisplay;
 
-                var link = new BasicHyperLinkFactory().CreateHyperLinkOnTopOfSelectedText(editor.Selection, insertLinkPopup.Link);
+                var link = new BasicHyperLinkFactory().CreateHyperLinkOnTopOfSelectedText(selectedText, insertLinkPopup.Link);
 
                 popup.IsOpen = false;
 

@@ -18,22 +18,27 @@ namespace Pergamon
                 case MenuCategories.Format:
                     {
                         var output = new FormattingSubmenu();
-                        output.ActionTarget = IoC.Kernel.Get<CustomRichTextBox>();
                         output.DataContext = new FormattingSubmenuViewModel();
+                        
+                        //TODO: Try other method than action target
+                        output.ActionTarget = IoC.Kernel.Get<CustomRichTextBox>();
                         return output;
                     }
 
                 case MenuCategories.Insert:
                     {
                         var output = new InsertSubmenu();
-                        output.ActionTarget = IoC.Kernel.Get<CustomRichTextBox>();
-                        output.DataContext = new InsertSubmenuViewModel();
+                        var editor = IoC.Kernel.Get<CustomRichTextBox>();
+                        var document = editor.Document;
+                        var point = editor.GetEditorPointToScreen();
+                        var selectedText = editor.Selection;
+
+                        output.DataContext = new InsertSubmenuViewModel(document, point, selectedText);
                         return output;
                     }
                 case MenuCategories.Options:
                     {
                         var output = new OptionsSubmenu();
-                        output.ActionTarget = IoC.Kernel.Get<CustomRichTextBox>();
                         output.DataContext = new OptionsSubmenuViewModel();
                         return output;
                     }

@@ -8,6 +8,8 @@
              d:DesignHeight="45" d:DesignWidth="800"
              Name="control"
              Background="{StaticResource DefaultTabBackgroundColorBrush}"
+                Visibility="{Binding IsVisible, 
+                Converter={local:BooleanToVisibilityGoneConverter}}" 
              >
 
     <Grid>
@@ -40,7 +42,6 @@
             Margin="8"
             SearchPhrase="{Binding Phrase, Mode=TwoWay}"
             SearchCommand="{Binding SearchCommand}"
-            SearchCommandParameter="{Binding ActionTarget, ElementName=control}"
             />
 
         <!--Replace box-->

@@ -15,7 +15,7 @@ namespace Pergamon
         {
             InitializeComponent();
 
-            //TODO: :/
+            //TODO: Binding texteditor instance
             IoC.Kernel.Rebind<CustomRichTextBox>().ToConstant(editor);
         }
 
