@@ -144,6 +144,17 @@
     <Compile Include="Factories\PopupFactories\OffsetPopupFactory.cs" />
     <Compile Include="Factories\PopupFactories\IPopupFactory.cs" />
     <Compile Include="Models\Address.cs" />
+    <Compile Include="MarkupConverter\MicrosoftHelpers\HtmlCssParser.cs" />
+    <Compile Include="MarkupConverter\MicrosoftHelpers\HtmlLexicalAnalyzer.cs" />
+    <Compile Include="MarkupConverter\MicrosoftHelpers\HtmlParser.cs" />
+    <Compile Include="MarkupConverter\MicrosoftHelpers\HtmlSchema.cs" />
+    <Compile Include="MarkupConverter\MicrosoftHelpers\HtmlTokenType.cs" />
+    <Compile Include="MarkupConverter\HtmlRtf\HtmlToRtfConverter.cs" />
+    <Compile Include="MarkupConverter\HtmlXaml\HtmlToXamlConverter.cs" />
+    <Compile Include="MarkupConverter\IMarkupConverter.cs" />
+    <Compile Include="MarkupConverter\MarkupConverter.cs" />
+    <Compile Include="MarkupConverter\HtmlRtf\RtfToHtmlConverter.cs" />
+    <Compile Include="MarkupConverter\HtmlXaml\XamlToHtmlConverter.cs" />
     <Compile Include="ValueConverter\Base\BaseMultiValueConverter.cs" />
     <Compile Include="ValueConverter\Base\BaseValueConverter.cs" />
     <Compile Include="ValueConverter\InverseStringNotEmptyMultiValueConverter.cs" />
@@ -309,6 +320,8 @@
     <Resource Include="Fonts\Font Awesome 5 Free-Regular-400.otf" />
     <Resource Include="Fonts\Font Awesome 5 Free-Solid-900.otf" />
     <Resource Include="Fonts\NotoSans-Regular.ttf" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

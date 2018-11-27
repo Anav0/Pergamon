@@ -7,10 +7,12 @@
         mc:Ignorable="d"
         Title="Test" 
         WindowStartupLocation="CenterScreen" 
-        Height="500" Width="700"
+        Height="500" Width="780"
+        MinWidth="780"
+
         Background="Transparent"
         >
     
-    <local:TextEditor
-        />
+    <local:TextEditor/>
+    
 </Window>

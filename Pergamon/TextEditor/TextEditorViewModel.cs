@@ -45,6 +45,10 @@ namespace Pergamon
 
         private void SendEmail()
         {
+            IMarkupConverter markupConverter = new MarkupConverterImpl();
+            var editor = IoC.Kernel.Get<CustomRichTextBox>();
+
+            var html = markupConverter.ConvertRtfToHtml(editor.Document);
         }
 
         #endregion

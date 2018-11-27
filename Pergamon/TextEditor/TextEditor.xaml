@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Pergamon"
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="750" 
+             d:DesignHeight="500" d:DesignWidth="780" 
              Name="control"
              DataContext="{Binding TextEditorVM, 
              Source={x:Static local:ConstantViewModels.Instance}}"
