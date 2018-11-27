@@ -1,4 +1,5 @@
 ﻿using Nuntium.Core;
+using Prism.Events;
 using System.Windows;
 
 namespace Pergamon
@@ -20,6 +21,8 @@ namespace Pergamon
 
         private void SetupIoC()
         {
+            IoC.Kernel.Bind<IEventAggregator>().ToConstant(new EventAggregator());
+
             IoC.Kernel.Bind<TextEditorViewModel>().ToConstant(new TextEditorViewModel());
             
             IoC.Kernel.Bind<AddressSectionViewModel>().ToConstant(new AddressSectionViewModel());
