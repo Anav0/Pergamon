@@ -30,6 +30,8 @@ namespace Pergamon
             IoC.Kernel.Bind<AttachmentsSectionViewModel>().ToConstant(new AttachmentsSectionViewModel());
 
             IoC.Kernel.Bind<SearchSectionViewModel>().ToConstant(new SearchSectionViewModel());
+
+            IoC.Kernel.Bind<FormattingSubmenuViewModel>().ToConstant(new FormattingSubmenuViewModel());
         }
     }
 }

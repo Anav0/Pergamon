@@ -18,7 +18,7 @@ namespace Pergamon
                 case MenuCategories.Format:
                     {
                         var output = new FormattingSubmenu();
-                        output.DataContext = new FormattingSubmenuViewModel();
+                        output.DataContext = IoC.Kernel.Get<FormattingSubmenuViewModel>();
                         
                         //TODO: Try other method than action target
                         output.ActionTarget = IoC.Kernel.Get<CustomRichTextBox>();

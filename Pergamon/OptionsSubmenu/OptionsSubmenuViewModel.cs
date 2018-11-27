@@ -49,6 +49,7 @@ namespace Pergamon
             {
                 PerformEditorSpellCheck(IoC.Kernel.Get<CustomRichTextBox>());
             });
+
             ShowSearchSectionCommand = new RelayCommand(() => { IoC.Kernel.Get<IEventAggregator>().GetEvent<ToggleSearchSectionVisibilityEvent>().Publish(); });
         }
 
@@ -58,21 +59,41 @@ namespace Pergamon
 
         #endregion
 
+        #region Private Commands
+
         public ICommand PerformSpellCheckCommand { get; private set; }
 
-        private void PerformEditorSpellCheck(RichTextBox editor)
+        #endregion 
+
+        private void PerformEditorSpellCheck(RichTextBox editor, int startingPoint = 0)
         {
             var popup = new OffsetPopupFactory().CreatePopupOnPoint(editor.GetEditorPointToScreen());
+
             var spellCheckOptions = new SpellCheckOptions();
+
+            spellCheckOptions.IgnoreCommand = new RelayCommand(() =>
+            {
+                EditingCommands.IgnoreSpellingError.Execute(null, editor);
+                popup.IsOpen = false;
+                PerformEditorSpellCheck(editor, startingPoint);
+            });
+
+            spellCheckOptions.CorrectionClicked = new RelayCommandWithParameter((correction) =>
+            {
+                EditingCommands.CorrectSpellingError.Execute(correction, editor);
+                popup.IsOpen = false;
+                PerformEditorSpellCheck(editor, startingPoint);
+            });
 
             popup.Child = spellCheckOptions;
             editor.SelectAll();
-            for (int i = 0; i < editor.Selection.Text.Length; i++)
+
+            for (int i = startingPoint; i < editor.Selection.Text.Length; i++)
             {
                 //Get starting insertion point
                 TextPointer start = editor.Document.ContentStart.GetNextInsertionPosition(LogicalDirection.Forward).GetPositionAtOffset(i, LogicalDirection.Forward);
 
-                //Check for errars at start
+                //Check for errors at start
                 SpellingError spellingError = editor.GetSpellingError(start);
 
                 //if there is misspelling
@@ -92,24 +113,11 @@ namespace Pergamon
                     foreach (string str in spellingError.Suggestions)
                     {
                         spellCheckOptions.Items.Add(str);
-
-                        spellCheckOptions.IgnoreCommand = new RelayCommand(() =>
-                        {
-                            EditingCommands.IgnoreSpellingError.Execute(null, editor);
-                            popup.IsOpen = false;
-                            PerformEditorSpellCheck(editor);
-                        });
-
-
-                        spellCheckOptions.CorrectionClicked = new RelayCommandWithParameter((correction) =>
-                        {
-                            EditingCommands.CorrectSpellingError.Execute(correction, editor);
-                            popup.IsOpen = false;
-                            PerformEditorSpellCheck(editor);
-                        });
-
                     }
                     popup.IsOpen = true;
+
+                    startingPoint = editor.Document.ContentStart.GetOffsetToPosition(end);
+
                     return;
                 }
             }
