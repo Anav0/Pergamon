@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:Pergamon"
              mc:Ignorable="d" 
              d:DesignHeight="48" 
-             d:DesignWidth="650" Name="control"
+             d:DesignWidth="650" 
+             Name="control"
              Background="{StaticResource DefaultTabBackgroundColorBrush}"
              >
 
@@ -46,10 +47,10 @@
 
         <!--Separator-->
         <Border 
-                Style="{StaticResource Separator}"
-                Grid.Column="1"
-                Background="{Binding Foreground, ElementName=firstIcon}"
-                />
+            Style="{StaticResource Separator}"
+            Grid.Column="1"
+            Background="{Binding Foreground, ElementName=firstIcon}"
+            />
 
         <!--Bold-->
         <Button 

@@ -17,16 +17,11 @@ namespace Pergamon
 
         #region Public properties
 
-        
-
         public bool IsAdditionalOptionVisible { get; set; }
         public bool IsAdditionalAlignOptionVisible { get; set; }
 
-      
-
         public bool IsMarkerColorPickerVisible { get; set; }
         public bool IsFontColorPickerVisible { get; set; }
-
 
         public ObservableCollection<double> FontSizes { get; set; }
 
@@ -110,18 +105,18 @@ namespace Pergamon
             SpacingOptions = new ObservableCollection<double>();
             FillSpacingOptions();
 
-            var colorPickerVM = new ColorPickerViewModel();
+            ColorPickerVM = new ColorPickerViewModel();
 
-            colorPickerVM.OnColorSelectionChanged += ((s, e) =>
+            ColorPickerVM.OnColorSelectionChanged += ((s, e) =>
             {
                 if (IsFontColorPickerVisible)
                 {
-                    SelectedFontColor = colorPickerVM.SelectedStandardBrush;
+                    SelectedFontColor = ColorPickerVM.SelectedStandardBrush;
                     ApplyFontColor(IoC.Kernel.Get<CustomRichTextBox>());
                 }
                 else
                 {
-                    SelectedMarkerColor = colorPickerVM.SelectedStandardBrush;
+                    SelectedMarkerColor = ColorPickerVM.SelectedStandardBrush;
                     ApplyMarkerColor(IoC.Kernel.Get<CustomRichTextBox>());
                 }
 
