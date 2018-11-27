@@ -111,7 +111,8 @@
             <ContentPresenter 
                 Grid.Row="1"
                 Grid.ColumnSpan="5"
-                Content="{Binding SelectedMenu, Converter={local:MenuCategoriesToControlConverter}}"
+                Content="{Binding SelectedMenu, 
+                Converter={local:MenuCategoriesToControlConverter}}"
                 />
 
             <!--Search section-->

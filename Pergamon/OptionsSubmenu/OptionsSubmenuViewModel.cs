@@ -42,6 +42,7 @@ namespace Pergamon
             var langs = CultureInfo.GetCultures(CultureTypes.AllCultures).ToList();
             langs.Sort((x, y) => string.Compare(x.DisplayName, y.DisplayName));
             LanguageList = new ObservableCollection<CultureInfo>(langs);
+
             SelectedCultureGroup = CultureInfo.CurrentCulture;
 
             PerformSpellCheckCommand = new RelayCommandWithParameter((param) =>
