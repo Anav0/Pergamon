@@ -100,6 +100,9 @@
     <Compile Include="InsertSubmenu\InsertLinkPopup.xaml.cs">
       <DependentUpon>InsertLinkPopup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Modals\DefaultModal.xaml.cs">
+      <DependentUpon>DefaultModal.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\SpellcheckResult.cs" />
     <Compile Include="OptionsSubmenu\OptionsSubmenu.xaml.cs">
       <DependentUpon>OptionsSubmenu.xaml</DependentUpon>
@@ -193,6 +196,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="InsertSubmenu\InsertLinkPopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modals\DefaultModal.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

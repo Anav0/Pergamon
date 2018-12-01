@@ -1,6 +1,7 @@
 ﻿using Ninject;
 using Nuntium.Core;
 using Prism.Events;
+using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
 
@@ -41,6 +42,32 @@ namespace Pergamon
 
         private void DisplayDiscardEmailModalBox()
         {
+            var modal = new DefaultModal
+            {
+                Message = "Do you want to discard this message?",
+                Header = "Discard message",
+                YesButtonText = "Discard",
+                NoButtonText = "Cancel",
+            };
+
+            Window window = new Window
+            {
+                Content = modal,
+
+                SizeToContent = SizeToContent.WidthAndHeight,
+                ResizeMode = ResizeMode.NoResize,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+            };
+
+            modal.YesCommand = new RelayCommand(() =>
+            {
+                window.Close();
+                //SaveAsWorkInProgress();
+            });
+
+            modal.NoCommand = new RelayCommand(() => { window.Close(); });
+
+            window.ShowDialog();
         }
 
         private void SendEmail()

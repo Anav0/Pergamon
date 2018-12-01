@@ -58,9 +58,11 @@
 
         <Border Style="{StaticResource HorizontalSeparator}"/>
 
+        <!--According to RFC 2822, section 2.1.1 topic 
+        should be no more than 78 characters long -->
         <TextBox Style="{StaticResource PlaceholderTextBox}" 
                  Tag="Temat"
-                 MaxLength="255"
+                 MaxLength="78"
                  AcceptsTab="False"
                  AcceptsReturn="False"
                  Text="{Binding Topic}"
