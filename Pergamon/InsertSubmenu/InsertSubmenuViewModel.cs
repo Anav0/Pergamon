@@ -73,9 +73,9 @@ namespace Pergamon
                 if (string.IsNullOrEmpty(insertLinkPopup.Link) || string.IsNullOrEmpty(insertLinkPopup.TextToDisplay))
                     return;
 
-                selectedText.Text = insertLinkPopup.TextToDisplay;
+                selectedText.Text = insertLinkPopup.TextToDisplay.RemoveWhitespace();
 
-                var link = new BasicHyperLinkFactory().CreateHyperLinkOnTopOfSelectedText(selectedText, insertLinkPopup.Link);
+                new BasicHyperLinkFactory().CreateHyperLinkOnTopOfSelectedText(selectedText, insertLinkPopup.Link);
 
                 popup.IsOpen = false;
 

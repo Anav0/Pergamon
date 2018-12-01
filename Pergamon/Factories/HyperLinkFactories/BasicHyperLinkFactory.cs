@@ -12,7 +12,7 @@ namespace Pergamon
         {
             var link = new Hyperlink(selectedText.Start, selectedText.End);
             link.IsEnabled = true;
-            link.ToolTip = linkUri;
+            link.ToolTip = linkUri.RemoveWhitespace();
 
             try
             {
