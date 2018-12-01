@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Pergamon"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="350" 
+             d:DesignHeight="675" d:DesignWidth="400" 
              Background="{StaticResource DefaultTabBackgroundColorBrush}"
              >
 
@@ -154,7 +154,7 @@
 
                 <Border 
                     Name="automaticColor"
-                    Background="{StaticResource DefaultForegroundColorBrush}" 
+                    Background="Black" 
                     BorderThickness="1"
                     BorderBrush="{StaticResource DefaultBorderColorBrush}"
                     Margin="8"

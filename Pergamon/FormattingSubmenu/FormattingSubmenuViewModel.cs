@@ -100,7 +100,6 @@ namespace Pergamon
             FillSpacingOptions();
 
             ColorPickerVM = new ColorPickerViewModel();
-
             ColorPickerVM.OnColorSelectionChanged += ((s, e) =>
             {
                 if (IsFontColorPickerVisible)
@@ -146,13 +145,9 @@ namespace Pergamon
 
         private void ApplyFontColor(RichTextBox editor)
         {
-
             try
             {
-                if (editor.Selection.GetPropertyValue(TextElement.ForegroundProperty) == SelectedFontColor)
-                    editor.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, new SolidColorBrush(Colors.Transparent));
-                else
-                    editor.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, SelectedFontColor);
+                 editor.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, SelectedFontColor);
             }
             catch (Exception ex)
             {
@@ -173,8 +168,6 @@ namespace Pergamon
             {
                 //TODO: log this exception
             }
-
-
         }
 
         private void ApplyFontSize(RichTextBox editor)

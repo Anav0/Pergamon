@@ -49,24 +49,14 @@ namespace Pergamon
 
         private void ChangeSelectedColor(object param)
         {
-
             if (!(param is SolidColorBrush selectedBursh))
                 return;
 
-            try
-            {
-                if (SelectedStandardBrush == selectedBursh)
-                    return;
+            if (SelectedStandardBrush == selectedBursh)
+                return;
 
-                SelectedStandardBrush = selectedBursh;
-                RaiseOnColorSelectionChanged();
-            }
-            catch(IndexOutOfRangeException exp)
-            {
-                MessageBox.Show(exp.ToString());
-            }
-
-
+            SelectedStandardBrush = selectedBursh;
+            RaiseOnColorSelectionChanged();
         }
 
         #endregion

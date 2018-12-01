@@ -320,8 +320,6 @@
     <Resource Include="Fonts\Font Awesome 5 Free-Regular-400.otf" />
     <Resource Include="Fonts\Font Awesome 5 Free-Solid-900.otf" />
     <Resource Include="Fonts\NotoSans-Regular.ttf" />
-    <None Include="ClassDiagram1.cd" />
-    <None Include="ClassDiagram2.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
