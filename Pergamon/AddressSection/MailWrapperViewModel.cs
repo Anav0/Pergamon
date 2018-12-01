@@ -9,7 +9,7 @@ namespace Pergamon
 
         #region Public properties
 
-        public double CornerRadius { get; set; }
+        public double CornerRadius { get; set; } = 10;
 
         public string Address { get; set; }
 

@@ -96,6 +96,7 @@
     <Compile Include="AttachmentsSection\MailWrapperDesign.cs" />
     <Compile Include="Events\Events.cs" />
     <Compile Include="Extentions\RichTextBoxExtentions.cs" />
+    <Compile Include="Extentions\StringExtention.cs" />
     <Compile Include="InsertSubmenu\InsertLinkPopup.xaml.cs">
       <DependentUpon>InsertLinkPopup.xaml</DependentUpon>
     </Compile>

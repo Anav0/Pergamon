@@ -15,6 +15,7 @@ namespace Pergamon
     {
         public AddressInputBox()
         {
+            //Important to initialize this DP here otherwise it's value will be bound to any other AddressInputInstances
             Addresses = new ObservableCollection<MailWrapperViewModel>();
             InitializeComponent();
         }
@@ -84,22 +85,21 @@ namespace Pergamon
                     EmailCategory = Purpose,
                 };
 
-                IoC.Kernel.Get<AddressSectionViewModel>().Addresses.Add(adr);
-
-                var wrapper = new MailWrapperViewModel
+                var wrapperVM = new MailWrapperViewModel
                 {
-                    Address = box.Text.Remove(box.Text.Length-1, 1),
-                    CornerRadius = 10,
+                    Address = box.Text.Remove(box.Text.Length-1, 1).RemoveWhitespace(),
                     FirstLetter = box.Text[0].ToString().ToUpper(),
                 };
 
-                wrapper.OnDeleteButtonClick += ((s, args) =>
+                wrapperVM.OnDeleteButtonClick += ((s, args) =>
                 {
-                    Addresses.Remove(wrapper);
+                    Addresses.Remove(wrapperVM);
                     IoC.Kernel.Get<AddressSectionViewModel>().Addresses.Remove(adr);
                 });
 
-                Addresses.Add(wrapper);
+                IoC.Kernel.Get<AddressSectionViewModel>().Addresses.Add(adr);
+                Addresses.Add(wrapperVM);
+
                 box.Text = "";
             }
 
