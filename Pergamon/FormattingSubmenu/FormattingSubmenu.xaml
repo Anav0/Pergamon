@@ -389,7 +389,7 @@
                     <!--Spacing-->
                     <ComboBox
                         IsEditable="True"
-                        SelectedIndex="0"
+                        SelectedIndex="{Binding SelectedIndex}"
                         SelectedItem="{Binding SelectedSpacing}"
                         ItemsSource="{Binding SpacingOptions}"
                         >

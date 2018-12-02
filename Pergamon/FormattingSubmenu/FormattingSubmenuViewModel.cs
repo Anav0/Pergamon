@@ -67,9 +67,13 @@ namespace Pergamon
 
                 _SelectedSpacing = value;
 
+                SelectedIndex = SpacingOptions.IndexOf(_SelectedSpacing);
+
                 IoC.Kernel.Get<IEventAggregator>().GetEvent<LineSpacingChangedEvent>().Publish(_SelectedSpacing * SelectedFontSize);
             }
         }
+
+        public int SelectedIndex { get; set; }
 
         public ColorPickerViewModel ColorPickerVM { get; set; }
 
