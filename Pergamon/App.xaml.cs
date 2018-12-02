@@ -1,4 +1,5 @@
-﻿using Nuntium.Core;
+﻿using Ninject;
+using Nuntium.Core;
 using Prism.Events;
 using System.Windows;
 
@@ -16,7 +17,12 @@ namespace Pergamon
             SetupIoC();
 
             Current.MainWindow = new MainWindow();
+
+            //TODO: this is just a quick hack for fixing the issue width not binding TextEditor's editor at startup
+            IoC.Kernel.Get<TextEditorViewModel>().SelectedMenu = MenuCategories.Options;
+            IoC.Kernel.Get<TextEditorViewModel>().SelectedMenu = MenuCategories.Format;
             Current.MainWindow.Show();
+
         }
 
         private void SetupIoC()
