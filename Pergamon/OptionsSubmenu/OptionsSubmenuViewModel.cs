@@ -88,6 +88,9 @@ namespace Pergamon
 
             var spellCheckResult = editor.SpellCheck(startingPoint);
 
+            if (spellCheckResult.SpellingErrors == null)
+                return;
+
             foreach (var option in spellCheckResult.SpellingErrors)
             {
                 spellCheckOptions.Items.Add(option);

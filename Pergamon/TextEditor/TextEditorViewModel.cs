@@ -4,6 +4,7 @@ using Prism.Events;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Pergamon
 {
@@ -44,8 +45,8 @@ namespace Pergamon
         {
             var modal = new DefaultModal
             {
-                Message = "Do you want to discard this message?",
-                Header = "Discard message",
+                Message = "Do you want to discard this email?",
+                Header = "Discard email",
                 YesButtonText = "Discard",
                 NoButtonText = "Cancel",
             };
@@ -62,7 +63,7 @@ namespace Pergamon
             modal.YesCommand = new RelayCommand(() =>
             {
                 window.Close();
-                //SaveAsWorkInProgress();
+                //SaveEmailAsWorkInProgress();
             });
 
             modal.NoCommand = new RelayCommand(() => { window.Close(); });

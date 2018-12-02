@@ -95,6 +95,7 @@
                  HorizontalContentAlignment="Left"
                  VerticalContentAlignment="Center"
                  TextChanged="TextBox_TextChanged"
+                 LostFocus="TextBox_LostFocus"
                  />
         
     </Grid>

@@ -73,36 +73,58 @@ namespace Pergamon
 
             var lastChar = box.Text[box.Text.Length - 1];
 
-            if(lastChar == ';')
+            if (lastChar == ';')
             {
+                ParseAdress(box, true);
+            }
+        }
 
-                if (!(new EmailAddressAttribute().IsValid(box.Text)))
-                    return;
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (!(sender is TextBox box))
+                return;
 
-                var adr = new Address
-                {
-                    EmailAddress = box.Text.Remove(box.Text.Length - 1, 1),
-                    EmailCategory = Purpose,
-                };
+            if (string.IsNullOrEmpty(box.Text))
+                return;
 
-                var wrapperVM = new MailWrapperViewModel
-                {
-                    Address = box.Text.Remove(box.Text.Length-1, 1).RemoveWhitespace(),
-                    FirstLetter = box.Text[0].ToString().ToUpper(),
-                };
+            ParseAdress(box);
+        }
 
-                wrapperVM.OnDeleteButtonClick += ((s, args) =>
-                {
-                    Addresses.Remove(wrapperVM);
-                    IoC.Kernel.Get<AddressSectionViewModel>().Addresses.Remove(adr);
-                });
+        private void ParseAdress(TextBox box, bool excludeLastCharacter = false)
+        {
+            //check if email entered is valid if not return (using microsoft method).
+            if (!(new EmailAddressAttribute().IsValid(box.Text)))
+                return;
 
-                IoC.Kernel.Get<AddressSectionViewModel>().Addresses.Add(adr);
-                Addresses.Add(wrapperVM);
+            var lastChar = 0;
 
-                box.Text = "";
+            if(excludeLastCharacter)
+            {
+                lastChar = 1;
             }
 
+            var adr = new Address
+            {
+                EmailAddress = box.Text.Remove(box.Text.Length - 1, lastChar),
+                EmailCategory = Purpose,
+            };
+
+            var wrapperVM = new MailWrapperViewModel
+            {
+                Address = box.Text.Remove(box.Text.Length - 1, lastChar).RemoveWhitespace(),
+                FirstLetter = box.Text[0].ToString().ToUpper(),
+            };
+
+            wrapperVM.OnDeleteButtonClick += ((s, args) =>
+            {
+                Addresses.Remove(wrapperVM);
+                IoC.Kernel.Get<AddressSectionViewModel>().Addresses.Remove(adr);
+            });
+
+            IoC.Kernel.Get<AddressSectionViewModel>().Addresses.Add(adr);
+            Addresses.Add(wrapperVM);
+
+            box.Text = "";
         }
     }
 }
